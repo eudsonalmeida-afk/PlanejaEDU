@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas de Ciências — 8º Ano | Prof. Eudson Marques</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .modal-blur { backdrop-filter: blur(8px); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col custom-scrollbar text-sm sm:text-base">
+
+    <!-- HEADER PRINCIPAL -->
+    <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-30 px-4 sm:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-emerald-500/20 text-emerald-400 p-3 rounded-xl border border-emerald-500/30">
+                    <i class="fa-solid fa-dna text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                        Ciências — 8º Ano (EFAF)
+                        <span id="cicloBadge" class="bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-medium">Ciclo AP3</span>
+                    </h1>
+                    <p class="text-xs sm:text-sm text-slate-400">Prof. Eudson Marques • Ciência da Aprendizagem &amp; Neurociência Cognitiva</p>
+                </div>
+            </div>
+
+            <!-- SISTEMA DE ABAS (CICLOS) -->
+            <div class="flex items-center bg-slate-950 p-1.5 rounded-xl border border-slate-800 w-full sm:w-auto">
+                <button onclick="switchCiclo('AP3')" id="tabAP3" class="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-lg">
+                    <i class="fa-solid fa-book-open mr-1.5"></i> Ciclo AP3 (Cad. 3)
+                </button>
+                <button onclick="switchCiclo('AG3')" id="tabAG3" class="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-microscope mr-1.5"></i> Ciclo AG3 (Cad. 4)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA DE FERRAMENTAS E FILTROS -->
+    <section class="bg-slate-950/60 border-b border-slate-800/80 px-4 sm:px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+            <!-- SELEÇÃO DE TURMA -->
+            <div class="flex items-center gap-2 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
+                <span class="text-xs sm:text-sm font-semibold text-slate-400 uppercase tracking-wider mr-2">Turma:</span>
+                <button onclick="setTurma('todas')" id="btn-todas" class="turma-btn bg-emerald-600 text-white text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium shadow-lg transition whitespace-nowrap">Todas</button>
+                <button onclick="setTurma('8B')" id="btn-8B" class="turma-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition border border-slate-800 whitespace-nowrap">8ºB (Manhã)</button>
+                <button onclick="setTurma('8AM')" id="btn-8AM" class="turma-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition border border-slate-800 whitespace-nowrap">8ºA (Manhã)</button>
+                <button onclick="setTurma('8AT')" id="btn-8AT" class="turma-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition border border-slate-800 whitespace-nowrap">8ºA (Tarde)</button>
+            </div>
+
+            <!-- FILTRO POR MÓDULO E BUSCA -->
+            <div class="flex items-center gap-3 w-full lg:w-auto">
+                <div class="relative w-full sm:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs sm:text-sm"></i>
+                    <input type="text" id="searchInput" oninput="renderAulas()" placeholder="Buscar conteúdo ou palavra-chave..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-3 py-2 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition">
+                </div>
+                <select id="moduloSelect" onchange="renderAulas()" class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-200 focus:outline-none focus:border-emerald-500 transition">
+                    <option value="todos">Todos os Módulos</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTAINER PRINCIPAL DOS CARDS -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
+        <!-- ESTATÍSTICAS RÁPIDAS -->
+        <div class="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                <div>
+                    <p class="text-xs sm:text-sm text-slate-400 font-medium" id="statLabelAulas">Aulas no Ciclo</p>
+                    <p class="text-xl sm:text-2xl font-bold text-white mt-1" id="totalAulasCount">0</p>
+                </div>
+                <div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-book-open"></i></div>
+            </div>
+            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                <div>
+                    <p class="text-xs sm:text-sm text-slate-400 font-medium">Aulas Concluídas (Checklist)</p>
+                    <p class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1" id="concluidasCount">0</p>
+                </div>
+                <div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-square-check"></i></div>
+            </div>
+            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
+                <div>
+                    <p class="text-xs sm:text-sm text-slate-400 font-medium">Foco Pedagógico</p>
+                    <p class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">Neurociência</p>
+                </div>
+                <div class="bg-indigo-500/10 text-indigo-400 p-3 rounded-lg"><i class="fa-solid fa-brain"></i></div>
+            </div>
+        </div>
+
+        <!-- GRID DE CARDS DE AULA -->
+        <div id="aulasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Renderizado dinamicamente via JS -->
+        </div>
+    </main>
+
+    <!-- MODAL DETALHADO DO PLANO DE AULA -->
+    <div id="lessonModal" class="fixed inset-0 bg-slate-950/80 modal-blur z-50 flex items-center justify-center p-2 sm:p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <!-- CABEÇALHO DO MODAL -->
+            <div class="bg-slate-800/90 border-b border-slate-700 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-10">
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <span id="modalNumberBadge" class="bg-emerald-500 text-slate-950 font-bold text-xs px-2.5 py-1 rounded-full">Aula 01</span>
+                    <span id="modalModuloTag" class="text-xs bg-slate-700 text-slate-300 px-2.5 py-1 rounded-md font-medium">Módulo</span>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-xmark text-lg sm:text-xl"></i>
+                </button>
+            </div>
+
+            <!-- CONTEÚDO DO PLANO DE AULA (SCROLLABLE) -->
+            <div id="modalContent" class="p-4 sm:p-6 overflow-y-auto custom-scrollbar space-y-6 text-sm sm:text-base text-slate-300">
+                <!-- Preenchido via JavaScript -->
+            </div>
+
+            <!-- RODAPÉ DO MODAL -->
+            <div class="bg-slate-800/50 border-t border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between">
+                <span class="text-xs sm:text-sm text-slate-400"><i class="fa-solid fa-circle-info text-emerald-400 mr-1"></i> Ciência da Aprendizagem Ativa</span>
+                <button onclick="closeModal()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs sm:text-sm px-4 py-2 rounded-lg font-medium transition">Fechar Plano</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT DA APLICAÇÃO -->
+    <script>
+        // BASE DE DADOS COMPLETA (TODAS AS AULAS DE AP3 E AG3 RESTAURADAS + SALA GOOGLE COMO LAB DIGITAL COM CHROMEBOOKS)
+        const aulasAP3 = [
+            {
+                id: "ap3-1", aula_num: "Aula 01", excel_ref: "Abertura Semestre", modulo: "Introdução",
+                titulo: "A Ciência de Como Aprendemos & Metacognição", foco_pedagogico: "Retrieval Practice & Metacognição",
+                datas: { "8B": "28/07 (Ter - 07:10)", "8AM": "30/07 (Qui - 10:20)", "8AT": "30/07 (Qui - 14:10)" },
+                objetivos: ["Apresentar a dinâmica do semestre e estrutura AP3.", "Compreender consolidação de memórias por Prática de Recuperação."],
+                materiais: "Quadro interativo, slides reflexivos, folha de autoavaliação.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Combate à Ilusão de Competência",
+                    detalhes: "<strong>Como aplicar:</strong> Inicie a aula provocando a turma com um dilema empírico: <em>'O que fixa mais conhecimento na memória de longo prazo: reler o resumo 3 vezes ou tentar explicar o conteúdo em voz alta sem olhar?'</em>.\n\n<strong>Exemplo prático:</strong> Desenhe no quadro a Curva do Esquecimento de Ebbinghaus. Explique de forma acessível que o cérebro descarta o que não é ativado. Peça para os alunos anotarem em 1 minuto, de memória, tudo o que lembram sobre biologia do semestre anterior."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Arquitetura da Neurociência da Aprendizagem",
+                    detalhes: "<strong>Como aplicar:</strong> Apresente os pilares científicos: Prática de Recuperação, Prática Espaçada e Intercalação.\n\n<strong>Exemplo prático:</strong> Explique o funcionamento do 'Bell Work' e oriente sobre as idas à Sala Google (laboratório de Chromebooks) para trilhas de reforço ativo."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Calibração Metacognitiva",
+                    detalhes: "<strong>Como aplicar:</strong> Cada aluno redige em sua caderneta o 'Meu Compromisso de Estudo Ativo' em 3 tópicos."
+                },
+                estrategias_cognitivas: "Sensibilização metacognitiva, combate à ilusão de competência e introdução ao Testing Effect.",
+                avaliacao_formativa: "Exit Ticket formativo presencial.",
+                tarefa_casa: "Ler a introdução do Caderno 3 e organizar o sumário de metas.",
+                acessorio: {
+                    tipo: "Espaço Sala Google (Lab com Chromebooks)",
+                    titulo: "Desafio de Abertura nos Chromebooks",
+                    instrucoes: "1. Deslocar a turma para a Sala Google (espaço digital fora da sala de aula tradicional).\n2. Distribuir os Chromebooks para que os alunos acessem individualmente uma plataforma de perguntas rápidas de resgate (Retrieval Practice).\n3. Monitorar o esforço mnemônico autônomo e tirar dúvidas pontuais no ambiente digital."
+                },
+                link: ""
+            },
+            {
+                id: "ap3-2", aula_num: "Aula 02", excel_ref: "Excel 57+58", modulo: "Módulo 15",
+                titulo: "Dinâmica Populacional & Reprodução Assexuada vs. Sexuada", foco_pedagogico: "Spaced Practice & Comparação Direta",
+                datas: { "8B": "28/07 (Ter - 08:00)", "8AM": "03/08 (Seg - 08:00)", "8AT": "30/07 (Qui - 17:10)" },
+                objetivos: ["Analisar fatores populacionais (IBGE).", "Diferenciar reprodução assexuada de sexuada."],
+                materiais: "Livro Texto pág. 405-409, quadro branco, marcadores.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Resgate Espaçado Ativo",
+                    detalhes: "Bell Work com pergunta mnemônica e análise de dados recentes do IBGE sobre pirâmide etária."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Quadro Comparativo Estruturado (Dual Coding)",
+                    detalhes: "Construção de matriz no quadro contrastando mitose (assexuada, rápida) e meiose (sexuada, variabilidade)."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Mini-Quiz Corretivo",
+                    detalhes: "Aplicação de 2 perguntas objetivas no quadro com Explanatory Feedback."
+                },
+                estrategias_cognitivas: "Dual Coding associando esquemas celulares e Spaced Practice.",
+                avaliacao_formativa: "Correção oral imediata via levantamento de cartões de resposta.",
+                tarefa_casa: "Resolver Para Aprender pág. 411 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ap3-3", aula_num: "Aula 03", excel_ref: "Excel 59", modulo: "Módulo 15",
+                titulo: "Ciclos Reprodutivos, Cnidários & Partenogênese", foco_pedagogico: "Far Transfer & Estudo de Caso Real",
+                datas: { "8B": "03/08 (Seg - 11:10)", "8AM": "03/08 (Seg - 10:20)", "8AT": "03/08 (Seg - 14:10)" },
+                objetivos: ["Explicar alternância de gerações em cnidários.", "Compreender partenogênese (Caso Jiboia Ronaldo)."],
+                materiais: "Impressão da notícia da Jiboia Ronaldo, esquemas de água-viva.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Far Transfer com Notícia Real",
+                    detalhes: "Apresentação da notícia sobre a jiboia fêmea que gerou filhotes sem macho."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Análise Biológica Aprofundada",
+                    detalhes: "Explicação formal do conceito de Partenogênese e Metagênese em cnidários."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Esquematização de Memória",
+                    detalhes: "Desenho individual de memória do ciclo vital da Aurélia."
+                },
+                estrategias_cognitivas: "Far Transfer aplicado a notícias biológicas reais.",
+                avaliacao_formativa: "Exit Ticket sobre partenogênese em répteis.",
+                tarefa_casa: "Desenvolvimento de Habilidades pág. 412 (questões 1 e 2).", link: ""
+            },
+            {
+                id: "ap3-4", aula_num: "Aula 04", excel_ref: "Excel 60", modulo: "Módulo 16",
+                titulo: "Fecundação nos Animais & 'Gravidez' do Cavalo-Marinho", foco_pedagogico: "Dual Coding & Análise Fisiológica",
+                datas: { "8B": "04/08 (Ter - 07:10)", "8AM": "06/08 (Qui - 10:20)", "8AT": "06/08 (Qui - 14:10)" },
+                objetivos: ["Diferenciar fecundação interna e externa.", "Compreender reprodução do cavalo-marinho."],
+                materiais: "Livro pág. 415, vídeo curto de 2 min.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Vídeo Provocador",
+                    detalhes: "Exibição de vídeo rápido do nascimento de cavalos-marinhos."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Matriz Comparativa Fisiológica",
+                    detalhes: "Discussão comparativa entre fecundação externa e interna."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Resolução Guiada",
+                    detalhes: "Preenchimento coletivo da seção 'Para Começar' pág. 415."
+                },
+                estrategias_cognitivas: "Dual Coding e desconstrução de mitos biológicos.",
+                avaliacao_formativa: "Checagem por amostragem verbal rápida.",
+                tarefa_casa: "Leitura orientada páginas 416 e 417.", link: ""
+            },
+            {
+                id: "ap3-5", aula_num: "Aula 05", excel_ref: "Excel 61", modulo: "Módulo 16",
+                titulo: "Desenvolvimento Embrionário: Ovíparos, Vivíparos e Ovovivíparos", foco_pedagogico: "Retrieval Practice & Classificação",
+                datas: { "8B": "04/08 (Ter - 08:00)", "8AM": "10/08 (Seg - 08:00)", "8AT": "06/08 (Qui - 17:10)" },
+                objetivos: ["Classificar animais por nutrição e local de desenvolvimento.", "Identificar adaptações do ovo amniótico e placenta."],
+                materiais: "Modelos visuais, quadro branco.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Bell Work Ativo",
+                    detalhes: "Resgate de memória sobre o ovo amniótico e adaptação terrestre."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Classificação Causal",
+                    detalhes: "Sintetização dos 3 padrões de desenvolvimento embrionário."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Jogo do V/F",
+                    detalhes: "Aplicação de 4 afirmações no quadro com votação rápida."
+                },
+                estrategias_cognitivas: "Retrieval Practice intercalada.",
+                avaliacao_formativa: "Análise de erros no V/F.",
+                tarefa_casa: "PA pág. 420 (questões 1 a 3).", link: ""
+            },
+            {
+                id: "ap3-6", aula_num: "Aula 06", excel_ref: "Excel 62", modulo: "Módulo 16",
+                titulo: "Desenvolvimento Pós-Embrionário & Prática de HQ", foco_pedagogico: "Dual Coding & Elaboração Criativa",
+                datas: { "8B": "10/08 (Seg - 11:10)", "8AM": "10/08 (Seg - 10:20)", "8AT": "10/08 (Seg - 14:10)" },
+                objetivos: ["Diferenciar desenvolvimento direto e indireto.", "Criar HQ retratando corte e acasalamento de espécies."],
+                materiais: "Folhas de HQ, lápis de cor, roteiro de orientação.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Exemplos de Dimorfismo",
+                    detalhes: "Exibição de imagens de rituais de acasalamento na natureza."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Oficina Criativa",
+                    detalhes: "Os alunos criam uma HQ de 4 quadros retratando o ciclo reprodutivo."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Exposição Relâmpago",
+                    detalhes: "Rotação rápida de bancadas para leitura das HQs."
+                },
+                estrategias_cognitivas: "Dual Coding profundo traduzindo texto científico em narrativa gráfica.",
+                avaliacao_formativa: "Validação da precisão biológica na HQ.",
+                tarefa_casa: "Finalizar pintura da HQ.",
+                acessorio: {
+                    tipo: "Trabalho / Produção dos Alunos",
+                    titulo: "Mostra Gráfica de HQs Científicas",
+                    instrucoes: "1. Cada aluno produz uma HQ com rigor científico sobre o acasalamento de uma espécie animal.\n2. Os trabalhos finalizados são expostos na sala de aula ou exibidos digitalmente na Sala Google com o uso dos Chromebooks.\n3. Critérios: precisão biológica, clareza do ciclo e criatividade gráfica."
+                },
+                link: ""
+            },
+            {
+                id: "ap3-7", aula_num: "Aula 07", excel_ref: "Excel 63", modulo: "Módulo 16",
+                titulo: "Retomada do Módulo 16 & Ajuste de Visto", foco_pedagogico: "No-Stakes Assessment",
+                datas: { "8B": "11/08 (Ter - 07:10)", "8AM": "13/08 (Qui - 10:20)", "8AT": "13/08 (Qui - 14:10)" },
+                objetivos: ["Sanar dúvidas sobre fecundação e embriologia.", "Correção participativa e vistos de caderno."],
+                materiais: "Gabarito projetado, carimbo de visto.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Orientação Inicial",
+                    detalhes: "Publicação do gabarito comentado no quadro."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Correção Ativa",
+                    detalhes: "Trabalho autônomo com mediação e atendimento individualizado."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Síntese de Dúvidas",
+                    detalhes: "Esclarecimento no quadro das questões de maior erro coletivo."
+                },
+                estrategias_cognitivas: "Feedback explicativo imediato.",
+                avaliacao_formativa: "Vistoria quantitativa e qualitativa no caderno.",
+                tarefa_casa: "Revisar Módulo 16 pelo mapa mental.", link: ""
+            },
+            {
+                id: "ap3-8", aula_num: "Aula 08", excel_ref: "Excel 64", modulo: "Módulo 17",
+                titulo: "Botânica: Criptógamas (Briófitas e Pteridófitas)", foco_pedagogico: "Spaced Practice",
+                datas: { "8B": "11/08 (Ter - 08:00)", "8AM": "17/08 (Seg - 08:00)", "8AT": "13/08 (Qui - 17:10)" },
+                objetivos: ["Compreender Reino Plantae e ciclo haplodiplobionte.", "Analisar Briófitas e Pteridófitas."],
+                materiais: "Amostras de musgo e samambaia, imagens detalhadas.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Conexão Evolutiva",
+                    detalhes: "Bell Work resgatando biologia animal e anfíbios."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Estudo Comparativo Avascular vs Vascular",
+                    detalhes: "Apresentação estruturada do transporte por difusão em Briófitas vs xilema e floema em Pteridófitas."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Esquema mnemônico",
+                    detalhes: "Desenho coletivo no quadro do ciclo haplodiplobionte."
+                },
+                estrategias_cognitivas: "Spaced Practice integrando reinos biológicos.",
+                avaliacao_formativa: "Exit Ticket sobre soros de samambaias.",
+                tarefa_casa: "Ler páginas 425 a 428.", link: ""
+            },
+            {
+                id: "ap3-9", aula_num: "Aula 09", excel_ref: "Excel 65", modulo: "Módulo 17",
+                titulo: "Botânica: Fanerógamas (Gimnospermas e Angiospermas)", foco_pedagogico: "Dual Coding",
+                datas: { "8B": "17/08 (Seg - 11:10)", "8AM": "17/08 (Seg - 10:20)", "8AT": "17/08 (Seg - 14:10)" },
+                objetivos: ["Identificar inovações: pólen, semente, flor e fruto.", "Diferenciar Gimnospermas de Angiospermas."],
+                materiais: "Pinhas, flores reais, frutos variados.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Amostra Sensorial",
+                    detalhes: "Exibição de pinhas e flores e pergunta geradora."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Inovações Evolutivas",
+                    detalhes: "Explicação do tubo polínico, sementes protegidas e coevolução."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Linha do Tempo",
+                    detalhes: "Montagem da linha evolutiva vegetal completa."
+                },
+                estrategias_cognitivas: "Dual Coding combinando espécimes reais e esquemas teóricos.",
+                avaliacao_formativa: "Checagem verbal da função reprodutiva dos frutos.",
+                tarefa_casa: "PA pág. 431 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ap3-10", aula_num: "Aula 10", excel_ref: "Excel 66", modulo: "Módulo 17",
+                titulo: "Prática de Laboratório: Criptógamas vs. Fanerógamas", foco_pedagogico: "Near Transfer",
+                datas: { "8B": "18/08 (Ter - 07:10)", "8AM": "20/08 (Qui - 10:20)", "8AT": "20/08 (Qui - 14:10)" },
+                objetivos: ["Classificar espécimes vegetais com chave dicotômica.", "Observar soros e pólen sob lupa."],
+                materiais: "Lupas manuais, lâminas, roteiro prático.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Roteiro Investigativo",
+                    detalhes: "Instruções de segurança e distribuição das estações de observação."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Investigação Guiada",
+                    detalhes: "Alunos analisam amostras de musgos, samambaias e flores com lupas."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Validação Coletiva",
+                    detalhes: "Conferência em plenária das classificações obtidas."
+                },
+                estrategias_cognitivas: "Near Transfer aplicada a espécimes biológicos reais.",
+                avaliacao_formativa: "Recolhimento do relatório de investigação prática.",
+                acessorio: {
+                    tipo: "Atividade Prática / Laboratório",
+                    titulo: "Circuito de Estações Botânicas",
+                    instrucoes: "1. Dividir a sala em 4 bancadas fixas (Briófitas, Pteridófitas, Gimnospermas, Angiospermas).\n2. Cada grupo permanece 8 minutos por estação utilizando lupas para preencher o relatório investigativo.\n3. Fechamento coletivo no quadro comparando os tecidos condutores."
+                },
+                tarefa_casa: "DH pág. 432 (questões 1 a 3).", link: ""
+            },
+            {
+                id: "ap3-11", aula_num: "Aula 11", excel_ref: "Excel 67", modulo: "Módulo 17",
+                titulo: "Retomada Módulo 17 & Projeto Horta Urbana", foco_pedagogico: "Far Transfer",
+                datas: { "8B": "18/08 (Ter - 08:00)", "8AM": "24/08 (Seg - 08:00)", "8AT": "20/08 (Qui - 17:10)" },
+                objetivos: ["Aplicar propagação sexuada vs assexuada.", "Planejar mini-horta urbana sustentável."],
+                materiais: "Texto complementar, sementes e estacas.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Sustentabilidade Urbana",
+                    detalhes: "Debate sobre como hortas urbanas reduzem ilhas de calor."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Planejamento de Cultivo",
+                    detalhes: "Discussão sobre quando utilizar sementes e quando usar estaquia em recipientes reciclados."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Registro de Metas",
+                    detalhes: "Escrita individual das etapas de plantio."
+                },
+                estrategias_cognitivas: "Far Transfer ligando botânica acadêmica à sustentabilidade prática.",
+                avaliacao_formativa: "Participação e visto no planejamento.",
+                tarefa_casa: "Ler introdução do Módulo 18 (pág. 435).", link: ""
+            },
+            {
+                id: "ap3-12", aula_num: "Aula 12", excel_ref: "Excel 68", modulo: "Módulo 18",
+                titulo: "Sistema Genital Masculino & Novembro Azul", foco_pedagogico: "Dual Coding & Saúde",
+                datas: { "8B": "24/08 (Seg - 11:10)", "8AM": "24/08 (Seg - 10:20)", "8AT": "24/08 (Seg - 14:10)" },
+                objetivos: ["Identificar anatomia e fisiologia genital masculina.", "Promover conscientização preventiva (Novembro Azul)."],
+                materiais: "Livro pág. 436-438, diagrama cego.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Saúde Preventiva",
+                    detalhes: "Apresentação sensível sobre prevenção e quebra de tabus na saúde masculina."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Mapeamento Anatômico",
+                    detalhes: "Estudo detalhado do trajeto dos espermatozoides e glândulas anexas."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Diagrama Cego",
+                    detalhes: "Preenchimento individual de esquema anatômico sem consulta."
+                },
+                estrategias_cognitivas: "Retrieval Practice com diagrama cego.",
+                avaliacao_formativa: "Autocorreção do diagrama cego.",
+                tarefa_casa: "PA pág. 442 (questões 1 a 3).", link: ""
+            },
+            {
+                id: "ap3-13", aula_num: "Aula 13", excel_ref: "Excel 69", modulo: "Módulo 18",
+                titulo: "Sistema Genital Feminino & Gametogênese", foco_pedagogico: "Retrieval Practice",
+                datas: { "8B": "25/08 (Ter - 07:10)", "8AM": "27/08 (Qui - 10:20)", "8AT": "27/08 (Qui - 14:10)" },
+                objetivos: ["Conhecer anatomia do sistema genital feminino.", "Diferenciar espermatogênese de ovulogênese."],
+                materiais: "Diagrama feminino, quadro branco.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Bell Work Direcionado",
+                    detalhes: "Pergunta geradora sobre o local exato da fecundação."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Comparação Fisiológica de Gametas",
+                    detalhes: "Estudo dos ovários, tubas uterinas, útero e contraste de gametogênese."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Tabela Comparativa",
+                    detalhes: "Montagem final da tabela de gametogênese no caderno."
+                },
+                estrategias_cognitivas: "Elaboração explicativa anti-erro conceitual.",
+                avaliacao_formativa: "Exit Ticket conceitual rápido.",
+                tarefa_casa: "PA pág. 442 (questões 4 a 6).", link: ""
+            },
+            {
+                id: "ap3-14", aula_num: "Aula 14", excel_ref: "Excel 70", modulo: "Módulo 18",
+                titulo: "Prática Integrativa: Jogo da Memória do Sistema Genital", foco_pedagogico: "Gamificação",
+                datas: { "8B": "25/08 (Ter - 08:00)", "8AM": "31/08 (Seg - 08:00)", "8AT": "27/08 (Qui - 17:10)" },
+                objetivos: ["Fixar órgãos e funções reprodutivas ludicamente.", "Estimular colaboração em duplas."],
+                materiais: "Kits do Jogo da Memória didático.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (5 min): Regras do Jogo",
+                    detalhes: "Organização das duplas e distribuição dos baralhos."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (35 min): Partidas Colaborativas",
+                    detalhes: "Alunos jogam combinando cartas e lendo funções em voz alta para validação."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Plenária de Dúvidas",
+                    detalhes: "Destaque coletivo das associações mais desafiadoras."
+                },
+                estrategias_cognitivas: "Gamificação cognitiva com feedback recíproco por pares.",
+                avaliacao_formativa: "Observação circulante do engajamento.",
+                acessorio: {
+                    tipo: "Jogo Didático & Gamificação",
+                    titulo: "Torneio de Cartas Anatômicas",
+                    instrucoes: "1. Utilizar baralhos impressos contendo em uma carta o nome do órgão (ex: Próstata, Tubas Uterinas) e na outra a função exata.\n2. Em duplas, os alunos jogam estilo jogo da memória clássico.\n3. Regra de ouro: ao formar o par, o aluno deve explicar para o colega a utilidade fisiológica da estrutura para validar o ponto."
+                },
+                tarefa_casa: "DH pág. 443 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ap3-15", aula_num: "Aula 15", excel_ref: "Excel 71", modulo: "Módulo 18",
+                titulo: "Retomada Módulo 18 & Vistoria de Atividades", foco_pedagogico: "No-Stakes Assessment",
+                datas: { "8B": "31/08 (Seg - 11:10)", "8AM": "31/08 (Seg - 10:20)", "8AT": "31/08 (Seg - 14:10)" },
+                objetivos: ["Sanar dúvidas sobre anatomia e gametogênese.", "Vistoria de tarefas do Módulo 18."],
+                materiais: "Cadernos de atividades, gabarito impresso.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Tira-dúvidas Coletivo",
+                    detalhes: "Abertura para perguntas rápidas sobre o sistema genital."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Vistoria e Correção",
+                    detalhes: "Correção dialogada das questões enquanto o professor atiende individualmente."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Síntese Final",
+                    detalhes: "Fechamento conceitual do bloco de anatomia humana básica."
+                },
+                estrategias_cognitivas: "No-stakes assessment e reforço de memória.",
+                avaliacao_formativa: "Vistoria quantitativa no caderno.",
+                tarefa_casa: "Ler introdução do Módulo 19 (pág. 445).", link: ""
+            },
+            {
+                id: "ap3-16", aula_num: "Aula 16", excel_ref: "Excel 72", modulo: "Módulo 19",
+                titulo: "Sistema Endócrino: Glândulas, Hipófise e Tireoide", foco_pedagogico: "Spaced Practice",
+                datas: { "8B": "01/09 (Ter - 07:10)", "8AM": "03/09 (Qui - 10:20)", "8AT": "03/09 (Qui - 14:10)" },
+                objetivos: ["Compreender regulação química por hormônios.", "Identificar Hipófise e Tireoide."],
+                materiais: "Livro pág. 445-448, esquema de circulação.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Pergunta Geradora",
+                    detalhes: "Discussão sobre como mensagens químicas viajam pelo sangue."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Sinalização Endócrina",
+                    detalhes: "Explicação do conceito de hormônio, Hipófise e Tireoide."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Analogia da Chave",
+                    detalhes: "Construção da analogia da 'Chave e Fechadura' celular."
+                },
+                estrategias_cognitivas: "Analogias concretas para estruturas microscópicas.",
+                avaliacao_formativa: "Checagem verbal de especificidade celular.",
+                tarefa_casa: "PA pág. 452 (questões 1 e 2).", link: ""
+            },
+            {
+                id: "ap3-17", aula_num: "Aula 17", excel_ref: "Excel 73", modulo: "Módulo 19",
+                titulo: "Paratireoides, Pâncreas & Estudo de Caso (Pré-Diabetes)", foco_pedagogico: "Far Transfer",
+                datas: { "8B": "01/09 (Ter - 08:00)", "8AM": "14/09 (Seg - 08:00)", "8AT": "03/09 (Qui - 17:10)" },
+                objetivos: ["Explicar controle da glicemia (Insulina vs Glucagon).", "Analisar artigo sobre pré-diabetes."],
+                materiais: "Notícia sobre pré-diabetes, gráfico de glicemia.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Gráfico Glicêmico",
+                    detalhes: "Análise de oscilação da taxa de açúcar no sangue após refeições."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Fisiologia Pancreática",
+                    detalhes: "Estudo da Insulina e Glucagon e discussão do artigo de saúde pública."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Balança Metabólica",
+                    detalhes: "Esquematização da balança da glicemia no quadro."
+                },
+                estrategias_cognitivas: "Far Transfer aplicando metabolismo endocrinológico em hábitos clínicos.",
+                avaliacao_formativa: "Exit Ticket sobre hormônio de jejum.",
+                tarefa_casa: "PA pág. 452 (questões 3 e 4).", link: ""
+            },
+            {
+                id: "ap3-18", aula_num: "Aula 18", excel_ref: "Excel 74", modulo: "Módulo 19",
+                titulo: "Suprarrenais, Gônadas e Feedback Negativo", foco_pedagogico: "Explanatory Feedback",
+                datas: { "8B": "14/09 (Seg - 11:10)", "8AM": "14/09 (Seg - 10:20)", "8AT": "14/09 (Seg - 14:10)" },
+                objetivos: ["Identificar Suprarrenais (Adrenalina/Cortisol).", "Explicar mecanismo de Retroalimentação Negativa."],
+                materiais: "Esquema de termostato de ar-condicionado.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Experiência Mental",
+                    detalhes: "O que ocorre fisicamente no corpo ao sofrer um susto?"
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Alças de Retroalimentação",
+                    detalhes: "Estudo de suprarrenais e feedback negativo usando analogia do termostato."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Desenho da Alça",
+                    detalhes: "Construção guiada do diagrama de retroalimentação."
+                },
+                estrategias_cognitivas: "Elaboração de modelo mental de feedback sistêmico.",
+                avaliacao_formativa: "Checagem de direções das setas da alça hormonal.",
+                tarefa_casa: "DH pág. 453 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ap3-19", aula_num: "Aula 19", excel_ref: "Excel 75", modulo: "Módulo 19",
+                titulo: "Prática: Detetive do Crescimento (Casos Clínicos)", foco_pedagogico: "Problem Solving",
+                datas: { "8B": "15/09 (Ter - 07:10)", "8AM": "17/09 (Qui - 10:20)", "8AT": "17/09 (Qui - 14:10)" },
+                objetivos: ["Simular diagnósticos endocrinológicos.", "Integrar glândulas do Módulo 19 para a AP3."],
+                materiais: "Fichas de casos clínicos simulados.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Desafio Médico",
+                    detalhes: "Divisão da turma em equipes de investigação clínica endocrinológica."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Análise de Sintomas",
+                    detalhes: "Equipes resolvem fichas de pacientes com sintomas variados."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Plenária de Diagnósticos",
+                    detalhes: "Apresentação dos laudos médicos pelas equipes."
+                },
+                estrategias_cognitivas: "Far Transfer avançado com raciocínio clínico.",
+                avaliacao_formativa: "Avaliação do relatório de diagnóstico.",
+                acessorio: {
+                    tipo: "Trabalho em Grupo / Simulação",
+                    titulo: "Junta Médica: Defesa de Casos Clínicos",
+                    instrucoes: "1. Distribuir fichas de pacientes fictícios com sintomas hormonais complexos para cada grupo.\n2. Os alunos atuam como médicos especialistas discutindo exames simulados.\n3. Culminância: cada grupo apresenta oralmente por 2 minutos o laudo médico explicando qual glândula falhou e por quê."
+                },
+                tarefa_casa: "Estudar Módulos 15 a 19 para a AP3.", link: ""
+            },
+            {
+                id: "ap3-20", aula_num: "Aula 20", excel_ref: "Aula Adicional", modulo: "Retomada",
+                titulo: "Oficina de Recuperação Ativa & Tabela Integrada Caderno 3", foco_pedagogico: "Spaced Retrieval",
+                datas: { "8B": "15/09 (Ter - 08:00)", "8AM": "17/09 (Qui - 10:20)*", "8AT": "17/09 (Qui - 17:10)" },
+                objetivos: ["Resgatar conceitos do Caderno 3 antes da AP3.", "Sintetizar alças de integração."],
+                materiais: "Folha de Brain Dump individual, quadro negro.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Brain Dump Diagnóstico",
+                    detalhes: "Em folha em branco, alunos listam os 4 grupos vegetais e glândulas."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Tabela Integrada Coletiva",
+                    detalhes: "Preenchimento colaborativo no quadro da matriz de consolidação."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Painel de Post-its",
+                    detalhes: "Colagem de post-its com dúvidas finais respondidas na hora."
+                },
+                estrategias_cognitivas: "Spaced Retrieval intensivo.",
+                avaliacao_formativa: "No-stakes assessment de prontidão.",
+                tarefa_casa: "Revisar erros identificados no Brain Dump.", link: ""
+            },
+            {
+                id: "ap3-21", aula_num: "Aula 21", excel_ref: "Excel 76", modulo: "Módulo 20",
+                titulo: "Controle Hormonal Reprodutivo & Fase Menstrual", foco_pedagogico: "Sinalização Hormonal",
+                datas: { "8B": "21/09 (Seg - 11:10)", "8AM": "21/09 (Seg - 08:00)", "8AT": "21/09 (Seg - 14:10)" },
+                objetivos: ["Iniciar Caderno 4 (Controle Hormonal).", "Explicar Fase Menstrual e descamação endometrial."],
+                materiais: "Livro Caderno 4 pág. 345-346.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Debate Social e Biológico",
+                    detalhes: "Leitura dialogada da notícia sobre licença menstrual."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Eixo Reprodutivo",
+                    detalhes: "Apresentação do eixo Hipotálamo-Hipófise-Ovários e início do ciclo (Dia 1)."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Definição do Dia 1",
+                    detalhes: "Registro conceitual do marco biológico inicial."
+                },
+                estrategias_cognitivas: "Ancoragem de novos conteúdos.",
+                avaliacao_formativa: "Checagem verbal do Dia 1.",
+                tarefa_casa: "PA pág. 352 (questões 1 a 3).", link: ""
+            },
+            {
+                id: "ap3-22", aula_num: "Aula 22", excel_ref: "Excel 77", modulo: "Módulo 20",
+                titulo: "Fases Folicular, Ovulatória e Lútea do Ciclo Menstrual", foco_pedagogico: "Interpretação Gráfica",
+                datas: { "8B": "22/09 (Ter - 07:10)", "8AM": "21/09 (Seg - 10:20)", "8AT": "24/09 (Pós-AP3)" },
+                objetivos: ["Mapear 4 hormônios simultâneos no ciclo.", "Identificar pico de LH e ovulação (~14º dia)."],
+                materiais: "Gráfico integrado de 4 eixos, réguas.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Projeção Gráfica",
+                    detalhes: "Desenho estruturado do gráfico do ciclo menstrual."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Análise de Fases",
+                    detalhes: "Estudo da fase folicular, pico de LH e fase lútea."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Cálculo Prático",
+                    detalhes: "Exercício rápido de estimativa de janela fértil."
+                },
+                estrategias_cognitivas: "Dual Coding gráfico-textual quantitativo.",
+                avaliacao_formativa: "Resolução orientada de interpretação.",
+                tarefa_casa: "PA pág. 352 (questões 4 e 5).", link: ""
+            },
+            {
+                id: "ap3-23", aula_num: "Aula 23", excel_ref: "Excel 78", modulo: "Módulo 20",
+                titulo: "Controle Hormonal Masculino & Resolução Prática", foco_pedagogico: "Comparação Fisiológica",
+                datas: { "8B": "22/09 (Ter - 08:00)", "8AM": "24/09 (Pós-AP3)", "8AT": "24/09 (Pós-AP3)" },
+                objetivos: ["Compreender ação de FSH e LH nos testículos.", "Comparar constância masculina com ciclicidade feminina."],
+                materiais: "Livro Caderno 4 pág. 350-351.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Provocação Fisiológica",
+                    detalhes: "Comparação entre ritmo cíclico feminino e contínuo masculino."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Células de Sertoli e Leydig",
+                    detalhes: "Estudo do papel do FSH, LH e testosterona."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Quadro Síntese",
+                    detalhes: "Elaboração final do quadro comparativo."
+                },
+                estrategias_cognitivas: "Síntese por contraste fisiológico.",
+                avaliacao_formativa: "Exit Ticket final.",
+                tarefa_casa: "DH pág. 352-353 (questões 1 a 4).", link: ""
+            }
+        ];
+
+        const aulasAG3 = [
+            {
+                id: "ag3-76", aula_num: "Aula 01", excel_ref: "Excel 76", modulo: "Módulo 20",
+                titulo: "Controle Hormonal Reprodutivo Feminino & Fase Menstrual", foco_pedagogico: "Ancoragem Hormonal & Modelo Mental",
+                datas: { "8B": "21/09 (Seg - 11:10)", "8AM": "21/09 (Seg - 08:00)", "8AT": "21/09 (Seg - 14:10)" },
+                objetivos: ["Apresentar arquitetura hormonal do ciclo reprodutivo.", "Compreender FSH, LH, estrogênio e progesterona."],
+                materiais: "Caderno 4 pág. 345-347, diagrama do eixo.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): O Primeiro Dia do Ciclo",
+                    detalhes: "Bell Work resgatando o endométrio e definindo o Dia 1."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Eixo Hormonal",
+                    detalhes: "Mapeamento do eixo Hipotálamo-Hipófise-Ovários."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Esquema Simplificado",
+                    detalhes: "Desenho da alça de sinalização no caderno."
+                },
+                estrategias_cognitivas: "Ancoragem e Dual Coding.", avaliacao_formativa: "Exit Ticket sobre endométrio.",
+                tarefa_casa: "PA pág. 352 (questões 1 a 3).", link: ""
+            },
+            {
+                id: "ag3-77", aula_num: "Aula 02", excel_ref: "Excel 77", modulo: "Módulo 20",
+                titulo: "Fases Folicular, Ovulatória e Lútea: Leitura de Gráficos", foco_pedagogico: "Dual Coding Avançado",
+                datas: { "8B": "22/09 (Ter - 07:10)", "8AM": "21/09 (Seg - 10:20)", "8AT": "24/09 (Qui - 14:10)" },
+                objetivos: ["Interpretar 4 gráficos simultâneos do ciclo.", "Identificar pico de LH como gatilho da ovulação."],
+                materiais: "Gráfico de 4 eixos, réguas.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Retrieval Prévio",
+                    detalhes: "Pergunta rápida sobre o papel do FSH."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Leitura Gráfica Integrada",
+                    detalhes: "Análise simultânea dos hormônios ao longo de 28 dias."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Cálculo de Ovulação",
+                    detalhes: "Exercício prático de localização da ovulação."
+                },
+                estrategias_cognitivas: "Dual Coding complexo.", avaliacao_formativa: "Correção de gráfico.",
+                tarefa_casa: "PA pág. 352 (questões 4 e 5).", link: ""
+            },
+            {
+                id: "ag3-78", aula_num: "Aula 03", excel_ref: "Excel 78", modulo: "Módulo 20",
+                titulo: "Controle Hormonal Masculino & Feedback Negativo", foco_pedagogico: "Elaboração Comparativa",
+                datas: { "8B": "22/09 (Ter - 08:00)", "8AM": "24/09 (Qui - 10:20)", "8AT": "24/09 (Qui - 17:10)" },
+                objetivos: ["Explicar FSH e LH nos testículos.", "Desenhar alça de feedback negativo masculina."],
+                materiais: "Livro pág. 350-351, quadro.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Provocação Hormonal",
+                    detalhes: "Discussão sobre constância masculina vs ciclos femininos."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Células de Sertoli e Leydig",
+                    detalhes: "Estudo da espermatogênese e feedback."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Tabela Contrastiva",
+                    detalhes: "Preenchimento do quadro comparativo."
+                },
+                estrategias_cognitivas: "Contrastive Analysis.", avaliacao_formativa: "Exit Ticket.",
+                tarefa_casa: "DH pág. 352-353 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ag3-79", aula_num: "Aula 04", excel_ref: "Excel 79", modulo: "Módulo 21",
+                titulo: "Sexualidade na Adolescência & Transformações Pubertárias", foco_pedagogico: "Análise Multidimensional",
+                datas: { "8B": "28/09 (Seg - 11:10)", "8AM": "28/09 (Seg - 08:00)", "8AT": "28/09 (Seg - 14:10)" },
+                objetivos: ["Diferenciar sexo biológico, gênero e orientação.", "Analisar transformações pubertárias."],
+                materiais: "Caixa de dúvidas anônimas, pág. 355-358.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Envelope do Conhecimento",
+                    detalhes: "Abertura da caixa de dúvidas anônimas e estabelecimento de ambiente seguro."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Matriz da Diversidade",
+                    detalhes: "Debate estruturado sobre esteroides pubertários e dimensões."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Síntese Tripartite",
+                    detalhes: "Resumo dos três pilares da sexualidade humana."
+                },
+                estrategias_cognitivas: "Elaboração conceitual humanizada.", avaliacao_formativa: "Coleta de dúvidas.",
+                acessorio: {
+                    tipo: "Dinâmica Anônima",
+                    titulo: "Caixa de Perguntas Segura (The Question Box)",
+                    instrucoes: "1. Disponibilizar uma caixa fechada na sala onde os alunos depositam perguntas anônimas ao longo da semana.\n2. Na aula, o professor faz a triagem prévia e responde cientificamente às principais dúvidas sobre puberdade e mudanças corporais em ambiente de total respeito e sigilo."
+                },
+                tarefa_casa: "Leitura pág. 355-359.", link: ""
+            },
+            {
+                id: "ag3-80", aula_num: "Aula 05", excel_ref: "Excel 80", modulo: "Módulo 21",
+                titulo: "Afetividade, Consentimento & Limites nas Relações", foco_pedagogico: "Far Transfer & Ética",
+                datas: { "8B": "29/09 (Ter - 07:10)", "8AM": "28/09 (Seg - 10:20)", "8AT": "01/10 (Qui - 14:10)" },
+                objetivos: ["Compreender consentimento e autonomia corporal.", "Mapear canais oficiais de proteção (Disque 100)."],
+                materiais: "Cartões de estudo de caso ético.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Estudo de Caso Digital",
+                    detalhes: "Análise de cenário sobre pressão digital e exposição de fotos."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Trabalho em Grupos",
+                    detalhes: "Análise de cenários de respeito, autonomia e ECA."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Mural da Convivência",
+                    detalhes: "Construção de regras de respeito mútuo."
+                },
+                estrategias_cognitivas: "Far Transfer aplicado a dilemas sociais.", avaliacao_formativa: "Ficha de análise.",
+                tarefa_casa: "PA pág. 360 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ag3-81", aula_num: "Aula 06", excel_ref: "Excel 81", modulo: "Módulo 22",
+                titulo: "Da Fecundação à Nidação: A Jornada do Zigoto", foco_pedagogico: "Dual Coding Sequencial",
+                datas: { "8B": "29/09 (Ter - 08:00)", "8AM": "01/10 (Qui - 10:20)", "8AT": "01/10 (Qui - 17:10)" },
+                objetivos: ["Mapear trajeto do oócito II e espermatozoides.", "Diferenciar Zigoto -> Mórula -> Blastocisto e Nidação."],
+                materiais: "Livro pág. 362-365, esquemas.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Bell Work Anatômico",
+                    detalhes: "Pergunta sobre o local exato da fertilização."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Linha do Tempo Embrionária",
+                    detalhes: "Estudo detalhado dos primeiros 7 dias e nidação."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Tira de Quadrinhos",
+                    detalhes: "Esquema gráfico sequencial no caderno."
+                },
+                estrategias_cognitivas: "Dual Coding sequencial.", avaliacao_formativa: "Exit Ticket.",
+                tarefa_casa: "Ler páginas 366-368.", link: ""
+            },
+            {
+                id: "ag3-82", aula_num: "Aula 07", excel_ref: "Excel 82", modulo: "Módulo 22",
+                titulo: "Anexos Embrionários & Nutrição Materno-Fetal", foco_pedagogico: "Mapeamento Funcional",
+                datas: { "8B": "05/10 (Seg - 11:10)", "8AM": "05/10 (Seg - 08:00)", "8AT": "05/10 (Seg - 14:10)" },
+                objetivos: ["Identificar funções de âmnio, córion, saco vitelínico e placenta.", "Desmistificar mistura direta de sangue."],
+                materiais: "Modelo anatômico da placenta.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Mito Circulatório",
+                    detalhes: "Questão provocadora sobre o sangue da mãe e do bebê."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Barreira Placentária",
+                    detalhes: "Estudo das vilosidades coriônicas e difusão de nutrientes."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Tabela de Correspondência",
+                    detalhes: "Preenchimento do mapa funcional Estrutura -> Função."
+                },
+                estrategias_cognitivas: "Correção de conceitos alternativos.", avaliacao_formativa: "Tabela de anexos.",
+                tarefa_casa: "PA pág. 370 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ag3-83", aula_num: "Aula 08", excel_ref: "Excel 83", modulo: "Módulo 22",
+                titulo: "Fisiologia da Gestação, hCG & Mecanismos do Parto", foco_pedagogico: "Far Transfer Clínico",
+                datas: { "8B": "06/10 (Ter - 07:10)", "8AM": "05/10 (Seg - 10:20)", "8AT": "08/10 (Qui - 14:10)" },
+                objetivos: ["Compreender sinalização de hCG em testes.", "Descrever oxitocina no parto normal."],
+                materiais: "Simulação de teste de gravidez ($hCG$).",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Diagnóstico Bioquímico",
+                    detalhes: "Como funciona um teste de farmácia?"
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Trimestres e Parto",
+                    detalhes: "Estudo dos trimestres e retroalimentação positiva da oxitocina."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Fluxograma Hormonal",
+                    detalhes: "Desenho do fluxo de contração."
+                },
+                estrategias_cognitivas: "Far Transfer obstétrico.", avaliacao_formativa: "Exit Ticket.",
+                tarefa_casa: "DH pág. 371 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ag3-84", aula_num: "Aula 09", excel_ref: "Excel 84", modulo: "Módulo 23",
+                titulo: "Métodos Contraceptivos de Barreira e Comportamentais", foco_pedagogico: "Classificação Causal",
+                datas: { "8B": "06/10 (Ter - 08:00)", "8AM": "08/10 (Qui - 10:20)", "8AT": "08/10 (Qui - 17:10)" },
+                objetivos: ["Classificar métodos (barreira vs comportamental).", "Enfatizar camisinha como dupla proteção."],
+                materiais: "Amostras de preservativos, manequim.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Dupla Proteção",
+                    detalhes: "Por que o preservativo possui papel único?"
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Barreira e Incerteza",
+                    detalhes: "Estudo dos métodos de barreira e análise de falhas dos comportamentais."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Estudo de Caso Prático",
+                    detalhes: "Resolução coletiva de situação-problema."
+                },
+                estrategias_cognitivas: "Elaboração explicativa.", avaliacao_formativa: "Resolução de caso.",
+                tarefa_casa: "Ler páginas 373 a 376.", link: ""
+            },
+            {
+                id: "ag3-85", aula_num: "Aula 10", excel_ref: "Excel 85", modulo: "Módulo 23",
+                titulo: "Contracepção Hormonal, DIUs e Métodos Cirúrgicos", foco_pedagogico: "Dual Coding Fisiológico",
+                datas: { "8B": "19/10 (Seg - 11:10)", "8AM": "15/10 (Qui - 10:20)", "8AT": "15/10 (Qui - 14:10)" },
+                objetivos: ["Compreender pílulas inibindo o pico de LH.", "Diferenciar DIU e cirúrgicos (vasectomia/laqueadura)."],
+                materiais: "Esquemas anatômicos cirúrgicos.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Retomada Pós-Feriado",
+                    detalhes: "Retrieval rápido sobre eixo hormonal e anticoncepcionais."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Hormônios, DIU e Cirurgia",
+                    detalhes: "Análise de pílulas, DIU e laqueadura/vasectomia."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Tabela Método-Mecanismo",
+                    detalhes: "Preenchimento do quadro de resumo."
+                },
+                estrategias_cognitivas: "Spaced Retrieval.", avaliacao_formativa: "Exit Ticket.",
+                tarefa_casa: "PA pág. 379 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ag3-86", aula_num: "Aula 11", excel_ref: "Excel 86", modulo: "Módulo 23",
+                titulo: "Índice de Pearl, Dupla Proteção & Anticoncepção de Emergência", foco_pedagogico: "Problem Solving",
+                datas: { "8B": "20/10 (Ter - 07:10)", "8AM": "19/10 (Seg - 08:00)", "8AT": "15/10 (Qui - 17:10)" },
+                objetivos: ["Interpretar Índice de Pearl (eficácia teórica vs prática).", "Compreender pílula do dia seguinte."],
+                materiais: "Tabela de Índice de Pearl, cartões de casos.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Análise Quantitativa",
+                    detalhes: "Discussão sobre uso frequente da pílula de emergência."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Estatística e Emergência",
+                    detalhes: "Estudo do Índice de Pearl e pílula do dia seguinte."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Resolução em Duplas",
+                    detalhes: "Análise de casos clínicos."
+                },
+                estrategias_cognitivas: "Problem Solving estatístico.", avaliacao_formativa: "Casos clínicos.",
+                tarefa_casa: "DH pág. 380 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ag3-87", aula_num: "Aula 12", excel_ref: "Excel 87", modulo: "Módulo 24",
+                titulo: "ISTs Bacterianas: Sífilis, Gonorreia e Clamídia", foco_pedagogico: "Microbiologia & Diagnóstico",
+                datas: { "8B": "20/10 (Ter - 08:00)", "8AM": "19/10 (Seg - 10:20)", "8AT": "19/10 (Seg - 14:10)" },
+                objetivos: ["Identificar agentes bacterianos e sintomas.", "Compreender tratamento com antibióticos."],
+                materiais: "Livro pág. 382-385, infográficos.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Dados Epidemiológicos",
+                    detalhes: "Por que a sífilis voltou a crescer?"
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Patogenia Bacteriana",
+                    detalhes: "Estudo de Sífilis, Gonorreia e Clamídia."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Quadro Síntese",
+                    detalhes: "Preenchimento do quadro Agente -> Sintoma -> Tratamento."
+                },
+                estrategias_cognitivas: "Classificação etiológica.", avaliacao_formativa: "Exit Ticket.",
+                tarefa_casa: "Ler páginas 385 a 388.", link: ""
+            },
+            {
+                id: "ag3-88", aula_num: "Aula 13", excel_ref: "Excel 88", modulo: "Módulo 24",
+                titulo: "ISTs Virais: HIV/AIDS, HPV e Hepatites Virais", foco_pedagogico: "Imunologia & Vacinação",
+                datas: { "8B": "26/10 (Seg - 11:10)", "8AM": "22/10 (Qui - 10:20)", "8AT": "22/10 (Qui - 14:10)" },
+                objetivos: ["Diferenciar HIV de AIDS.", "Explicar HPV e vacinação no SUS."],
+                materiais: "Cartaz de vacinação HPV, esquema imunológico.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Soropositividade vs AIDS",
+                    detalhes: "Bell Work diferenciando infecção crônica de síndrome."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Imunologia Viral",
+                    detalhes: "Estudo do HIV (CD4, TARV, PEP, PrEP) e HPV."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Matriz de Estigmas",
+                    detalhes: "Desmistificação de formas de transmissão."
+                },
+                estrategias_cognitivas: "Elaboração imunológica.", avaliacao_formativa: "Checagem sobre HPV.",
+                tarefa_casa: "PA pág. 390 (questões 1 a 4).", link: ""
+            },
+            {
+                id: "ag3-89", aula_num: "Aula 14", excel_ref: "Excel 89", modulo: "Módulo 24",
+                titulo: "Tricomoníase, Testagem Rápida & Campanhas do SUS", foco_pedagogico: "Far Transfer em Saúde Coletiva",
+                datas: { "8B": "27/10 (Ter - 07:10)", "8AM": "26/10 (Seg - 08:00)", "8AT": "22/10 (Qui - 17:10)" },
+                objetivos: ["Identificar Tricomoníase (protozoário).", "Compreender testagem rápida gratuita no CTA/SUS."],
+                materiais: "Kits de demonstração de testes rápidos, cartolina.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Infecções Silenciosas",
+                    detalhes: "Discussão sobre o fato de 70% das ISTs não apresentarem sintomas."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Rede SUS e Tricomoníase",
+                    detalhes: "Estudo da tricomoníase e funcionamento dos CTAs."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Exposição de Slogans",
+                    detalhes: "Apresentação dos cartazes criados."
+                },
+                estrategias_cognitivas: "Dual Coding criativo.", avaliacao_formativa: "DH pág. 391.",
+                acessorio: {
+                    tipo: "Trabalho / Campanha de Saúde",
+                    titulo: "Oficina de Slogans de Saúde Coletiva para o SUS",
+                    instrucoes: "1. Em equipes, os alunos utilizam os Chromebooks na Sala Google para criar uma campanha visual curta (panfleto digital ou slogan) incentivando a testagem regular de ISTs no SUS.\n2. Exposição rápida das peças criadas diretamente no projetor ou telas da Sala Google."
+                },
+                tarefa_casa: "Estudar Módulo 18 para retomada.", link: ""
+            },
+            {
+                id: "ag3-90", aula_num: "Aula 15", excel_ref: "Excel 90", modulo: "Módulo 18",
+                titulo: "Retomada Cumulativa: Sistema Genital Humano & Gametogênese", foco_pedagogico: "Spaced Retrieval Intercalado",
+                datas: { "8B": "27/10 (Ter - 08:00)", "8AM": "26/10 (Seg - 10:20)", "8AT": "26/10 (Seg - 14:10)" },
+                objetivos: ["Resgatar conceitos do Módulo 18 (Cumulativo AG3).", "Comparar espermatogênese e ovulogênese."],
+                materiais: "Diagramas cegos, folhas de Brain Dump.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (8 min): Brain Dump Cumulativo",
+                    detalhes: "Listagem de memória do trajeto dos gametas."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Reconstrução Anatômica",
+                    detalhes: "Revisão dos diagramas genitais e tabela comparativa."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Correção Ativa",
+                    detalhes: "Validação em tempo real."
+                },
+                estrategias_cognitivas: "Spaced Retrieval e Interleaving.", avaliacao_formativa: "Brain Dump.",
+                tarefa_casa: "Lista de Revisão Módulo 18.", link: ""
+            },
+            {
+                id: "ag3-91", aula_num: "Aula 16", excel_ref: "Excel 91", modulo: "Revisão",
+                titulo: "Oficina de Recuperação Ativa & Simulado Diagnóstico Pré-AG3", foco_pedagogico: "Testing Effect",
+                datas: { "8B": "03/11 (Ter - 07:10)", "8AM": "29/10 (Qui - 10:20)", "8AT": "29/10 (Qui - 14:10)" },
+                objetivos: ["Consolidar matriz integrativa AG3.", "Aplicar mini-simulado diagnóstico estilo prova."],
+                materiais: "Mini-Simulado Impresso Pré-AG3, gabarito.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (15 min): Simulado Sob Pressão",
+                    detalhes: "Aplicação de mini-simulado individual em tempo estrito."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Correção por Pares",
+                    detalhes: "Troca de provas e explicação comentada no quadro de cada distrador."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Calibração Metacognitiva",
+                    detalhes: "Preenchimento da ficha de pontos a revisar."
+                },
+                estrategias_cognitivas: "Testing Effect.", avaliacao_formativa: "Simulado.",
+                tarefa_casa: "Estudo focado no ponto fraco.", link: ""
+            },
+            {
+                id: "ag3-92", aula_num: "Aula 17", excel_ref: "Excel 92", modulo: "Revisão",
+                titulo: "Sintetização Geral de Fechamento do Conteúdo Programático", foco_pedagogico: "Fechamento Até 06/11",
+                datas: { "8B": "03/11 (Ter - 08:00)", "8AM": "05/11 (Qui - 10:20)", "8AT": "29/10 (Qui - 17:10)" },
+                objetivos: ["Finalizar conteúdo programático dentro do prazo (06/11).", "Alinhar rotina para aulas extras de 09/11 e 10/11."],
+                materiais: "Mapa integrativo no quadro.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Panorama Global",
+                    detalhes: "Análise do mapa integrativo unindo todos os módulos."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Tira-Dúvidas Final",
+                    detalhes: "Esclarecimento de dúvidas e orientações para aulas extras."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Entrega da Ficha de Estudos",
+                    detalhes: "Instruções finais para a véspera da prova."
+                },
+                estrategias_cognitivas: "Síntese macro-conceitual.", avaliacao_formativa: "Prontidão.",
+                tarefa_casa: "Revisar fichas resumo.", link: ""
+            },
+            {
+                id: "ag3-93", aula_num: "Aula Extra 01", excel_ref: "Extra 01", modulo: "Extra",
+                titulo: "Aula Extra de Retomada Integrada & Plantão Pré-AG3", foco_pedagogico: "Retomada & Plantão (Prova 11/11)",
+                datas: { "8B": "09/11 (Seg - 11:10)", "8AM": "09/11 (Seg - 08:00)", "8AT": "05/11 (Qui - 14:10) / 09/11 (Seg - 14:10)" },
+                objetivos: ["Aproveitar semana da prova para retomada focada.", "Resolver questões complexas de gráficos e cálculos."],
+                materiais: "Banco de questões de fixação, gráficos.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (10 min): Warm-up Gráfico",
+                    detalhes: "Análise relâmpago de 2 gráficos de ciclo menstrual."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Resolução em Grupos",
+                    detalhes: "Trabalho em equipes em questões de far transfer."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Mural de Dúvidas Rápidas",
+                    detalhes: "Solução expressa das incertezas finais."
+                },
+                estrategias_cognitivas: "Spaced Retrieval de véspera.", avaliacao_formativa: "Prontidão.",
+                tarefa_casa: "Revisão leve para 11/11.", link: ""
+            },
+            {
+                id: "ag3-94", aula_num: "Aula Extra 02", excel_ref: "Extra 02", modulo: "Extra",
+                titulo: "Aula Extra de Retomada Final & Tira-Dúvidas (Véspera)", foco_pedagogico: "Confiança Cognitiva (Prova 11/11)",
+                datas: { "8B": "10/11 (Ter - 07:10 e 08:00)", "8AM": "09/11 (Seg - 10:20)", "8AT": "05/11 (Qui - 17:10)" },
+                objetivos: ["Concluir ciclo de retomada pré-AG3.", "Revisar Módulo 18 cumulativo e segurança para a prova."],
+                materiais: "Esquemas de gametogênese comparada.",
+                abertura: {
+                    titulo: "1. Abertura & Engajamento (8 min): Desafio Ativo",
+                    detalhes: "Diferenciação mnemônica entre espermatogênese e ovulogênese."
+                },
+                desenvolvimento: {
+                    titulo: "2. Desenvolvimento & Prática Guiada (30 min): Revisão Relâmpago Crítica",
+                    detalhes: "Repaso final dos pontos nevrálgicos para a prova de amanhã."
+                },
+                fechamento: {
+                    titulo: "3. Fechamento & Consolidação (10 min): Checklist Metacognitivo",
+                    detalhes: "Validação individual de autoeficácia."
+                },
+                estrategias_cognitivas: "Redução de ansiedade.", avaliacao_formativa: "Checklist.",
+                tarefa_casa: "Sucesso na Prova Oficial AG3 amanhã!", link: ""
+            }
+        ];
+
+        // Estado Global
+        let cicloAtual = 'AP3';
+        let turmaAtual = 'todas';
+        let concluidasState = JSON.parse(localStorage.getItem('concluidas_eudson_8ano') || '{}');
+
+        const modulosAP3 = ["Introdução", "Módulo 15", "Módulo 16", "Módulo 17", "Módulo 18", "Módulo 19", "Retomada", "Módulo 20"];
+        const modulosAG3 = ["Módulo 20", "Módulo 21", "Módulo 22", "Módulo 23", "Módulo 24", "Módulo 18", "Revisão", "Extra"];
+
+        function atualizarSelectModulos() {
+            const select = document.getElementById('moduloSelect');
+            select.innerHTML = '<option value="todos">Todos os Módulos</option>';
+            const modulos = cicloAtual === 'AP3' ? modulosAP3 : modulosAG3;
+            modulos.forEach(mod => {
+                select.innerHTML += `<option value="${mod}">${mod}</option>`;
+            });
+        }
+
+        function switchCiclo(ciclo) {
+            cicloAtual = ciclo;
+            document.getElementById('tabAP3').className = ciclo === 'AP3' ? "flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-lg" : "flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white";
+            document.getElementById('tabAG3').className = ciclo === 'AG3' ? "flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-indigo-600 text-white shadow-lg" : "flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white";
+            
+            document.getElementById('cicloBadge').innerText = ciclo === 'AP3' ? "Ciclo AP3" : "Ciclo AG3";
+            document.getElementById('cicloBadge').className = ciclo === 'AP3' ? "bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-medium" : "bg-indigo-500/20 text-indigo-300 text-xs px-2.5 py-0.5 rounded-full border border-indigo-500/30 font-medium";
+            
+            document.getElementById('statLabelAulas').innerText = ciclo === 'AP3' ? "Aulas no Ciclo AP3" : "Aulas no Ciclo AG3";
+
+            atualizarSelectModulos();
+            renderAulas();
+        }
+
+        function setTurma(turma) {
+            turmaAtual = turma;
+            document.querySelectorAll('.turma-btn').forEach(btn => {
+                btn.className = "turma-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition border border-slate-800 whitespace-nowrap";
+            });
+            const activeColor = cicloAtual === 'AP3' ? 'bg-emerald-600 text-white shadow-lg border-emerald-500' : 'bg-indigo-600 text-white shadow-lg border-indigo-500';
+            document.getElementById(`btn-${turma}`).className = `turma-btn ${activeColor} text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap`;
+            renderAulas();
+        }
+
+        function renderAulas() {
+            const grid = document.getElementById('aulasGrid');
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const moduloVal = document.getElementById('moduloSelect').value;
+
+            const dataSource = cicloAtual === 'AP3' ? aulasAP3 : aulasAG3;
+            grid.innerHTML = '';
+
+            const filtradas = dataSource.filter(aula => {
+                const matchSearch = aula.titulo.toLowerCase().includes(searchVal) || 
+                                    aula.modulo.toLowerCase().includes(searchVal) ||
+                                    aula.foco_pedagogico.toLowerCase().includes(searchVal) ||
+                                    aula.aula_num.toLowerCase().includes(searchVal);
+                
+                const matchModulo = moduloVal === 'todos' || aula.modulo.includes(moduloVal);
+                return matchSearch && matchModulo;
+            });
+
+            document.getElementById('totalAulasCount').innerText = dataSource.length;
+            let concluidasNum = dataSource.filter(a => concluidasState[a.id]).length;
+            document.getElementById('concluidasCount').innerText = concluidasNum;
+
+            if (filtradas.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-slate-500">
+                        <i class="fa-solid fa-folder-open text-4xl mb-3"></i>
+                        <p class="text-sm">Nenhum plano de aula encontrado com os filtros selecionados.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtradas.forEach(aula => {
+                const isConcluido = concluidasState[aula.id] || false;
+                const temAcessorio = aula.acessorio ? true : false;
+                const accentColor = cicloAtual === 'AP3' ? 'emerald' : 'indigo';
+
+                let badgeColor = "bg-slate-800 text-slate-300 border-slate-700";
+                if(aula.modulo.includes("Módulo 15") || aula.modulo.includes("Módulo 20")) badgeColor = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
+                if(aula.modulo.includes("Módulo 16") || aula.modulo.includes("Módulo 21")) badgeColor = "bg-pink-500/20 text-pink-300 border-pink-500/30";
+                if(aula.modulo.includes("Módulo 17") || aula.modulo.includes("Módulo 22")) badgeColor = "bg-amber-500/20 text-amber-300 border-amber-500/30";
+                if(aula.modulo.includes("Módulo 18") || aula.modulo.includes("Módulo 23")) badgeColor = "bg-purple-500/20 text-purple-300 border-purple-500/30";
+                if(aula.modulo.includes("Módulo 19") || aula.modulo.includes("Módulo 24")) badgeColor = "bg-rose-500/20 text-rose-300 border-rose-500/30";
+                if(aula.modulo.includes("Retomada") || aula.modulo.includes("Revisão")) badgeColor = "bg-indigo-500/20 text-indigo-300 border-indigo-500/30";
+
+                // Estilização diferenciada (borda âmbar/dourada) para aulas com atividades acessórias especiais
+                let cardBorderClass = "border-slate-800";
+                if (temAcessorio) {
+                    cardBorderClass = "border-amber-500/70 bg-amber-950/10 shadow-amber-500/5";
+                } else if (isConcluido) {
+                    cardBorderClass = "border-emerald-500/60 bg-emerald-950/10";
+                }
+
+                let datasHtml = '';
+                if (turmaAtual === 'todas') {
+                    datasHtml = `
+                        <div class="text-xs text-slate-400 space-y-1 mt-2 bg-slate-950/60 p-2.5 rounded border border-slate-800">
+                            <div><strong class="text-slate-300">8ºB:</strong> ${aula.datas['8B']}</div>
+                            <div><strong class="text-slate-300">8ºA (M):</strong> ${aula.datas['8AM']}</div>
+                            <div><strong class="text-slate-300">8ºA (T):</strong> ${aula.datas['8AT']}</div>
+                        </div>
+                    `;
+                } else {
+                    const labelTurma = turmaAtual === '8B' ? '8ºB (Manhã)' : (turmaAtual === '8AM' ? '8ºA (Manhã)' : '8ºA (Tarde)');
+                    datasHtml = `
+                        <div class="text-xs text-${accentColor}-400 font-medium mt-2 bg-${accentColor}-950/30 p-2.5 rounded border border-${accentColor}-800/40">
+                            <i class="fa-regular fa-clock mr-1"></i> <strong>${labelTurma}:</strong> ${aula.datas[turmaAtual]}
+                        </div>
+                    `;
+                }
+
+                const card = document.createElement('div');
+                card.className = `bg-slate-900/80 hover:bg-slate-900 border ${cardBorderClass} hover:border-${accentColor}-500/50 rounded-xl p-5 transition flex flex-col justify-between group shadow-lg relative overflow-hidden`;
+
+                card.innerHTML = `
+                    <div onclick="openModal('${aula.id}')" class="cursor-pointer">
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="bg-${accentColor}-500/20 text-${accentColor}-300 border border-${accentColor}-500/30 font-bold text-xs px-2.5 py-1 rounded-full">${aula.aula_num}</span>
+                            <span class="text-xs border px-2 py-0.5 rounded ${badgeColor}">${aula.modulo} (${aula.excel_ref})</span>
+                        </div>
+                        ${temAcessorio ? `
+                            <div class="mb-2 inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-semibold px-2.5 py-0.5 rounded-full">
+                                <i class="fa-solid fa-puzzle-piece text-amber-400"></i> ${aula.acessorio.tipo}
+                            </div>
+                        ` : ''}
+                        <h3 class="font-semibold text-slate-100 text-base group-hover:text-${accentColor}-400 transition mb-2">${aula.titulo}</h3>
+                        <p class="text-xs sm:text-sm text-slate-400 line-clamp-2 mb-3"><i class="fa-solid fa-brain text-${accentColor}-400 mr-1"></i> ${aula.foco_pedagogico}</p>
+                    </div>
+                    <div>
+                        <div onclick="openModal('${aula.id}')" class="cursor-pointer">
+                            ${datasHtml}
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs sm:text-sm">
+                            <button onclick="toggleConcluido('${aula.id}')" class="flex items-center gap-1.5 font-medium ${isConcluido ? 'text-emerald-400' : 'text-slate-400 hover:text-white'} transition">
+                                <i class="fa-solid ${isConcluido ? 'fa-square-check text-lg' : 'fa-square text-lg'}"></i>
+                                <span>${isConcluido ? 'Concluído (OK)' : 'Marcar OK'}</span>
+                            </button>
+                            ${aula.link ? `<a href="${aula.link}" target="_blank" class="text-sky-400 hover:underline flex items-center gap-1"><i class="fa-solid fa-link text-xs"></i> Link</a>` : ''}
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleConcluido(id) {
+            concluidasState[id] = !concluidasState[id];
+            localStorage.setItem('concluidas_eudson_8ano', JSON.stringify(concluidasState));
+            renderAulas();
+        }
+
+        function toggleAccordion(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                el.classList.add('hidden');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        }
+
+        function openModal(id) {
+            const dataSource = cicloAtual === 'AP3' ? aulasAP3 : aulasAG3;
+            const aula = dataSource.find(a => a.id === id);
+            if (!aula) return;
+
+            document.getElementById('modalNumberBadge').innerText = `${aula.aula_num} • Ref: ${aula.excel_ref}`;
+            document.getElementById('modalModuloTag').innerText = aula.modulo;
+
+            const accentColor = cicloAtual === 'AP3' ? 'emerald' : 'indigo';
+
+            const content = document.getElementById('modalContent');
+            content.innerHTML = `
+                <div class="bg-slate-800/80 p-4 sm:p-5 rounded-xl border border-slate-700 space-y-3">
+                    <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap text-${accentColor}-400"></i>
+                        ${aula.titulo}
+                    </h2>
+                    <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-300 pt-2 border-t border-slate-700/60">
+                        <div><strong class="text-slate-400">Ciclo:</strong> ${cicloAtual}</div>
+                        <div><strong class="text-slate-400">Docente:</strong> Prof. Eudson Marques</div>
+                        <div><strong class="text-slate-400">Foco Cognitivo:</strong> <span class="text-${accentColor}-300 font-semibold">${aula.foco_pedagogico}</span></div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs pt-2 text-slate-400">
+                        <div class="bg-slate-900/80 p-2.5 rounded border border-slate-800"><strong>Turma 8ºB:</strong> ${aula.datas['8B']}</div>
+                        <div class="bg-slate-900/80 p-2.5 rounded border border-slate-800"><strong>Turma 8ºA (M):</strong> ${aula.datas['8AM']}</div>
+                        <div class="bg-slate-900/80 p-2.5 rounded border border-slate-800"><strong>Turma 8ºA (T):</strong> ${aula.datas['8AT']}</div>
+                    </div>
+                    ${aula.link ? `<div class="pt-2"><a href="${aula.link}" target="_blank" class="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm px-3.5 py-2 rounded-lg transition font-medium"><i class="fa-solid fa-link"></i> Acessar Link Externo de Apoio</a></div>` : ''}
+                </div>
+
+                <!-- BLOCO EXCLUSIVO DE ATIVIDADE ACESSÓRIA (SE HOUVER) -->
+                ${aula.acessorio ? `
+                    <div class="bg-amber-950/30 border-l-4 border-amber-500 border border-amber-500/40 p-4 sm:p-5 rounded-xl space-y-2 shadow-lg">
+                        <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-puzzle-piece"></i> Ferramenta Acessória: ${aula.acessorio.tipo}
+                        </h3>
+                        <p class="text-xs sm:text-sm font-semibold text-amber-200">${aula.acessorio.titulo}</p>
+                        <div class="text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-amber-500/30 whitespace-pre-line">
+                            <strong>Orientações de Execução:</strong><br>
+                            ${aula.acessorio.instrucoes}
+                        </div>
+                    </div>
+                ` : ''}
+
+                <div>
+                    <h3 class="text-xs sm:text-sm font-bold text-${accentColor}-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-bullseye"></i> Objetivos de Aprendizagem
+                    </h3>
+                    <ul class="list-disc list-inside space-y-1.5 bg-slate-800/40 p-4 rounded-lg border border-slate-800 text-slate-200 text-xs sm:text-sm">
+                        ${aula.objetivos.map(obj => `<li>${obj}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xs sm:text-sm font-bold text-purple-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-box-open"></i> Materiais &amp; Recursos Didáticos
+                    </h3>
+                    <p class="bg-slate-800/40 p-4 rounded-lg border border-slate-800 text-slate-300 text-xs sm:text-sm">${aula.materiais}</p>
+                </div>
+
+                <!-- DESENVOLVIMENTO METODOLÓGICO (ACCORDIONS) -->
+                <div>
+                    <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check"></i> Desenvolvimento Metodológico Detalhado (Ciência da Aprendizagem)
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-slate-800/50 rounded-xl border-l-4 border-emerald-500 border border-slate-800 overflow-hidden transition">
+                            <div onclick="toggleAccordion('step1')" class="p-3.5 sm:p-4 flex justify-between items-center cursor-pointer hover:bg-slate-800/80 transition">
+                                <span class="font-bold text-emerald-400 text-xs sm:text-sm">${aula.abertura.titulo}</span>
+                                <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition" id="step1-icon"></i>
+                            </div>
+                            <div id="step1" class="hidden p-4 pt-0 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 mt-2 bg-slate-900/40 whitespace-pre-line">
+                                <p class="pt-2">${aula.abertura.detalhes}</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/50 rounded-xl border-l-4 border-amber-500 border border-slate-800 overflow-hidden transition">
+                            <div onclick="toggleAccordion('step2')" class="p-3.5 sm:p-4 flex justify-between items-center cursor-pointer hover:bg-slate-800/80 transition">
+                                <span class="font-bold text-amber-400 text-xs sm:text-sm">${aula.desenvolvimento.titulo}</span>
+                                <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition" id="step2-icon"></i>
+                            </div>
+                            <div id="step2" class="hidden p-4 pt-0 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 mt-2 bg-slate-900/40 whitespace-pre-line">
+                                <p class="pt-2">${aula.desenvolvimento.detalhes}</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/50 rounded-xl border-l-4 border-blue-500 border border-slate-800 overflow-hidden transition">
+                            <div onclick="toggleAccordion('step3')" class="p-3.5 sm:p-4 flex justify-between items-center cursor-pointer hover:bg-slate-800/80 transition">
+                                <span class="font-bold text-blue-400 text-xs sm:text-sm">${aula.fechamento.titulo}</span>
+                                <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition" id="step3-icon"></i>
+                            </div>
+                            <div id="step3" class="hidden p-4 pt-0 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 mt-2 bg-slate-900/40 whitespace-pre-line">
+                                <p class="pt-2">${aula.fechamento.detalhes}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl">
+                        <h4 class="text-xs sm:text-sm font-bold text-${accentColor}-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-brain"></i> Ciência da Aprendizagem
+                        </h4>
+                        <p class="text-xs sm:text-sm text-slate-300">${aula.estrategias_cognitivas}</p>
+                    </div>
+                    <div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl">
+                        <h4 class="text-xs sm:text-sm font-bold text-rose-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                            <i class="fa-solid fa-check-double"></i> Avaliação Formativa
+                        </h4>
+                        <p class="text-xs sm:text-sm text-slate-300">${aula.avaliacao_formativa}</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex items-center gap-3">
+                    <div class="bg-sky-500/20 text-sky-400 p-2.5 rounded-lg text-xl"><i class="fa-solid fa-house-chimney"></i></div>
+                    <div>
+                        <span class="text-xs font-bold text-slate-400 uppercase block">Atividade de Casa / Tarefa</span>
+                        <span class="text-xs sm:text-sm font-medium text-slate-200">${aula.tarefa_casa}</span>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('lessonModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('lessonModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            atualizarSelectModulos();
+            renderAulas();
+        });
+    </script>
+</body>
+</html>
