@@ -3,141 +3,1913 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas de Ciências — 8º Ano | Prof. Eudson Marques</title>
-    <!-- Tailwind CSS -->
+    <meta name="theme-color" content="#0f172a">
+    <title>Canvas de Ciências — Multi-Séries | Prof. Eudson Marques</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
         .modal-blur { backdrop-filter: blur(8px); }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .view-transition { animation: viewIn .28s ease-out; }
+        @keyframes viewIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .flow-stage { position: relative; }
+        @media (min-width: 768px) {
+            .flow-stage:not(:last-child)::after {
+                content: ""; position: absolute; top: 25px; right: -13px; width: 26px; height: 2px; background: #334155;
+            }
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col custom-scrollbar text-sm sm:text-base">
+<body class="bg-slate-950 text-slate-100 min-h-screen custom-scrollbar text-sm sm:text-base">
+    <!-- Safelist de cores usadas dinamicamente pelo Tailwind CDN -->
+    <div class="hidden bg-amber-600 bg-teal-600 bg-indigo-600 bg-rose-600 border-amber-500 border-teal-500 border-indigo-500 border-rose-500 text-amber-300 text-teal-300 text-indigo-300 text-rose-300 bg-amber-500/20 bg-teal-500/20 bg-indigo-500/20 bg-rose-500/20 border-amber-500/30 border-teal-500/30 border-indigo-500/30 border-rose-500/30 shadow-amber-500/10 shadow-teal-500/10 shadow-indigo-500/10 shadow-rose-500/10"></div>
 
-    <!-- HEADER PRINCIPAL -->
-    <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-30 px-4 sm:px-6 py-4">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-emerald-500/20 text-emerald-400 p-3 rounded-xl border border-emerald-500/30">
-                    <i class="fa-solid fa-dna text-2xl"></i>
+    <!-- HOME -->
+    <div id="homeView" class="min-h-screen flex flex-col max-w-7xl mx-auto w-full px-4 sm:px-8">
+        <header class="text-center pt-10 sm:pt-14 pb-7 space-y-3">
+            <div class="inline-flex items-center justify-center p-3.5 bg-emerald-500/20 border border-emerald-500/30 rounded-2xl text-emerald-400 shadow-lg">
+                <i class="fa-solid fa-graduation-cap text-3xl"></i>
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Canvas de Ciências — Gestão Pedagógica</h1>
+            <p class="text-slate-400 text-sm sm:text-base max-w-3xl mx-auto">Prof. Eudson Marques • Planejamento fundamentado em Ciência da Aprendizagem, Neurociência Cognitiva e Metodologias Ativas</p>
+        </header>
+
+        <main class="flex-1 flex items-center py-5 sm:py-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 w-full">
+                <article class="relative bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/40 border border-amber-500/20 rounded-2xl p-6 sm:p-7 opacity-70">
+                    <div class="flex justify-between gap-4">
+                        <div><span class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full">EFAF • Em preparação</span>
+                        <h2 class="text-2xl font-bold text-white mt-4">6º Ano — Ciências</h2></div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-300"><i class="fa-solid fa-seedling text-xl"></i></div>
+                    </div>
+                    <p class="text-slate-400 text-sm mt-4">Espaço reservado para os planos, turmas e ciclos do 6º ano.</p>
+                    <div class="mt-6 pt-4 border-t border-slate-800 text-xs font-semibold text-amber-300">Conteúdo será adicionado depois</div>
+                </article>
+
+                <article onclick="selectSerie('7')" class="group relative bg-gradient-to-br from-slate-900 via-slate-900 to-teal-950/50 border border-teal-500/30 hover:border-teal-500 rounded-2xl p-6 sm:p-7 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/10">
+                    <div class="flex justify-between gap-4">
+                        <div><span class="inline-block bg-teal-500/20 text-teal-300 border border-teal-500/30 text-xs font-bold px-3 py-1 rounded-full">EFAF • 7ºA e 7ºB</span>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-teal-300 transition mt-4">7º Ano — Ciências da Natureza</h2></div>
+                        <div class="w-12 h-12 rounded-xl bg-teal-500/20 flex items-center justify-center text-teal-300 group-hover:scale-110 transition"><i class="fa-solid fa-atom text-xl"></i></div>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-4">Forças e Leis de Newton, máquinas simples, Termologia, atmosfera, combustíveis, tecnologia e inteligência artificial.</p>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-teal-300 font-semibold text-sm"><span><span id="homeCount7">0</span> planos estruturados</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition"></i></div>
+                </article>
+
+                <article onclick="selectSerie('8')" class="group relative bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/50 border border-indigo-500/30 hover:border-indigo-500 rounded-2xl p-6 sm:p-7 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/10">
+                    <div class="flex justify-between gap-4">
+                        <div><span class="inline-block bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold px-3 py-1 rounded-full">EFAF • 8ºB, 8ºA (M) e 8ºA (T)</span>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-indigo-300 transition mt-4">8º Ano — Biologia & Neurociência</h2></div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-300 group-hover:scale-110 transition"><i class="fa-solid fa-dna text-xl"></i></div>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-4">Reprodução, Embriologia, Botânica, Sistema Endócrino, sexualidade, contracepção e ISTs.</p>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-indigo-300 font-semibold text-sm"><span><span id="homeCount8">0</span> planos estruturados</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition"></i></div>
+                </article>
+
+                <article class="relative bg-gradient-to-br from-slate-900 via-slate-900 to-rose-950/40 border border-rose-500/20 rounded-2xl p-6 sm:p-7 opacity-70">
+                    <div class="flex justify-between gap-4">
+                        <div><span class="inline-block bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold px-3 py-1 rounded-full">EFAF • Em preparação</span>
+                        <h2 class="text-2xl font-bold text-white mt-4">9º Ano — Ciências</h2></div>
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-300"><i class="fa-solid fa-microscope text-xl"></i></div>
+                    </div>
+                    <p class="text-slate-400 text-sm mt-4">Espaço reservado para os planos, turmas e ciclos do 9º ano.</p>
+                    <div class="mt-6 pt-4 border-t border-slate-800 text-xs font-semibold text-rose-300">Conteúdo será adicionado depois</div>
+                </article>
+            </div>
+        </main>
+        <footer class="text-center py-5 text-xs text-slate-500 border-t border-slate-900">Plataforma de Apoio Docente • Prof. Eudson Marques © 2026</footer>
+    </div>
+
+    <!-- PAINEL POR SÉRIE -->
+    <div id="appView" class="hidden min-h-screen flex-col view-transition">
+        <header class="bg-slate-900/90 border-b border-slate-800 backdrop-blur sticky top-0 z-30 px-4 sm:px-6 py-4">
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div class="flex items-center gap-3 min-w-0">
+                    <button onclick="goHome()" class="shrink-0 bg-slate-800 hover:bg-slate-700 text-slate-300 p-2.5 rounded-xl border border-slate-700 transition" title="Voltar à Home"><i class="fa-solid fa-house"></i></button>
+                    <div id="headerIconContainer" class="shrink-0 p-3 rounded-xl border"><i id="headerIcon" class="fa-solid fa-dna text-2xl"></i></div>
+                    <div class="min-w-0">
+                        <h1 class="text-lg sm:text-xl font-bold text-white flex flex-wrap items-center gap-2"><span id="headerTitle">Ciências</span><span id="cicloBadge" class="text-xs px-2.5 py-0.5 rounded-full border font-medium">Ciclo AP3</span></h1>
+                        <p class="text-xs sm:text-sm text-slate-400 truncate">Prof. Eudson Marques • <span id="headerSubtitle"></span></p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                        Ciências — 8º Ano (EFAF)
-                        <span id="cicloBadge" class="bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-medium">Ciclo AP3</span>
-                    </h1>
-                    <p class="text-xs sm:text-sm text-slate-400">Prof. Eudson Marques • Ciência da Aprendizagem &amp; Neurociência Cognitiva</p>
+                <div class="flex items-center bg-slate-950 p-1.5 rounded-xl border border-slate-800 w-full sm:w-auto">
+                    <button onclick="switchCiclo('AP3')" id="tabAP3" class="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition"><i class="fa-solid fa-book-open mr-1.5"></i> Ciclo AP3</button>
+                    <button onclick="switchCiclo('AG3')" id="tabAG3" class="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition"><i class="fa-solid fa-microscope mr-1.5"></i> Ciclo AG3</button>
                 </div>
             </div>
+        </header>
 
-            <!-- SISTEMA DE ABAS (CICLOS) -->
-            <div class="flex items-center bg-slate-950 p-1.5 rounded-xl border border-slate-800 w-full sm:w-auto">
-                <button onclick="switchCiclo('AP3')" id="tabAP3" class="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-lg">
-                    <i class="fa-solid fa-book-open mr-1.5"></i> Ciclo AP3 (Cad. 3)
-                </button>
-                <button onclick="switchCiclo('AG3')" id="tabAG3" class="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white">
-                    <i class="fa-solid fa-microscope mr-1.5"></i> Ciclo AG3 (Cad. 4)
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- BARRA DE FERRAMENTAS E FILTROS -->
-    <section class="bg-slate-950/60 border-b border-slate-800/80 px-4 sm:px-6 py-4">
-        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
-            <!-- SELEÇÃO DE TURMA -->
-            <div class="flex items-center gap-2 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0">
-                <span class="text-xs sm:text-sm font-semibold text-slate-400 uppercase tracking-wider mr-2">Turma:</span>
-                <button onclick="setTurma('todas')" id="btn-todas" class="turma-btn bg-emerald-600 text-white text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium shadow-lg transition whitespace-nowrap">Todas</button>
-                <button onclick="setTurma('8B')" id="btn-8B" class="turma-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition border border-slate-800 whitespace-nowrap">8ºB (Manhã)</button>
-                <button onclick="setTurma('8AM')" id="btn-8AM" class="turma-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition border border-slate-800 whitespace-nowrap">8ºA (Manhã)</button>
-                <button onclick="setTurma('8AT')" id="btn-8AT" class="turma-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition border border-slate-800 whitespace-nowrap">8ºA (Tarde)</button>
-            </div>
-
-            <!-- FILTRO POR MÓDULO E BUSCA -->
-            <div class="flex items-center gap-3 w-full lg:w-auto">
-                <div class="relative w-full sm:w-64">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs sm:text-sm"></i>
-                    <input type="text" id="searchInput" oninput="renderAulas()" placeholder="Buscar conteúdo ou palavra-chave..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-3 py-2 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition">
+        <section class="bg-slate-950/60 border-b border-slate-800/80 px-4 sm:px-6 py-4">
+            <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+                <div id="turmasContainer" class="flex items-center gap-2 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 custom-scrollbar"></div>
+                <div class="flex items-center gap-3 w-full lg:w-auto">
+                    <div class="relative w-full sm:w-72"><i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i><input type="text" id="searchInput" oninput="renderAulas()" placeholder="Buscar conteúdo, estratégia ou palavra-chave..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-9 pr-3 py-2 text-xs sm:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"></div>
+                    <select id="moduloSelect" onchange="renderAulas()" class="max-w-48 bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-200 focus:outline-none focus:border-emerald-500 transition"><option value="todos">Todos os Módulos</option></select>
                 </div>
-                <select id="moduloSelect" onchange="renderAulas()" class="bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs sm:text-sm text-slate-200 focus:outline-none focus:border-emerald-500 transition">
-                    <option value="todos">Todos os Módulos</option>
-                </select>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CONTAINER PRINCIPAL DOS CARDS -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
-        <!-- ESTATÍSTICAS RÁPIDAS -->
-        <div class="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs sm:text-sm text-slate-400 font-medium" id="statLabelAulas">Aulas no Ciclo</p>
-                    <p class="text-xl sm:text-2xl font-bold text-white mt-1" id="totalAulasCount">0</p>
-                </div>
-                <div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-book-open"></i></div>
+        <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
+            <div class="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium" id="statLabelAulas">Aulas no Ciclo</p><p class="text-xl sm:text-2xl font-bold text-white mt-1" id="totalAulasCount">0</p></div><div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-book-open"></i></div></div>
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium">Aulas Concluídas</p><p class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1" id="concluidasCount">0</p></div><div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-square-check"></i></div></div>
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium">Foco Pedagógico</p><p class="text-lg sm:text-xl font-bold text-indigo-300 mt-1" id="focoStatText">Ciência da Aprendizagem</p></div><div class="bg-indigo-500/10 text-indigo-400 p-3 rounded-lg"><i class="fa-solid fa-brain"></i></div></div>
             </div>
-            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs sm:text-sm text-slate-400 font-medium">Aulas Concluídas (Checklist)</p>
-                    <p class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1" id="concluidasCount">0</p>
-                </div>
-                <div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-square-check"></i></div>
-            </div>
-            <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs sm:text-sm text-slate-400 font-medium">Foco Pedagógico</p>
-                    <p class="text-xl sm:text-2xl font-bold text-indigo-400 mt-1">Neurociência</p>
-                </div>
-                <div class="bg-indigo-500/10 text-indigo-400 p-3 rounded-lg"><i class="fa-solid fa-brain"></i></div>
-            </div>
-        </div>
+            <div id="aulasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        </main>
+    </div>
 
-        <!-- GRID DE CARDS DE AULA -->
-        <div id="aulasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <!-- Renderizado dinamicamente via JS -->
-        </div>
-    </main>
-
-    <!-- MODAL DETALHADO DO PLANO DE AULA -->
+    <!-- MODAL -->
     <div id="lessonModal" class="fixed inset-0 bg-slate-950/80 modal-blur z-50 flex items-center justify-center p-2 sm:p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <!-- CABEÇALHO DO MODAL -->
-            <div class="bg-slate-800/90 border-b border-slate-700 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-10">
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <span id="modalNumberBadge" class="bg-emerald-500 text-slate-950 font-bold text-xs px-2.5 py-1 rounded-full">Aula 01</span>
-                    <span id="modalModuloTag" class="text-xs bg-slate-700 text-slate-300 px-2.5 py-1 rounded-md font-medium">Módulo</span>
-                </div>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-700 transition">
-                    <i class="fa-solid fa-xmark text-lg sm:text-xl"></i>
-                </button>
-            </div>
-
-            <!-- CONTEÚDO DO PLANO DE AULA (SCROLLABLE) -->
-            <div id="modalContent" class="p-4 sm:p-6 overflow-y-auto custom-scrollbar space-y-6 text-sm sm:text-base text-slate-300">
-                <!-- Preenchido via JavaScript -->
-            </div>
-
-            <!-- RODAPÉ DO MODAL -->
-            <div class="bg-slate-800/50 border-t border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between">
-                <span class="text-xs sm:text-sm text-slate-400"><i class="fa-solid fa-circle-info text-emerald-400 mr-1"></i> Ciência da Aprendizagem Ativa</span>
-                <button onclick="closeModal()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs sm:text-sm px-4 py-2 rounded-lg font-medium transition">Fechar Plano</button>
-            </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-5xl max-h-[94vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="bg-slate-800/90 border-b border-slate-700 px-4 sm:px-6 py-4 flex items-center justify-between sticky top-0 z-10"><div class="flex items-center gap-2 sm:gap-3"><span id="modalNumberBadge" class="bg-emerald-500 text-slate-950 font-bold text-xs px-2.5 py-1 rounded-full">Aula</span><span id="modalModuloTag" class="text-xs bg-slate-700 text-slate-300 px-2.5 py-1 rounded-md font-medium">Módulo</span></div><button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-700 transition"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+            <div id="modalContent" class="p-4 sm:p-6 overflow-y-auto custom-scrollbar space-y-6 text-sm sm:text-base text-slate-300"></div>
+            <div class="bg-slate-800/50 border-t border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between"><span class="text-xs sm:text-sm text-slate-400"><i class="fa-solid fa-circle-info text-emerald-400 mr-1"></i> Planejamento baseado em evidências da aprendizagem</span><button onclick="closeModal()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs sm:text-sm px-4 py-2 rounded-lg font-medium transition">Fechar Plano</button></div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT DA APLICAÇÃO -->
     <script>
-        // BASE DE DADOS COMPLETA (TODAS AS AULAS DE AP3 E AG3 RESTAURADAS + SALA GOOGLE COMO LAB DIGITAL COM CHROMEBOOKS)
-        const aulasAP3 = [
+const aulas7AP3 = [
+            {
+                        "id": "7-ap3-53",
+                        "aula_num": "Aula 53",
+                        "excel_ref": "Cad. 2 / Mód. 14",
+                        "modulo": "Cad. 2 / Mód. 14",
+                        "titulo": "Abertura do Semestre: Como Aprendemos & Conceito de Força",
+                        "foco_pedagogico": "Metacognição, Retrieval Practice & Investigação Ativa",
+                        "datas": {
+                                    "7A": "28/07/2026 (Ter - 11:10)",
+                                    "7B": "30/07/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Compreender a diferença entre reconhecer e recuperar uma informação sem consulta.",
+                                    "Compreender força como interação capaz de alterar movimento ou provocar deformação.",
+                                    "Diferenciar forças de contato e de campo."
+                        ],
+                        "materiais": "Quadro ou projetor, folha de autoavaliação, estojo, elástico, folha de papel e Livro Caderno 2 (pág. 481–484).",
+                        "abertura": {
+                                    "titulo": "1. Ativação & Provocação (10 min): Ilusão de Competência",
+                                    "detalhes": "Pergunte quem já estudou muito, achou que sabia e teve um “branco”. Diferencie reconhecer a matéria ao reler de conseguir recuperá-la sem olhar. Apresente a prática de recuperação que será usada durante o semestre."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Construção & Investigação (25 min): Força no Cotidiano",
+                                    "detalhes": "Os alunos empurram um estojo, esticam um elástico e amassam uma folha. A turma classifica os efeitos observados: alteração do estado de movimento ou deformação. Sistematize força como interação e introduza contato versus campo."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Consolidação Metacognitiva (15 min): Plano de Estudo & Registro",
+                                    "detalhes": "Cada estudante registra um novo plano de estudo em três passos e responde: “Qual é a diferença entre reler e recuperar ativamente?”. Finalize com as questões iniciais do módulo."
+                        },
+                        "estrategias_cognitivas": "Sensibilização metacognitiva, Retrieval Practice, exemplos concretos e elaboração explicativa.",
+                        "avaliacao_formativa": "Exit Ticket oral ou escrito sobre reler versus recuperar e checagem das classificações de força.",
+                        "tarefa_casa": "Finalizar o plano de estudo e revisar as páginas 481–484.",
+                        "link": "",
+                        "aplicacao": "Classificação dos efeitos das forças em objetos cotidianos e resolução inicial do material."
+            },
+            {
+                        "id": "7-ap3-54",
+                        "aula_num": "Aula 54",
+                        "excel_ref": "Cad. 2 / Mód. 14",
+                        "modulo": "Cad. 2 / Mód. 14",
+                        "titulo": "Força, Aceleração e 1ª Lei de Newton (Inércia)",
+                        "foco_pedagogico": "Experimento Mental, Demonstração & Dual Coding",
+                        "datas": {
+                                    "7A": "30/07/2026 (Qui - 07:10)",
+                                    "7B": "31/07/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Compreender a inércia como tendência de manutenção do repouso ou do movimento retilíneo uniforme.",
+                                    "Relacionar qualitativamente força resultante e alteração da velocidade."
+                        ],
+                        "materiais": "Moeda, papel-cartão, copo plástico, quadro e Livro Caderno 2 (pág. 484–488).",
+                        "abertura": {
+                                    "titulo": "1. Provocação Inicial (10 min): O Ônibus Freando",
+                                    "detalhes": "Apresente a situação de um ônibus que freia bruscamente e pergunte para onde o corpo do passageiro tende a ir e por quê. Recolha hipóteses antes da explicação."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Construção do Conceito (25 min): Inércia em Ação",
+                                    "detalhes": "Discuta a 1ª Lei de Newton e realize a demonstração da moeda sobre o cartão apoiado no copo. Relacione com cinto de segurança, arrancadas e freadas."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fixação & Feedback (15 min): Explorar e Aprender",
+                                    "detalhes": "Resolva com a turma as primeiras atividades, pedindo que os alunos expliquem o raciocínio e não apenas indiquem a alternativa."
+                        },
+                        "estrategias_cognitivas": "Conhecimento prévio, experimento demonstrativo, previsão antes da resposta e feedback explicativo.",
+                        "avaliacao_formativa": "Perguntas de checagem durante a demonstração e correção comentada das atividades.",
+                        "tarefa_casa": "Concluir as atividades indicadas nas páginas 484–488.",
+                        "link": "",
+                        "aplicacao": "Explicação de situações de trânsito com base no princípio da inércia."
+            },
+            {
+                        "id": "7-ap3-55",
+                        "aula_num": "Aula 55",
+                        "excel_ref": "Cad. 2 / Mód. 14",
+                        "modulo": "Cad. 2 / Mód. 14",
+                        "titulo": "2ª e 3ª Leis de Newton: Força, Massa, Aceleração, Ação e Reação",
+                        "foco_pedagogico": "Retrieval Practice & Raciocínio Proporcional",
+                        "datas": {
+                                    "7A": "03/08/2026 (Seg - 07:10)",
+                                    "7B": "03/08/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Relacionar força, massa e aceleração de forma qualitativa e intuitiva.",
+                                    "Compreender que ação e reação têm mesma intensidade, sentidos opostos e atuam em corpos diferentes."
+                        ],
+                        "materiais": "Quadro, carrinho ou objetos com massas diferentes, balão e Livro Caderno 2 (pág. 489).",
+                        "abertura": {
+                                    "titulo": "1. Retrieval Rápido (10 min): Relembrando a Inércia",
+                                    "detalhes": "Três perguntas curtas no quadro recuperam a aula anterior sem consulta. Corrija com feedback imediato e destaque erros produtivos."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Desenvolvimento (25 min): F = m · a e Pares de Forças",
+                                    "detalhes": "Compare empurrar uma bicicleta e um carro, saltar de um skate e soltar um balão. Introduza F = m·a pelo raciocínio proporcional e diferencie pares de ação-reação de forças que se anulam."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Para Solucionar",
+                                    "detalhes": "Resolução comentada das questões do módulo, com alunos justificando onde cada força atua."
+                        },
+                        "estrategias_cognitivas": "Retrieval Practice, analogias cotidianas, contraste de casos e elaboração verbal.",
+                        "avaliacao_formativa": "Miniquiz de três itens e justificativa oral sobre ação e reação.",
+                        "tarefa_casa": "Revisar as três Leis de Newton com um exemplo próprio para cada uma.",
+                        "link": "",
+                        "aplicacao": "Análise de situações cotidianas e resolução de problemas qualitativos de dinâmica."
+            },
+            {
+                        "id": "7-ap3-56",
+                        "aula_num": "Aula 56",
+                        "excel_ref": "Cad. 2 / Mód. 14",
+                        "modulo": "Cad. 2 / Mód. 14",
+                        "titulo": "Retomada do Módulo 14 & Visto de Atividades",
+                        "foco_pedagogico": "No-Stakes Assessment, Feedback & Prática Espaçada",
+                        "datas": {
+                                    "7A": "04/08/2026 (Ter - 11:10)",
+                                    "7B": "06/08/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Consolidar os conceitos de força e Leis de Newton.",
+                                    "Identificar lacunas antes da atividade digital e organizar os registros no caderno."
+                        ],
+                        "materiais": "Cadernos, gabarito, cartões ou flashcards e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Checagem Ativa (15 min): Explique seu Raciocínio",
+                                    "detalhes": "Alunos voluntários resolvem questões no quadro e explicam cada decisão. O professor trata erros recorrentes como oportunidades de aprendizagem."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Revisão Espaçada (25 min): Flashcards em Duplas",
+                                    "detalhes": "Rodadas curtas cobrem força, inércia, F = m·a e ação-reação. As respostas devem ser dadas antes da consulta ao verso."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Organização & Visto (10 min): Pendências e Dúvidas",
+                                    "detalhes": "Checagem orientada dos registros, indicação de correções e esclarecimento de dúvidas pontuais."
+                        },
+                        "estrategias_cognitivas": "No-stakes assessment, prática espaçada, feedback explicativo e aprendizagem por pares.",
+                        "avaliacao_formativa": "Registro dos conceitos com maior índice de erro e vistoria qualitativa do caderno.",
+                        "tarefa_casa": "Corrigir as questões indicadas e preparar-se para a investigação no PhET.",
+                        "link": "",
+                        "aplicacao": "Flashcards e explicação de questões no quadro."
+            },
+            {
+                        "id": "7-ap3-57",
+                        "aula_num": "Aula 57",
+                        "excel_ref": "Cad. 2 / Mód. 14",
+                        "modulo": "Cad. 2 / Mód. 14",
+                        "titulo": "Laboratório Digital: Simulações PhET — Forças e Movimento",
+                        "foco_pedagogico": "Investigação Guiada, Previsão-Teste-Explicação & Near Transfer",
+                        "datas": {
+                                    "7A": "06/08/2026 (Qui - 07:10)",
+                                    "7B": "07/08/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Investigar a influência do atrito, da massa e da força aplicada sobre o movimento.",
+                                    "Registrar hipóteses, observações e conclusões em uma simulação interativa."
+                        ],
+                        "materiais": "Sala Google, Chromebooks, PhET “Forces and Motion: Basics” e roteiro investigativo.",
+                        "abertura": {
+                                    "titulo": "1. Orientação Inicial (10 min): Hipóteses Antes do Clique",
+                                    "detalhes": "Apresente o roteiro e peça previsões sobre o que ocorrerá ao aumentar força, massa ou atrito. Organize duplas com papéis definidos."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Exploração Prática (30 min): Testar e Registrar",
+                                    "detalhes": "As duplas variam uma condição por vez, registram resultados e comparam com as hipóteses. O professor circula fazendo perguntas, sem entregar respostas prontas."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Síntese Coletiva (10 min): O que os Dados Mostraram?",
+                                    "detalhes": "Construa no quadro conclusões sobre atrito, força resultante e aceleração a partir das observações dos grupos."
+                        },
+                        "estrategias_cognitivas": "Aprendizagem por investigação, geração de hipóteses, feedback por evidências e near transfer.",
+                        "avaliacao_formativa": "Roteiro preenchido e explicação oral de uma relação causal observada.",
+                        "tarefa_casa": "Escrever uma conclusão de cinco linhas sobre o papel do atrito.",
+                        "link": "",
+                        "acessorio": {
+                                    "tipo": "Sala Google / Laboratório Digital",
+                                    "titulo": "Investigação PhET — Forces and Motion: Basics",
+                                    "instrucoes": "1. Organizar duplas nos Chromebooks.\n2. Alterar uma variável por vez.\n3. Registrar hipótese, resultado e explicação.\n4. Finalizar com síntese coletiva."
+                        },
+                        "aplicacao": "Teste controlado de variáveis em uma simulação digital."
+            },
+            {
+                        "id": "7-ap3-58",
+                        "aula_num": "Aula 58",
+                        "excel_ref": "Cad. 2 / Mód. 14",
+                        "modulo": "Cad. 2 / Mód. 14",
+                        "titulo": "Recomposição de Aprendizagem: Forças e Leis de Newton",
+                        "foco_pedagogico": "Prática Deliberada & Apoio por Níveis",
+                        "datas": {
+                                    "7A": "10/08/2026 (Seg - 07:10)",
+                                    "7B": "10/08/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Sanar lacunas identificadas no módulo.",
+                                    "Fortalecer a explicação causal de situações envolvendo força, massa, aceleração e atrito."
+                        ],
+                        "materiais": "Cartões de desafios graduados, quadro, cadernos e roteiro de apoio.",
+                        "abertura": {
+                                    "titulo": "1. Diagnóstico Rápido (8 min): Três Questões-Chave",
+                                    "detalhes": "Aplique três itens curtos para separar dúvidas de vocabulário, interpretação e relação causal."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Estações de Apoio (32 min): Desafios Graduados",
+                                    "detalhes": "Organize atividades em níveis: identificação de forças, comparação qualitativa e resolução de situações-problema. Atenda prioritariamente os estudantes com maior dificuldade."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (10 min): Uma Regra que Agora Entendo",
+                                    "detalhes": "Cada aluno registra a ideia que conseguiu esclarecer e um ponto que ainda precisa revisar."
+                        },
+                        "estrategias_cognitivas": "Avaliação diagnóstica, prática deliberada, scaffolding e feedback imediato.",
+                        "avaliacao_formativa": "Comparação entre resposta inicial e resposta final dos desafios.",
+                        "tarefa_casa": "Concluir apenas o nível de atividade indicado pelo professor.",
+                        "link": "",
+                        "aplicacao": "Estações de apoio com desafios graduados."
+            },
+            {
+                        "id": "7-ap3-59",
+                        "aula_num": "Aula 59",
+                        "excel_ref": "Cad. 3 / Mód. 15",
+                        "modulo": "Cad. 3 / Mód. 15",
+                        "titulo": "Tipos de Força no Cotidiano",
+                        "foco_pedagogico": "Retrieval Practice, Dual Coding & Classificação",
+                        "datas": {
+                                    "7A": "11/08/2026 (Ter - 11:10)",
+                                    "7B": "13/08/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Diferenciar tração, normal, atrito, peso e força magnética.",
+                                    "Representar as forças atuantes em situações simples."
+                        ],
+                        "materiais": "Quadro, setas adesivas ou marcadores e Livro Caderno 3 (pág. 311–314).",
+                        "abertura": {
+                                    "titulo": "1. Retrieval de Entrada (10 min): Que Interações Lembramos?",
+                                    "detalhes": "Recupere contato, campo e força resultante com perguntas rápidas sem consulta."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Mapeamento de Forças (25 min): Setas e Corpos",
+                                    "detalhes": "Desenhe objetos apoiados, pendurados, em queda e sendo puxados. Os alunos indicam a origem, direção e sentido das forças."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Para Aprender",
+                                    "detalhes": "Resolva questões selecionadas e peça uma justificativa para cada seta representada."
+                        },
+                        "estrategias_cognitivas": "Retrieval Practice, dual coding vetorial, contraste de exemplos e explicação causal.",
+                        "avaliacao_formativa": "Diagrama de forças individual e correção por comparação.",
+                        "tarefa_casa": "Resolver as atividades indicadas nas páginas 311–314.",
+                        "link": "",
+                        "aplicacao": "Construção de diagramas simples de forças."
+            },
+            {
+                        "id": "7-ap3-60",
+                        "aula_num": "Aula 60",
+                        "excel_ref": "Cad. 3 / Mód. 15",
+                        "modulo": "Cad. 3 / Mód. 15",
+                        "titulo": "Máquinas Simples: Plano Inclinado e Alavancas",
+                        "foco_pedagogico": "Contextualização Histórica, Modelos Concretos & Near Transfer",
+                        "datas": {
+                                    "7A": "13/08/2026 (Qui - 07:10)",
+                                    "7B": "14/08/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Compreender como máquinas simples modificam a intensidade ou direção da força.",
+                                    "Identificar fulcro, potência e resistência em diferentes alavancas."
+                        ],
+                        "materiais": "Tesoura, pinça, abridor, régua, apoio e Livro Caderno 3 (pág. 314–322).",
+                        "abertura": {
+                                    "titulo": "1. Contextualização (10 min): Como Erguer Grandes Blocos?",
+                                    "detalhes": "Use pirâmides e rampas como problema gerador para introduzir vantagem mecânica."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Análise Estrutural (25 min): Plano Inclinado e Três Alavancas",
+                                    "detalhes": "Explore exemplos concretos e classifique alavancas interfixas, inter-resistentes e interpotentes, incluindo exemplos do corpo humano."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fixação (15 min): Classifique e Justifique",
+                                    "detalhes": "Os alunos analisam ferramentas e resolvem as questões de aprendizagem e solução do módulo."
+                        },
+                        "estrategias_cognitivas": "Objetos concretos, dual coding, categorização e near transfer.",
+                        "avaliacao_formativa": "Classificação correta dos componentes das alavancas e justificativa oral.",
+                        "tarefa_casa": "Fotografar ou desenhar duas máquinas simples encontradas em casa.",
+                        "link": "",
+                        "aplicacao": "Análise de ferramentas e identificação de fulcro, potência e resistência."
+            },
+            {
+                        "id": "7-ap3-61",
+                        "aula_num": "Aula 61",
+                        "excel_ref": "Cad. 3 / Mód. 15",
+                        "modulo": "Cad. 3 / Mód. 15",
+                        "titulo": "Roldanas, Polias e Fechamento de Dinâmica",
+                        "foco_pedagogico": "Comparação de Casos & Síntese Integrativa",
+                        "datas": {
+                                    "7A": "17/08/2026 (Seg - 07:10)",
+                                    "7B": "17/08/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Compreender a função de polias fixas e móveis.",
+                                    "Relacionar máquinas simples à redução do esforço e à mudança da direção da força."
+                        ],
+                        "materiais": "Esquemas de polias, corda, roldana demonstrativa ou vídeo curto.",
+                        "abertura": {
+                                    "titulo": "1. Desafio Mental (10 min): Levantar a Carga",
+                                    "detalhes": "Compare levantar um peso diretamente, com polia fixa e com polia móvel. Peça previsões antes da explicação."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Exploração Visual (25 min): Direção e Vantagem Mecânica",
+                                    "detalhes": "Analise esquemas de associações de polias e destaque o que muda na força aplicada e no deslocamento da corda."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento do Bloco (15 min): Mapa Força → Máquina",
+                                    "detalhes": "Construa uma síntese dos Módulos 14 e 15 e faça a transição para Termologia."
+                        },
+                        "estrategias_cognitivas": "Predição, comparação contrastiva, dual coding e organização de conhecimento.",
+                        "avaliacao_formativa": "Explicação curta sobre a diferença entre polia fixa e móvel.",
+                        "tarefa_casa": "Revisar o mapa-síntese de dinâmica e máquinas simples.",
+                        "link": "",
+                        "aplicacao": "Interpretação de esquemas de polias e associação com usos reais."
+            },
+            {
+                        "id": "7-ap3-62",
+                        "aula_num": "Aula 62",
+                        "excel_ref": "Cad. 3 / Mód. 16",
+                        "modulo": "Cad. 3 / Mód. 16",
+                        "titulo": "Calor e Equilíbrio Térmico",
+                        "foco_pedagogico": "Retrieval Espaçado & Investigação de Fenômenos",
+                        "datas": {
+                                    "7A": "18/08/2026 (Ter - 11:10)",
+                                    "7B": "20/08/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Compreender calor como energia térmica em trânsito.",
+                                    "Explicar o equilíbrio térmico como estado de temperaturas iguais."
+                        ],
+                        "materiais": "Xícara ou recipiente, colher metálica, quadro e Livro Caderno 3 (pág. 325–327).",
+                        "abertura": {
+                                    "titulo": "1. Retrieval de Entrada (10 min): Uma Ponte com Dinâmica",
+                                    "detalhes": "Duas perguntas sobre atrito e transformação de energia reativam conhecimentos anteriores sem consulta."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Investigação Dirigida (25 min): A Colher no Café",
+                                    "detalhes": "Analise o que acontece quando uma colher fria permanece em uma bebida quente. Destaque o sentido espontâneo do fluxo de calor e o equilíbrio térmico."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Para Começar e Aprender",
+                                    "detalhes": "Leitura comentada e resolução inicial das atividades, reforçando a diferença entre calor e temperatura."
+                        },
+                        "estrategias_cognitivas": "Retrieval espaçado, analogia concreta, elaboração causal e feedback imediato.",
+                        "avaliacao_formativa": "Exit Ticket: indicar o sentido do calor em uma situação inédita.",
+                        "tarefa_casa": "Concluir as atividades das páginas 325–327.",
+                        "link": "",
+                        "aplicacao": "Previsão do sentido da transferência de calor em situações cotidianas."
+            },
+            {
+                        "id": "7-ap3-63",
+                        "aula_num": "Aula 63",
+                        "excel_ref": "Cad. 3 / Mód. 16",
+                        "modulo": "Cad. 3 / Mód. 16",
+                        "titulo": "Temperatura, Sensação Térmica e Escalas",
+                        "foco_pedagogico": "Conflito Cognitivo & Modelo Microscópico",
+                        "datas": {
+                                    "7A": "20/08/2026 (Qui - 07:10)",
+                                    "7B": "21/08/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Diferenciar temperatura de sensação térmica.",
+                                    "Relacionar temperatura ao grau de agitação das partículas.",
+                                    "Conhecer Celsius, Fahrenheit e Kelvin de forma comparativa."
+                        ],
+                        "materiais": "Amostras de metal, madeira ou tecido, termômetro e Livro Caderno 3 (pág. 327–335).",
+                        "abertura": {
+                                    "titulo": "1. Provocação (10 min): Cerâmica ou Tapete?",
+                                    "detalhes": "Pergunte por que a cerâmica parece mais fria que o tapete no mesmo ambiente. Registre hipóteses antes de apresentar a explicação."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Construção do Conceito (25 min): Partículas e Trocas de Calor",
+                                    "detalhes": "Explique que o corpo percebe a rapidez da troca de energia, não a temperatura absoluta. Relacione temperatura à agitação molecular e compare escalas."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fixação (15 min): Explorar e Aprender",
+                                    "detalhes": "Resolva atividades e peça que os alunos usem as palavras temperatura, calor e sensação térmica com precisão."
+                        },
+                        "estrategias_cognitivas": "Conflito cognitivo, dual coding microscópico, comparação e correção de conceitos alternativos.",
+                        "avaliacao_formativa": "Miniquestionário de diferenciação conceitual.",
+                        "tarefa_casa": "Resolver as atividades indicadas nas páginas 327–335.",
+                        "link": "",
+                        "aplicacao": "Explicação da sensação térmica em materiais diferentes."
+            },
+            {
+                        "id": "7-ap3-64",
+                        "aula_num": "Aula 64",
+                        "excel_ref": "Cad. 3 / Mód. 16",
+                        "modulo": "Cad. 3 / Mód. 16",
+                        "titulo": "Dilatação Térmica dos Corpos e Termômetros",
+                        "foco_pedagogico": "Retrieval Practice & Aplicação em Engenharia",
+                        "datas": {
+                                    "7A": "24/08/2026 (Seg - 07:10)",
+                                    "7B": "24/08/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Compreender a dilatação térmica como consequência do aumento da agitação das partículas.",
+                                    "Explicar aplicações em pontes, trilhos, calçadas e termômetros."
+                        ],
+                        "materiais": "Imagens de juntas de dilatação, termômetro e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Retrieval Rápido (10 min): Calor ou Temperatura?",
+                                    "detalhes": "Bilhete de um minuto: escreva a diferença entre calor e temperatura sem consultar o caderno."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Desenvolvimento (25 min): Por que Existem Vãos?",
+                                    "detalhes": "Analise juntas de dilatação e o funcionamento do líquido termométrico. Use esquemas de partículas mais afastadas após aquecimento."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Autoexplicação",
+                                    "detalhes": "Os alunos explicam em dupla por que trilhos e pontes precisam de espaços e corrigem as atividades do módulo."
+                        },
+                        "estrategias_cognitivas": "Retrieval Practice, dual coding microscópico, autoexplicação e far transfer para engenharia.",
+                        "avaliacao_formativa": "Explicação escrita de uma aplicação de dilatação térmica.",
+                        "tarefa_casa": "Revisar o quadro comparativo calor, temperatura e dilatação.",
+                        "link": "",
+                        "aplicacao": "Análise de falhas estruturais que seriam causadas pela ausência de juntas de dilatação."
+            },
+            {
+                        "id": "7-ap3-65",
+                        "aula_num": "Aula 65",
+                        "excel_ref": "Cad. 3 / Mód. 17",
+                        "modulo": "Cad. 3 / Mód. 17",
+                        "titulo": "Transferência de Calor: Condução e Convecção",
+                        "foco_pedagogico": "Dual Coding & Comparação de Mecanismos",
+                        "datas": {
+                                    "7A": "25/08/2026 (Ter - 11:10)",
+                                    "7B": "27/08/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Diferenciar condução e convecção.",
+                                    "Relacionar convecção ao movimento de massas em líquidos e gases."
+                        ],
+                        "materiais": "Panela, colher, imagens de correntes de convecção e Livro Caderno 3 (pág. 337–340).",
+                        "abertura": {
+                                    "titulo": "1. Contextualização (10 min): Fogão, Água e Colher",
+                                    "detalhes": "Pergunte como o calor chega à água e como a colher esquenta. Separe as hipóteses por mecanismo."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Investigação Conceitual (25 min): Choques e Correntes",
+                                    "detalhes": "Desenhe a condução como transferência entre partículas e a convecção como circulação de fluidos. Relacione a geladeiras e brisas."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Quadro Comparativo",
+                                    "detalhes": "Complete com a turma uma tabela: meio, movimento de matéria, exemplo e palavra-chave."
+                        },
+                        "estrategias_cognitivas": "Dual coding, comparação contrastiva, exemplos cotidianos e elaboração explicativa.",
+                        "avaliacao_formativa": "Classificação de exemplos inéditos em condução ou convecção.",
+                        "tarefa_casa": "Resolver as questões das páginas 337–340.",
+                        "link": "",
+                        "aplicacao": "Classificação de fenômenos cotidianos segundo o mecanismo de transferência de calor."
+            },
+            {
+                        "id": "7-ap3-66",
+                        "aula_num": "Aula 66",
+                        "excel_ref": "Cad. 3 / Mód. 17",
+                        "modulo": "Cad. 3 / Mód. 17",
+                        "titulo": "Irradiação Térmica, Dissipação e Garrafa Térmica",
+                        "foco_pedagogico": "Spaced Retrieval & Análise Funcional",
+                        "datas": {
+                                    "7A": "27/08/2026 (Qui - 07:10)",
+                                    "7B": "28/08/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Compreender a irradiação por ondas eletromagnéticas.",
+                                    "Explicar como superfícies e materiais reduzem ou favorecem trocas térmicas.",
+                                    "Analisar o funcionamento de uma garrafa térmica."
+                        ],
+                        "materiais": "Garrafa térmica, imagens de superfícies claras e escuras e Livro Caderno 3 (pág. 341–350).",
+                        "abertura": {
+                                    "titulo": "1. Resgate Ativo (10 min): Condução ou Convecção?",
+                                    "detalhes": "Em duplas, os alunos respondem a exemplos rápidos das duas aulas anteriores."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Desenvolvimento (25 min): Como o Sol Aquece a Terra?",
+                                    "detalhes": "Introduza irradiação, absorção e reflexão. Desmonte funcionalmente a garrafa térmica: vácuo, paredes refletoras e tampa isolante."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fixação (15 min): Aprender e Solucionar",
+                                    "detalhes": "Resolva questões e peça que cada resposta identifique qual troca térmica está sendo reduzida."
+                        },
+                        "estrategias_cognitivas": "Spaced Retrieval, análise de estrutura-função, dual coding e feedback explicativo.",
+                        "avaliacao_formativa": "Esquema funcional da garrafa térmica.",
+                        "tarefa_casa": "Concluir as atividades das páginas 341–350.",
+                        "link": "",
+                        "aplicacao": "Relacionar cada parte da garrafa térmica ao mecanismo de transferência que ela reduz."
+            },
+            {
+                        "id": "7-ap3-67",
+                        "aula_num": "Aula 67",
+                        "excel_ref": "Cad. 3 / Mód. 17",
+                        "modulo": "Cad. 3 / Mód. 17",
+                        "titulo": "Aula Prática: Processos de Propagação de Calor",
+                        "foco_pedagogico": "Investigação Experimental & Evidência Observável",
+                        "datas": {
+                                    "7A": "31/08/2026 (Seg - 07:10)",
+                                    "7B": "31/08/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Comparar a condução térmica em diferentes materiais.",
+                                    "Registrar observações e construir uma conclusão baseada em evidências."
+                        ],
+                        "materiais": "Recipientes, água quente, colheres de metal, madeira e plástico, manteiga ou parafina e roteiro.",
+                        "abertura": {
+                                    "titulo": "1. Roteiro e Segurança (10 min): Prever Antes de Testar",
+                                    "detalhes": "Organize grupos, apresente cuidados com água quente e peça uma previsão sobre qual colher conduzirá calor mais rapidamente."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Execução Investigativa (30 min): Observar e Comparar",
+                                    "detalhes": "Os grupos acompanham o derretimento de pequenas porções de manteiga nas extremidades e registram tempo, material e resultado."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Conclusão Coletiva (10 min): Evidência → Explicação",
+                                    "detalhes": "Compare resultados, discuta possíveis erros e relacione condutores e isolantes a usos cotidianos."
+                        },
+                        "estrategias_cognitivas": "Predição-teste-explicação, investigação prática, registro de evidências e trabalho colaborativo.",
+                        "avaliacao_formativa": "Relatório curto com hipótese, resultado e conclusão.",
+                        "tarefa_casa": "Finalizar o relatório investigativo.",
+                        "link": "",
+                        "acessorio": {
+                                    "tipo": "Atividade Prática / Laboratório",
+                                    "titulo": "Circuito de Condução e Isolamento Térmico",
+                                    "instrucoes": "1. Utilizar água quente com supervisão.\n2. Comparar colheres de materiais diferentes.\n3. Registrar evidências observáveis.\n4. Relacionar resultado a condutores e isolantes."
+                        },
+                        "aplicacao": "Experimento comparativo com materiais condutores e isolantes."
+            },
+            {
+                        "id": "7-ap3-68",
+                        "aula_num": "Aula 68",
+                        "excel_ref": "Cad. 3 / Mód. 18",
+                        "modulo": "Cad. 3 / Mód. 18",
+                        "titulo": "Máquinas Térmicas e Rendimento",
+                        "foco_pedagogico": "Problema Gerador & Modelo de Fluxo de Energia",
+                        "datas": {
+                                    "7A": "01/09/2026 (Ter - 11:10)",
+                                    "7B": "03/09/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Compreender máquina térmica como dispositivo que transforma energia térmica em trabalho.",
+                                    "Reconhecer que parte da energia é dissipada e o rendimento nunca é 100%."
+                        ],
+                        "materiais": "Esquema fonte quente–máquina–fonte fria, quadro e Livro Caderno 3 (pág. 352–362).",
+                        "abertura": {
+                                    "titulo": "1. Provocação (10 min): Dá para Aproveitar Todo o Calor?",
+                                    "detalhes": "Pergunte se um motor pode transformar 100% do calor em movimento útil. Registre justificativas intuitivas."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Construção do Modelo (25 min): Entrada, Trabalho e Rejeição",
+                                    "detalhes": "Desenhe o ciclo básico e explique perdas por atrito e calor rejeitado, sem exigir formalismo matemático além do necessário."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fixação (15 min): Leitura Guiada e Aplicação",
+                                    "detalhes": "Resolva questões selecionadas identificando fonte quente, trabalho e fonte fria."
+                        },
+                        "estrategias_cognitivas": "Modelo visual de fluxo, raciocínio causal e perguntas de previsão.",
+                        "avaliacao_formativa": "Identificação correta dos componentes de uma máquina térmica em um exemplo.",
+                        "tarefa_casa": "Resolver as atividades indicadas nas páginas 352–362.",
+                        "link": "",
+                        "aplicacao": "Análise do fluxo de energia em máquinas térmicas reais."
+            },
+            {
+                        "id": "7-ap3-69",
+                        "aula_num": "Aula 69",
+                        "excel_ref": "Cad. 3 / Mód. 18",
+                        "modulo": "Cad. 3 / Mód. 18",
+                        "titulo": "Motores a Vapor e de Combustão Interna",
+                        "foco_pedagogico": "Retrieval Practice, Sequenciamento & Contexto Histórico",
+                        "datas": {
+                                    "7A": "03/09/2026 (Qui - 07:10)",
+                                    "7B": "04/09/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Conhecer o papel das máquinas a vapor na Revolução Industrial.",
+                                    "Compreender os quatro tempos básicos de um motor de combustão interna."
+                        ],
+                        "materiais": "Esquemas ou animação curta de motor, quadro e Livro Caderno 3 (pág. 354–363).",
+                        "abertura": {
+                                    "titulo": "1. Retrieval de Entrada (10 min): Fonte Quente e Fonte Fria",
+                                    "detalhes": "Três perguntas rápidas recuperam o modelo de máquina térmica."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Análise Histórica e Tecnológica (25 min): Do Vapor ao Motor",
+                                    "detalhes": "Apresente a transformação histórica e organize os quatro tempos: admissão, compressão, combustão/expansão e escape."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Sequência Embaralhada",
+                                    "detalhes": "Os alunos colocam cartões dos quatro tempos na ordem correta e justificam a sequência."
+                        },
+                        "estrategias_cognitivas": "Retrieval Practice, dual coding sequencial, narrativa histórica e organização temporal.",
+                        "avaliacao_formativa": "Ordenação e explicação dos quatro tempos do motor.",
+                        "tarefa_casa": "Concluir os exercícios do Módulo 18.",
+                        "link": "",
+                        "aplicacao": "Montagem de uma sequência visual do motor de quatro tempos."
+            },
+            {
+                        "id": "7-ap3-70",
+                        "aula_num": "Aula 70",
+                        "excel_ref": "Cad. 3 / Mód. 18",
+                        "modulo": "Cad. 3 / Mód. 18",
+                        "titulo": "Máquinas Térmicas, Saúde e Meio Ambiente",
+                        "foco_pedagogico": "Debate Crítico & Far Transfer Socioambiental",
+                        "datas": {
+                                    "7A": "14/09/2026 (Seg - 07:10)",
+                                    "7B": "14/09/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Analisar impactos da queima de combustíveis sobre a saúde e o ambiente.",
+                                    "Relacionar eficiência energética, poluição atmosférica e mudanças climáticas."
+                        ],
+                        "materiais": "Imagens de escapamentos e indústrias, notícia curta, quadro.",
+                        "abertura": {
+                                    "titulo": "1. Contextualização (10 min): O Ar das Grandes Cidades",
+                                    "detalhes": "Pergunte como escapamentos e indústrias alteram a qualidade do ar e quem é mais afetado."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Debate Crítico (25 min): Benefícios, Custos e Alternativas",
+                                    "detalhes": "Organize argumentos sobre combustíveis fósseis, eficiência, mobilidade e alternativas de menor impacto."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento do Bloco (15 min): Termologia em Uma Rede",
+                                    "detalhes": "Integre calor, propagação, máquinas térmicas e poluição em um mapa de relações."
+                        },
+                        "estrategias_cognitivas": "Far transfer, argumentação baseada em evidências, mapa conceitual e cidadania científica.",
+                        "avaliacao_formativa": "Participação no debate e registro de uma relação causa-consequência.",
+                        "tarefa_casa": "Revisar o mapa integrado de Termologia.",
+                        "link": "",
+                        "aplicacao": "Análise de impactos locais e globais associados às máquinas térmicas."
+            },
+            {
+                        "id": "7-ap3-71",
+                        "aula_num": "Aula 71",
+                        "excel_ref": "Cad. 3 / Mód. 19",
+                        "modulo": "Cad. 3 / Mód. 19",
+                        "titulo": "Composição do Ar Atmosférico",
+                        "foco_pedagogico": "Retrieval Pós-Intervalo & Dual Coding Quantitativo",
+                        "datas": {
+                                    "7A": "15/09/2026 (Ter - 11:10)",
+                                    "7B": "17/09/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Reconhecer o ar como mistura homogênea de gases.",
+                                    "Identificar as proporções aproximadas de nitrogênio, oxigênio e outros gases."
+                        ],
+                        "materiais": "Gráfico de setores, quadro e Livro Caderno 3 (pág. 365–368).",
+                        "abertura": {
+                                    "titulo": "1. Retrieval de Entrada (10 min): Retomada Após os Jogos",
+                                    "detalhes": "Reative máquinas térmicas e trocas de calor com duas perguntas curtas antes de iniciar atmosfera."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Investigação Conceitual (25 min): 78–21–1",
+                                    "detalhes": "Construa um gráfico visual da composição do ar e discuta funções biológicas, industriais e climáticas dos componentes."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Para Começar e Aprender",
+                                    "detalhes": "Resolução comentada e criação de uma frase mnemônica para a proporção dos gases."
+                        },
+                        "estrategias_cognitivas": "Retrieval espaçado, dual coding quantitativo e elaboração mnemônica.",
+                        "avaliacao_formativa": "Exit Ticket com composição aproximada do ar.",
+                        "tarefa_casa": "Concluir as atividades das páginas 365–368.",
+                        "link": "",
+                        "aplicacao": "Leitura e interpretação de gráfico de composição atmosférica."
+            },
+            {
+                        "id": "7-ap3-72",
+                        "aula_num": "Aula 72",
+                        "excel_ref": "Cad. 3 / Mód. 19",
+                        "modulo": "Cad. 3 / Mód. 19",
+                        "titulo": "Fenômenos Naturais e Circulação do Ar",
+                        "foco_pedagogico": "Problema Gerador, Convecção & Transferência",
+                        "datas": {
+                                    "7A": "17/09/2026 (Qui - 07:10)",
+                                    "7B": "18/09/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Relacionar temperatura, densidade e pressão atmosférica à formação dos ventos.",
+                                    "Explicar brisas e circulação do ar usando convecção."
+                        ],
+                        "materiais": "Esquema de brisas, mapa ou imagens e Livro Caderno 3 (pág. 368–374).",
+                        "abertura": {
+                                    "titulo": "1. Provocação (10 min): De Onde Vem a Brisa?",
+                                    "detalhes": "Use a alternância praia–mar como situação-problema e peça que os alunos desenhem setas com suas hipóteses."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Construção do Conceito (25 min): Ar Quente Sobe, Ar Frio Desce",
+                                    "detalhes": "Relacione aquecimento desigual, densidade, pressão e correntes de convecção em escala local e global."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fixação (15 min): De Olho na Habilidade",
+                                    "detalhes": "Resolva questões e corrija os desenhos iniciais com outra cor, tornando visível a mudança conceitual."
+                        },
+                        "estrategias_cognitivas": "Ativação de modelos prévios, dual coding, correção de modelos e near transfer.",
+                        "avaliacao_formativa": "Comparação entre desenho inicial e final.",
+                        "tarefa_casa": "Resolver as atividades indicadas nas páginas 368–374.",
+                        "link": "",
+                        "aplicacao": "Explicação gráfica de brisas e circulação atmosférica."
+            },
+            {
+                        "id": "7-ap3-73a",
+                        "aula_num": "Aula 73",
+                        "excel_ref": "Retomada AP3 — Parte 1",
+                        "modulo": "Retomada AP3",
+                        "titulo": "Revisão Ativa para a AP3 — Parte 1",
+                        "foco_pedagogico": "Brain Dump, Retrieval Practice & Testing Effect",
+                        "datas": {
+                                    "7A": "21/09/2026 (Seg - 07:10)"
+                        },
+                        "objetivos": [
+                                    "Recuperar conceitos essenciais dos Módulos 14 a 19 sem consulta.",
+                                    "Diagnosticar tópicos que ainda exigem revisão."
+                        ],
+                        "materiais": "Folhas de Brain Dump, questões-modelo e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Brain Dump em Equipes (20 min): O que Lembramos?",
+                                    "detalhes": "Equipes registram, sem consulta, leis de Newton, máquinas simples, Termologia, máquinas térmicas e atmosfera."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Questões-Modelo (20 min): Pensar Como na Prova",
+                                    "detalhes": "Resolução comentada de questões com foco no raciocínio e nos distratores."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Alinhamento (10 min): Plano de Revisão",
+                                    "detalhes": "Cada aluno identifica dois pontos fortes e dois pontos a revisar."
+                        },
+                        "estrategias_cognitivas": "Retrieval Practice, Testing Effect, calibração metacognitiva e feedback explicativo.",
+                        "avaliacao_formativa": "Mapa de acertos e lacunas por equipe.",
+                        "tarefa_casa": "Revisar os dois tópicos indicados no plano pessoal.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 73"
+                        },
+                        "aplicacao": "Resolução comentada de questões-modelo da AP3."
+            },
+            {
+                        "id": "7-ap3-73b",
+                        "aula_num": "Aula 73",
+                        "excel_ref": "Cad. 3 / Mód. 19",
+                        "modulo": "Cad. 3 / Mód. 19",
+                        "titulo": "Aumento da Temperatura dos Oceanos e Impactos Climáticos",
+                        "foco_pedagogico": "Debate Guiado & Far Transfer Climático",
+                        "datas": {
+                                    "7B": "21/09/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Analisar o papel dos oceanos como reguladores térmicos.",
+                                    "Relacionar aquecimento oceânico, branqueamento de corais, degelo e eventos extremos."
+                        ],
+                        "materiais": "Texto do Manual do Professor, imagens de corais e mapa climático.",
+                        "abertura": {
+                                    "titulo": "1. Contextualização (10 min): Oceanos como Reservatórios de Calor",
+                                    "detalhes": "Pergunte por que os oceanos aquecem e resfriam mais lentamente que o continente."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Debate Guiado (25 min): Cadeias de Impacto",
+                                    "detalhes": "Construa relações entre aquecimento global, temperatura dos oceanos, corais, nível do mar e eventos extremos."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Para Solucionar",
+                                    "detalhes": "Resolução das atividades e registro de uma cadeia causa → consequência."
+                        },
+                        "estrategias_cognitivas": "Far transfer, argumentação científica, elaboração causal e leitura de evidências.",
+                        "avaliacao_formativa": "Cadeia causal escrita e participação no debate.",
+                        "tarefa_casa": "Revisar o Módulo 19 para a retomada.",
+                        "link": "",
+                        "referencias": {
+                                    "7B": "Aula 73"
+                        },
+                        "aplicacao": "Análise de consequências climáticas em cadeia."
+            },
+            {
+                        "id": "7-ap3-74a",
+                        "aula_num": "Aula 74",
+                        "excel_ref": "Retomada AP3 — Parte 2",
+                        "modulo": "Retomada AP3",
+                        "titulo": "Revisão Ativa para a AP3 — Parte 2",
+                        "foco_pedagogico": "Interleaving, Questões Cumulativas & Metacognição",
+                        "datas": {
+                                    "7A": "22/09/2026 (Ter - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Consolidar relações entre força, calor e atmosfera.",
+                                    "Esclarecer dúvidas finais antes da AP3."
+                        ],
+                        "materiais": "Questões cumulativas, flashcards e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Recuperação Intercalada (15 min): Perguntas Misturadas",
+                                    "detalhes": "Questões de diferentes módulos são apresentadas sem indicar o tema, exigindo seleção do conceito adequado."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Correção por Pares (25 min): Explique o Distrator",
+                                    "detalhes": "Duplas comparam respostas e justificam por que alternativas incorretas não funcionam."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Checklist Final (10 min): Prontidão para a Prova",
+                                    "detalhes": "Os alunos registram estratégias de estudo e dúvidas remanescentes."
+                        },
+                        "estrategias_cognitivas": "Interleaving, retrieval cumulativo, feedback por pares e calibração metacognitiva.",
+                        "avaliacao_formativa": "Checklist de prontidão e observação das justificativas.",
+                        "tarefa_casa": "Revisão leve e espaçada para a AP3.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 74"
+                        },
+                        "aplicacao": "Questões intercaladas cobrindo Módulos 14 a 19."
+            },
+            {
+                        "id": "7-ap3-74b",
+                        "aula_num": "Aula 74",
+                        "excel_ref": "Cad. 3 / Mód. 19",
+                        "modulo": "Cad. 3 / Mód. 19",
+                        "titulo": "Retomada do Módulo 19, Visto e Flashcards",
+                        "foco_pedagogico": "Spaced Retrieval & No-Stakes Assessment",
+                        "datas": {
+                                    "7B": "24/09/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Consolidar composição e circulação do ar.",
+                                    "Organizar atividades e recuperar conceitos do ciclo AP3."
+                        ],
+                        "materiais": "Flashcards, cadernos, gabarito e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Retrieval Rápido (15 min): Atmosfera sem Consulta",
+                                    "detalhes": "Rodada de perguntas sobre composição, convecção e ventos."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Correção & Flashcards (25 min): Recuperar e Explicar",
+                                    "detalhes": "Duplas utilizam flashcards e explicam respostas antes de conferir o verso."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Visto Orientado (10 min): Organização",
+                                    "detalhes": "Checagem dos registros e indicação de pendências."
+                        },
+                        "estrategias_cognitivas": "Spaced Retrieval, feedback por pares e no-stakes assessment.",
+                        "avaliacao_formativa": "Desempenho nos flashcards e vistoria do caderno.",
+                        "tarefa_casa": "Corrigir as pendências indicadas.",
+                        "link": "",
+                        "referencias": {
+                                    "7B": "Aula 74"
+                        },
+                        "aplicacao": "Flashcards cumulativos do Módulo 19 e ciclo AP3."
+            },
+            {
+                        "id": "7-ap3-75",
+                        "aula_num": "Aula 75",
+                        "excel_ref": "Cad. 3 / Mód. 18",
+                        "modulo": "Retomada AP3",
+                        "titulo": "Atividade Complementar e Mapas Conceituais",
+                        "foco_pedagogico": "Organização do Conhecimento & Dual Coding",
+                        "datas": {
+                                    "7A": "24/09/2026 (Qui - 07:10)",
+                                    "7B": "25/09/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Organizar os conceitos do ciclo AP3 em uma estrutura visual.",
+                                    "Relacionar força, energia térmica, máquinas e atmosfera."
+                        ],
+                        "materiais": "Folha A3 ou caderno, marcadores e atividade complementar do Manual do Professor.",
+                        "abertura": {
+                                    "titulo": "1. Recuperação Inicial (10 min): Palavras-Chave",
+                                    "detalhes": "Os alunos listam conceitos centrais antes de consultar o material."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Construção do Mapa (30 min): Conexões com Verbos",
+                                    "detalhes": "Produza um mapa com setas nomeadas por relações como “provoca”, “transfere”, “transforma” e “influencia”."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Galeria & Síntese (10 min): Comparar Estruturas",
+                                    "detalhes": "Os alunos observam mapas de colegas e acrescentam uma conexão relevante ao próprio trabalho."
+                        },
+                        "estrategias_cognitivas": "Dual coding, elaboração relacional, retrieval e aprendizagem por comparação.",
+                        "avaliacao_formativa": "Clareza das conexões e precisão científica do mapa.",
+                        "tarefa_casa": "Finalizar o mapa conceitual, se necessário.",
+                        "link": "",
+                        "aplicacao": "Mapa conceitual integrando Módulos 14 a 19."
+            }
+];
+
+const aulas7AG3 = [
+            {
+                        "id": "7-ag3-76",
+                        "aula_num": "Aula 76",
+                        "excel_ref": "Cad. 4 / Mód. 20",
+                        "modulo": "Cad. 4 / Mód. 20",
+                        "titulo": "Efeito Estufa Natural e Fichamento Ativo",
+                        "foco_pedagogico": "Retrieval Espaçado, Analogia & Leitura Ativa",
+                        "datas": {
+                                    "7A": "28/09/2026 (Seg - 07:10)",
+                                    "7B": "28/09/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Compreender a importância do efeito estufa natural.",
+                                    "Diferenciar leitura ativa de sublinhado passivo."
+                        ],
+                        "materiais": "Livro Caderno 4 (pág. 299), esquema da atmosfera e modelo de fichamento.",
+                        "abertura": {
+                                    "titulo": "1. Retrieval Rápido (10 min): Atmosfera em Três Perguntas",
+                                    "detalhes": "Reative composição do ar, circulação e calor antes de introduzir o novo ciclo."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Investigação Dirigida (25 min): O Cobertor da Atmosfera",
+                                    "detalhes": "Use a analogia da estufa ou cobertor com cuidado, destacando retenção de parte da radiação infravermelha. Oriente fichamento por ideias centrais."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Para Começar",
+                                    "detalhes": "Leitura comentada e registro de uma definição própria do efeito estufa natural."
+                        },
+                        "estrategias_cognitivas": "Retrieval espaçado, analogia explícita, fichamento ativo e elaboração.",
+                        "avaliacao_formativa": "Definição escrita e qualidade do fichamento.",
+                        "tarefa_casa": "Completar o fichamento inicial do Módulo 20.",
+                        "link": "",
+                        "aplicacao": "Fichamento estruturado com ideias centrais e relações causais."
+            },
+            {
+                        "id": "7-ag3-77",
+                        "aula_num": "Aula 77",
+                        "excel_ref": "Cad. 4 / Mód. 20",
+                        "modulo": "Cad. 4 / Mód. 20",
+                        "titulo": "Poluição Atmosférica, Efeito Estufa Intensificado e Camada de Ozônio",
+                        "foco_pedagogico": "Conflito Conceitual & Dual Coding",
+                        "datas": {
+                                    "7A": "29/09/2026 (Ter - 11:10)",
+                                    "7B": "01/10/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Diferenciar efeito estufa natural de intensificação antrópica.",
+                                    "Explicar a função da camada de ozônio e o impacto dos CFCs."
+                        ],
+                        "materiais": "Esquemas da troposfera e estratosfera, infográficos e Livro Caderno 4 (pág. 300–306).",
+                        "abertura": {
+                                    "titulo": "1. Provocação (10 min): Se é Vital, por que é um Problema?",
+                                    "detalhes": "Explore a aparente contradição entre efeito estufa natural e aquecimento global."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Construção do Conceito (25 min): Dois Fenômenos Diferentes",
+                                    "detalhes": "Compare efeito estufa e camada de ozônio em uma matriz: localização, função, agentes e consequências."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fixação (15 min): Para Aprender",
+                                    "detalhes": "Resolva questões e peça aos alunos que identifiquem qual fenômeno cada enunciado descreve."
+                        },
+                        "estrategias_cognitivas": "Contraste conceitual, dual coding, correção de equívocos e feedback explicativo.",
+                        "avaliacao_formativa": "Tabela comparativa e miniquiz de diferenciação.",
+                        "tarefa_casa": "Resolver as atividades indicadas nas páginas 300–306.",
+                        "link": "",
+                        "aplicacao": "Classificação de enunciados entre efeito estufa e camada de ozônio."
+            },
+            {
+                        "id": "7-ag3-78",
+                        "aula_num": "Aula 78",
+                        "excel_ref": "Cad. 4 / Mód. 20",
+                        "modulo": "Cad. 4 / Mód. 20",
+                        "titulo": "Para Explorar e Solucionar: Mitigação Climática",
+                        "foco_pedagogico": "Correção Ativa, Trabalho Colaborativo & Far Transfer",
+                        "datas": {
+                                    "7A": "01/10/2026 (Qui - 07:10)",
+                                    "7B": "02/10/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Avaliar propostas de mitigação das mudanças climáticas.",
+                                    "Distinguir ações individuais, coletivas e políticas públicas."
+                        ],
+                        "materiais": "Livro Caderno 4 (pág. 303–306), cartolina ou folha A3 e marcadores.",
+                        "abertura": {
+                                    "titulo": "1. Correção Ativa (15 min): Explique a Resposta",
+                                    "detalhes": "Alunos apresentam respostas de casa e justificam com conceitos do módulo."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Trabalho em Grupo (25 min): Propostas com Impacto",
+                                    "detalhes": "Grupos analisam os boxes e elaboram cartazes separando ações individuais, escolares, empresariais e governamentais."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Síntese (10 min): Priorizar",
+                                    "detalhes": "A turma discute quais ações têm maior alcance e quais dependem de mudança coletiva."
+                        },
+                        "estrategias_cognitivas": "Far transfer, argumentação, aprendizagem colaborativa e elaboração causal.",
+                        "avaliacao_formativa": "Qualidade científica e viabilidade das propostas.",
+                        "tarefa_casa": "Registrar uma ação pessoal e uma ação coletiva prioritária.",
+                        "link": "",
+                        "aplicacao": "Cartaz conceitual com propostas de mitigação em diferentes escalas."
+            },
+            {
+                        "id": "7-ag3-79",
+                        "aula_num": "Aula 79",
+                        "excel_ref": "Cad. 4 / Mód. 20",
+                        "modulo": "Cad. 4 / Mód. 20",
+                        "titulo": "Recomposição e Consolidação do Módulo 20",
+                        "foco_pedagogico": "Flashcards, Mapa Conceitual & Feedback",
+                        "datas": {
+                                    "7A": "05/10/2026 (Seg - 07:10)",
+                                    "7B": "05/10/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Sanar lacunas sobre atmosfera, poluição e efeito estufa.",
+                                    "Organizar o conhecimento em um mapa conceitual."
+                        ],
+                        "materiais": "Flashcards, cadernos, gabarito e marcadores.",
+                        "abertura": {
+                                    "titulo": "1. Revisão Ativa (20 min): Flashcards em Duplas",
+                                    "detalhes": "Rodadas curtas cobrem efeito estufa, ozônio, poluentes e mitigação."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Mapa Conceitual (20 min): Causas e Consequências",
+                                    "detalhes": "Construa uma rede com gases, atividades humanas, retenção de calor, impactos e soluções."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Visto (10 min): Organização e Dúvidas",
+                                    "detalhes": "Checagem de registros e orientação individual."
+                        },
+                        "estrategias_cognitivas": "Retrieval Practice, dual coding, feedback por pares e recomposição.",
+                        "avaliacao_formativa": "Mapa conceitual e registro de lacunas resolvidas.",
+                        "tarefa_casa": "Corrigir as atividades indicadas.",
+                        "link": "",
+                        "aplicacao": "Flashcards e mapa causal do Módulo 20."
+            },
+            {
+                        "id": "7-ag3-80",
+                        "aula_num": "Aula 80",
+                        "excel_ref": "Cad. 4 / Mód. 21",
+                        "modulo": "Cad. 4 / Mód. 21",
+                        "titulo": "Tipos de Combustíveis e Transição Energética",
+                        "foco_pedagogico": "Contextualização Histórica & Leitura Ativa",
+                        "datas": {
+                                    "7A": "06/10/2026 (Ter - 11:10)",
+                                    "7B": "08/10/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Reconhecer o papel histórico dos combustíveis no desenvolvimento das sociedades.",
+                                    "Comparar combustíveis fósseis, biocombustíveis e alternativas emergentes."
+                        ],
+                        "materiais": "Linha do tempo, Livro Caderno 4 (pág. 309) e modelo de fichamento.",
+                        "abertura": {
+                                    "titulo": "1. Contextualização (10 min): Da Lenha ao Hidrogênio",
+                                    "detalhes": "Construa uma linha do tempo rápida com os combustíveis lembrados pela turma."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Leitura Ativa (25 min): Ideia Central, Evidência e Consequência",
+                                    "detalhes": "Analise a seção “Para começar” e oriente o fichamento do Módulo 21."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Desafio Energético",
+                                    "detalhes": "Discuta quais critérios devem orientar a escolha de um combustível no século XXI."
+                        },
+                        "estrategias_cognitivas": "Organização temporal, fichamento ativo, elaboração e critérios de comparação.",
+                        "avaliacao_formativa": "Fichamento e justificativa de um critério de escolha energética.",
+                        "tarefa_casa": "Finalizar o fichamento do Módulo 21.",
+                        "link": "",
+                        "aplicacao": "Construção de linha do tempo e comparação por critérios."
+            },
+            {
+                        "id": "7-ag3-81",
+                        "aula_num": "Aula 81",
+                        "excel_ref": "Cad. 4 / Mód. 21",
+                        "modulo": "Cad. 4 / Mód. 21",
+                        "titulo": "Rotação por Estações: Combustíveis e Fontes do Futuro",
+                        "foco_pedagogico": "Rotação por Estações, Cooperação & Comparação Multicritério",
+                        "datas": {
+                                    "7A": "08/10/2026 (Qui - 07:10)",
+                                    "7B": "09/10/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Avaliar vantagens e desvantagens econômicas, ambientais e sociais de diferentes combustíveis.",
+                                    "Comparar pegadas de carbono e limites de cada alternativa."
+                        ],
+                        "materiais": "Cartões de estação, Chromebooks ou textos curtos, folhas de registro e cronômetro.",
+                        "abertura": {
+                                    "titulo": "1. Organização (5 min): Pergunta Comum",
+                                    "detalhes": "Apresente a pergunta: “Qual fonte é melhor — e para qual contexto?”. Distribua papéis nos grupos."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Rotação (35 min): Fósseis, Biocombustíveis e Renováveis",
+                                    "detalhes": "Cada grupo passa por três estações, registra evidências e atribui notas segundo critérios definidos."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Plenária (10 min): Não Existe Solução Mágica",
+                                    "detalhes": "Compare resultados e destaque trade-offs entre custo, disponibilidade, emissão e impacto social."
+                        },
+                        "estrategias_cognitivas": "Rotação por estações, aprendizagem colaborativa, avaliação multicritério e interleaving.",
+                        "avaliacao_formativa": "Folha de registro e justificativa do ranking final.",
+                        "tarefa_casa": "Escrever uma conclusão sobre a fonte mais adequada ao contexto brasileiro.",
+                        "link": "",
+                        "acessorio": {
+                                    "tipo": "Metodologia Ativa",
+                                    "titulo": "Rotação por Estações — Matriz Energética",
+                                    "instrucoes": "Estação 1: combustíveis fósseis.\nEstação 2: etanol, biodiesel e biomassa.\nEstação 3: hidrogênio verde, solar e eólica.\nEm todas: registrar vantagem, limite e evidência."
+                        },
+                        "aplicacao": "Comparação de fontes por critérios ambientais, econômicos e sociais."
+            },
+            {
+                        "id": "7-ag3-82",
+                        "aula_num": "Sequência 82",
+                        "excel_ref": "Cad. 4 / Mód. 21",
+                        "modulo": "Cad. 4 / Mód. 21",
+                        "titulo": "Para Explorar, Solucionar e Mapa Conceitual",
+                        "foco_pedagogico": "Problem Solving & Organização Visual",
+                        "datas": {
+                                    "7A": "15/10/2026 (Qui - 07:10)",
+                                    "7B": "15/10/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Consolidar conceitos sobre combustíveis e matrizes energéticas.",
+                                    "Organizar relações entre origem, uso, vantagens e impactos."
+                        ],
+                        "materiais": "Livro Caderno 4 (pág. 316–317), caderno e marcadores.",
+                        "abertura": {
+                                    "titulo": "1. Retrieval Rápido (10 min): Depois do Intervalo",
+                                    "detalhes": "Recupere as três estações e um ponto forte e fraco de cada grupo de combustíveis."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Solução de Problemas (20 min): Para Solucionar",
+                                    "detalhes": "Resolva as atividades passo a passo, destacando como identificar dados relevantes."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Mapa Conceitual (20 min): Fontes e Consequências",
+                                    "detalhes": "Síntese gráfica com origem, renovabilidade, emissão, uso e desafios."
+                        },
+                        "estrategias_cognitivas": "Spaced Retrieval, problem solving, dual coding e feedback explicativo.",
+                        "avaliacao_formativa": "Resolução comentada e mapa conceitual.",
+                        "tarefa_casa": "Finalizar o mapa e iniciar o fichamento do Módulo 22.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 82",
+                                    "7B": "Aula 83"
+                        },
+                        "aplicacao": "Resolução analítica e mapa conceitual de combustíveis."
+            },
+            {
+                        "id": "7-ag3-83",
+                        "aula_num": "Sequência 83",
+                        "excel_ref": "Cad. 4 / Mód. 21–22",
+                        "modulo": "Cad. 4 / Mód. 21–22",
+                        "titulo": "Recomposição e Preparação para o Módulo 22",
+                        "foco_pedagogico": "Prática Deliberada & Nivelamento",
+                        "datas": {
+                                    "7A": "19/10/2026 (Seg - 07:10)",
+                                    "7B": "16/10/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Consolidar o bloco de combustíveis.",
+                                    "Introduzir o panorama de novos combustíveis e máquinas."
+                        ],
+                        "materiais": "Atividades graduadas, fichamento do Módulo 22 e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Diagnóstico (8 min): Três Relações Essenciais",
+                                    "detalhes": "Itens rápidos verificam renovabilidade, emissão e aplicação."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Estações de Apoio (32 min): Nivelamento",
+                                    "detalhes": "Os alunos realizam desafios graduados enquanto o professor atende os grupos com lacunas específicas."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Ponte para o Módulo 22 (10 min): O que Vem Depois?",
+                                    "detalhes": "Apresente carros elétricos, híbridos e combustíveis emergentes como problemas de investigação."
+                        },
+                        "estrategias_cognitivas": "Recomposição, prática deliberada, scaffolding e antecipação organizadora.",
+                        "avaliacao_formativa": "Registro de avanço no desafio individual.",
+                        "tarefa_casa": "Concluir o fichamento inicial do Módulo 22.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 83",
+                                    "7B": "Aula 84"
+                        },
+                        "aplicacao": "Estações de apoio com desafios graduados."
+            },
+            {
+                        "id": "7-ag3-84",
+                        "aula_num": "Sequência 84",
+                        "excel_ref": "Cad. 4 / Mód. 22",
+                        "modulo": "Cad. 4 / Mód. 22",
+                        "titulo": "Novos Combustíveis, Veículos Elétricos e Máquinas",
+                        "foco_pedagogico": "Problema Gerador & Mapa Mental",
+                        "datas": {
+                                    "7A": "20/10/2026 (Ter - 11:10)",
+                                    "7B": "19/10/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Discutir a evolução das máquinas em direção à eficiência e sustentabilidade.",
+                                    "Comparar veículos térmicos, híbridos e elétricos."
+                        ],
+                        "materiais": "Imagens de veículos, Livro Caderno 4 (pág. 320) e marcadores.",
+                        "abertura": {
+                                    "titulo": "1. Provocação (10 min): Um Carro Elétrico é Máquina Térmica?",
+                                    "detalhes": "Peça que os alunos comparem motor a combustão, híbrido e elétrico antes da sistematização."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Mapa Mental (25 min): Energia, Motor e Emissão",
+                                    "detalhes": "Construa um mapa com fonte de energia, conversão, eficiência e impactos."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Uma Vantagem, Um Limite",
+                                    "detalhes": "Cada aluno registra uma vantagem e uma limitação de uma tecnologia analisada."
+                        },
+                        "estrategias_cognitivas": "Comparação contrastiva, dual coding, ativação de conhecimentos prévios e far transfer.",
+                        "avaliacao_formativa": "Mapa mental e justificativa escrita.",
+                        "tarefa_casa": "Revisar o mapa e realizar as atividades indicadas.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 84",
+                                    "7B": "Aula 85"
+                        },
+                        "aplicacao": "Comparação funcional entre veículos térmicos, híbridos e elétricos."
+            },
+            {
+                        "id": "7-ag3-85",
+                        "aula_num": "Sequência 85",
+                        "excel_ref": "Cad. 4 / Mód. 22",
+                        "modulo": "Cad. 4 / Mód. 22",
+                        "titulo": "Máquinas e Combustíveis ao Longo do Tempo",
+                        "foco_pedagogico": "Retrieval Practice & Análise de Trade-offs",
+                        "datas": {
+                                    "7A": "22/10/2026 (Qui - 07:10)",
+                                    "7B": "22/10/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Analisar avanços tecnológicos e impactos socioambientais.",
+                                    "Discutir mineração de lítio, biocombustíveis e custos ocultos das tecnologias."
+                        ],
+                        "materiais": "Livro Caderno 4 (pág. 321–329), notícia ou infográfico.",
+                        "abertura": {
+                                    "titulo": "1. Retrieval Rápido (10 min): Fontes Limpas?",
+                                    "detalhes": "Perguntas-relâmpago recuperam conceitos de renovabilidade e emissão."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Investigação Dirigida (25 min): Benefícios e Custos Ocultos",
+                                    "detalhes": "Leitura guiada com foco em mineração, uso do solo, ciclo de vida e descarte."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Para Aprender",
+                                    "detalhes": "Resolução das atividades e construção de uma frase que evite a ideia de tecnologia “sem impacto”."
+                        },
+                        "estrategias_cognitivas": "Retrieval Practice, pensamento sistêmico, análise de trade-offs e leitura crítica.",
+                        "avaliacao_formativa": "Quadro de benefícios, custos e condições de uso.",
+                        "tarefa_casa": "Resolver as atividades da página 329.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 85",
+                                    "7B": "Aula 86"
+                        },
+                        "aplicacao": "Análise de ciclo de vida e custos ambientais de tecnologias energéticas."
+            },
+            {
+                        "id": "7-ag3-86",
+                        "aula_num": "Sequência 86",
+                        "excel_ref": "Cad. 4 / Mód. 22",
+                        "modulo": "Cad. 4 / Mód. 22",
+                        "titulo": "Para Explorar e Solucionar: Sustentabilidade Energética",
+                        "foco_pedagogico": "Correção Dinâmica & Estudo Autodirigido",
+                        "datas": {
+                                    "7A": "26/10/2026 (Seg - 07:10)",
+                                    "7B": "23/10/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Avaliar criticamente soluções tecnológicas para sustentabilidade.",
+                                    "Desenvolver autonomia na resolução de exercícios."
+                        ],
+                        "materiais": "Livro Caderno 4 (pág. 328), caderno e gabarito orientador.",
+                        "abertura": {
+                                    "titulo": "1. Correção em Duplas (20 min): Compare Estratégias",
+                                    "detalhes": "Duplas discutem respostas e marcam onde seus raciocínios divergem."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Estudo Autodirigido (20 min): Resolver com Apoio",
+                                    "detalhes": "Os alunos avançam em exercícios enquanto o professor intervém com perguntas-guia."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (10 min): Dúvida Mais Importante",
+                                    "detalhes": "Recolha dúvidas e responda às mais frequentes no quadro."
+                        },
+                        "estrategias_cognitivas": "Aprendizagem por pares, autorregulação, feedback formativo e prática guiada.",
+                        "avaliacao_formativa": "Qualidade da justificativa e autonomia na resolução.",
+                        "tarefa_casa": "Corrigir as questões conforme o feedback.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 86",
+                                    "7B": "Aula 87"
+                        },
+                        "aplicacao": "Resolução autônoma monitorada de problemas socioambientais."
+            },
+            {
+                        "id": "7-ag3-87",
+                        "aula_num": "Sequência 87",
+                        "excel_ref": "Cad. 4 / Mód. 22",
+                        "modulo": "Cad. 4 / Mód. 22",
+                        "titulo": "Recomposição Final do Bloco de Combustíveis e Máquinas",
+                        "foco_pedagogico": "Spaced Retrieval & Organização",
+                        "datas": {
+                                    "7A": "27/10/2026 (Ter - 11:10)",
+                                    "7B": "26/10/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Integrar efeito estufa, combustíveis e máquinas.",
+                                    "Sanar pendências antes do bloco de tecnologia."
+                        ],
+                        "materiais": "Flashcards, cadernos, mapas e gabarito.",
+                        "abertura": {
+                                    "titulo": "1. Revisão Espaçada (20 min): Rede de Conceitos",
+                                    "detalhes": "Perguntas intercaladas conectam Módulos 20, 21 e 22."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Correção e Visto (20 min): Pendências Prioritárias",
+                                    "detalhes": "O professor organiza atendimento rápido por tipo de dificuldade."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Transição (10 min): Da Máquina à Sociedade Digital",
+                                    "detalhes": "Pergunta geradora sobre como tecnologias transformam hábitos e trabalho."
+                        },
+                        "estrategias_cognitivas": "Spaced Retrieval, interleaving, recomposição e antecipação organizadora.",
+                        "avaliacao_formativa": "Registro de lacunas resolvidas e vistoria de atividades.",
+                        "tarefa_casa": "Preparar o fichamento do Módulo 23.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 87",
+                                    "7B": "Aula 88"
+                        },
+                        "aplicacao": "Revisão intercalada e correção orientada."
+            },
+            {
+                        "id": "7-ag3-88",
+                        "aula_num": "Sequência 88",
+                        "excel_ref": "Cad. 4 / Mód. 23",
+                        "modulo": "Cad. 4 / Mód. 23",
+                        "titulo": "Desenvolvimento Tecnológico: Ferramentas, Automação e Sociedade",
+                        "foco_pedagogico": "Retrieval de Entrada & Leitura Ativa",
+                        "datas": {
+                                    "7A": "29/10/2026 (Qui - 07:10)",
+                                    "7B": "29/10/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Compreender desenvolvimento tecnológico como transformação histórica.",
+                                    "Relacionar ferramentas, automação e mudanças sociais."
+                        ],
+                        "materiais": "Livro Caderno 4 (pág. 332), linha do tempo e modelo de fichamento.",
+                        "abertura": {
+                                    "titulo": "1. Retrieval de Entrada (10 min): Energia e Inovação",
+                                    "detalhes": "Recupere combustíveis e máquinas para mostrar que tecnologias dependem de energia e conhecimento acumulado."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Investigação Dirigida (25 min): Do Instrumento ao Sistema",
+                                    "detalhes": "Leitura comentada e fichamento ativo sobre ferramentas, automação e transformação do cotidiano."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (15 min): Tecnologia que Mudou Minha Rotina",
+                                    "detalhes": "Cada aluno escolhe uma tecnologia e descreve uma mudança positiva e uma nova dependência."
+                        },
+                        "estrategias_cognitivas": "Retrieval espaçado, leitura ativa, conexão pessoal e elaboração.",
+                        "avaliacao_formativa": "Fichamento e relação causa-consequência.",
+                        "tarefa_casa": "Finalizar o fichamento do Módulo 23.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 88",
+                                    "7B": "Aula 89"
+                        },
+                        "aplicacao": "Análise de uma tecnologia pela mudança social que produziu."
+            },
+            {
+                        "id": "7-ag3-89",
+                        "aula_num": "Sequência 89",
+                        "excel_ref": "Cad. 4 / Mód. 23",
+                        "modulo": "Cad. 4 / Mód. 23",
+                        "titulo": "Impactos Sociais e Ambientais da Tecnologia",
+                        "foco_pedagogico": "Problema Gerador & Pensamento Sistêmico",
+                        "datas": {
+                                    "7A": "03/11/2026 (Ter - 11:10)",
+                                    "7B": "30/10/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Analisar benefícios e riscos da tecnologia da informação e automação.",
+                                    "Compreender obsolescência programada e lixo eletrônico."
+                        ],
+                        "materiais": "Livro Caderno 4 (pág. 332–339), imagens de lixo eletrônico e infográfico.",
+                        "abertura": {
+                                    "titulo": "1. Provocação (10 min): E se os Chips Desligassem?",
+                                    "detalhes": "Use o cenário hipotético para mapear dependências tecnológicas invisíveis."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Construção do Conceito (25 min): Ciclo de Vida dos Eletrônicos",
+                                    "detalhes": "Discuta extração, fabricação, consumo, obsolescência e descarte, relacionando impactos sociais e ambientais."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fixação (15 min): Para Aprender",
+                                    "detalhes": "Resolução orientada e produção de uma cadeia “produto → uso → descarte → impacto”."
+                        },
+                        "estrategias_cognitivas": "Pensamento sistêmico, elaboração causal, cenário hipotético e dual coding.",
+                        "avaliacao_formativa": "Cadeia de ciclo de vida e participação no debate.",
+                        "tarefa_casa": "Resolver as atividades da página 339.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 89",
+                                    "7B": "Aula 90"
+                        },
+                        "aplicacao": "Análise do ciclo de vida de um aparelho eletrônico."
+            },
+            {
+                        "id": "7-ag3-90",
+                        "aula_num": "Sequência 90",
+                        "excel_ref": "Cad. 4 / Mód. 23",
+                        "modulo": "Cad. 4 / Mód. 23",
+                        "titulo": "Para Explorar e Solucionar: Consumo Consciente de Tecnologia",
+                        "foco_pedagogico": "Correção Ativa & Design de Soluções",
+                        "datas": {
+                                    "7A": "05/11/2026 (Qui - 07:10)",
+                                    "7B": "05/11/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Propor soluções para reduzir descarte e ampliar reutilização e reciclagem.",
+                                    "Aplicar conceitos do módulo a hábitos escolares e familiares."
+                        ],
+                        "materiais": "Livro Caderno 4 (pág. 338–339), cartolina ou documento digital.",
+                        "abertura": {
+                                    "titulo": "1. Correção Ativa (15 min): Respostas com Evidências",
+                                    "detalhes": "Alunos compartilham respostas e citam o conceito que sustenta cada proposta."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Trabalho em Grupo (25 min): Plano de Consumo Consciente",
+                                    "detalhes": "Grupos elaboram recomendações para compra, manutenção, reutilização e descarte de eletrônicos."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (10 min): Uma Ação Viável",
+                                    "detalhes": "A turma seleciona ações possíveis no contexto da escola."
+                        },
+                        "estrategias_cognitivas": "Far transfer, aprendizagem colaborativa, resolução de problemas e cidadania científica.",
+                        "avaliacao_formativa": "Clareza, viabilidade e fundamentação do plano.",
+                        "tarefa_casa": "Registrar um compromisso de consumo consciente.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 90",
+                                    "7B": "Aula 91"
+                        },
+                        "aplicacao": "Plano de redução e descarte responsável de resíduos eletrônicos."
+            },
+            {
+                        "id": "7-ag3-91",
+                        "aula_num": "Sequência 91",
+                        "excel_ref": "Retomada AG3 — Parte 1",
+                        "modulo": "Retomada AG3",
+                        "titulo": "Revisão Ativa para a AG3 — Parte 1",
+                        "foco_pedagogico": "Brain Dump, Retrieval Cumulativo & Testing Effect",
+                        "datas": {
+                                    "7A": "09/11/2026 (Seg - 07:10)",
+                                    "7B": "06/11/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Recuperar conceitos dos Módulos 19 a 24 sem consulta.",
+                                    "Diagnosticar pontos de maior insegurança antes da AG3."
+                        ],
+                        "materiais": "Folhas de Brain Dump, questões-modelo e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Brain Dump em Equipes (20 min): Atmosfera a Tecnologia",
+                                    "detalhes": "Equipes registram conceitos-chave, relações causais e exemplos sem consultar o material."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Simulado Comentado (20 min): Distratores e Estratégias",
+                                    "detalhes": "Resolução de questões com foco em interpretação e eliminação de alternativas."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Alinhamento (10 min): Estudo Focado",
+                                    "detalhes": "Cada aluno registra os tópicos que exigem recuperação adicional."
+                        },
+                        "estrategias_cognitivas": "Testing Effect, retrieval cumulativo, metacognição e feedback explicativo.",
+                        "avaliacao_formativa": "Mapa individual de domínio e lacunas.",
+                        "tarefa_casa": "Revisar os tópicos indicados no diagnóstico.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 91",
+                                    "7B": "Aula 92"
+                        },
+                        "aplicacao": "Brain Dump e questões-modelo da AG3."
+            },
+            {
+                        "id": "7-ag3-92",
+                        "aula_num": "Sequência 92",
+                        "excel_ref": "Retomada AG3 — Parte 2",
+                        "modulo": "Retomada AG3",
+                        "titulo": "Revisão Ativa para a AG3 — Parte 2",
+                        "foco_pedagogico": "Perguntas Cruzadas, Interleaving & Confiança Cognitiva",
+                        "datas": {
+                                    "7A": "10/11/2026 (Ter - 11:10)",
+                                    "7B": "09/11/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Esclarecer dúvidas remanescentes.",
+                                    "Realizar recuperação intercalada dos conteúdos da AG3."
+                        ],
+                        "materiais": "Cartões de perguntas, flashcards e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Perguntas Cruzadas (25 min): Aluno Testa Aluno",
+                                    "detalhes": "Duplas criam perguntas, trocam cartões e avaliam a qualidade das respostas."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Tira-Dúvidas (15 min): Erros de Maior Frequência",
+                                    "detalhes": "O professor revisa apenas os pontos diagnosticados como mais frágeis."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Orientações Metacognitivas (10 min): Véspera sem Sobrecarga",
+                                    "detalhes": "Planejamento de revisão leve, sono e recuperação ativa curta."
+                        },
+                        "estrategias_cognitivas": "Interleaving, aprendizagem por geração de perguntas, feedback por pares e redução de ansiedade.",
+                        "avaliacao_formativa": "Qualidade das perguntas e respostas produzidas.",
+                        "tarefa_casa": "Revisão curta e distribuída para a AG3.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 92",
+                                    "7B": "Aula 93"
+                        },
+                        "aplicacao": "Criação e troca de perguntas cumulativas."
+            },
+            {
+                        "id": "7-ag3-93",
+                        "aula_num": "Sequência 93",
+                        "excel_ref": "Cad. 4 / Mód. 24",
+                        "modulo": "Cad. 4 / Mód. 24",
+                        "titulo": "Avanço Tecnológico, Inteligência Artificial e Sociedade",
+                        "foco_pedagogico": "Debate Ético, Leitura Ativa & Pensamento Crítico",
+                        "datas": {
+                                    "7A": "12/11/2026 (Qui - 07:10)",
+                                    "7B": "12/11/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Compreender como conectividade, algoritmos e automação transformam relações humanas e ciência.",
+                                    "Refletir sobre benefícios, riscos e responsabilidade no uso da IA."
+                        ],
+                        "materiais": "Livro Caderno 4 (pág. 342–351), exemplos de sistemas de IA e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Provocação (10 min): Ajuda ou Substituição?",
+                                    "detalhes": "Pergunte quais habilidades a tecnologia amplia e quais podem enfraquecer quando delegadas sem reflexão."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Construção do Conceito (25 min): Dados, Algoritmos e Decisões",
+                                    "detalhes": "Leitura dirigida sobre automação, conectividade, ética digital e pensamento crítico. Use exemplos próximos dos alunos sem antropomorfizar a IA."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fixação (15 min): Uma Regra para Uso Responsável",
+                                    "detalhes": "Resolução das atividades e elaboração coletiva de princípios de uso responsável de IA na aprendizagem."
+                        },
+                        "estrategias_cognitivas": "Problema sociocientífico, debate estruturado, leitura ativa e elaboração ética.",
+                        "avaliacao_formativa": "Argumento escrito com benefício, risco e condição de uso responsável.",
+                        "tarefa_casa": "Concluir as atividades do Módulo 24.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 93",
+                                    "7B": "Aula 94"
+                        },
+                        "aplicacao": "Análise ética de um uso de IA no cotidiano escolar."
+            },
+            {
+                        "id": "7-ag3-94",
+                        "aula_num": "Sequência 94",
+                        "excel_ref": "Cad. 4 / Mód. 24",
+                        "modulo": "Cad. 4 / Mód. 24",
+                        "titulo": "Recomposição e Visto do Módulo 24",
+                        "foco_pedagogico": "Retrieval, Feedback & Autorregulação",
+                        "datas": {
+                                    "7A": "16/11/2026 (Seg - 07:10)",
+                                    "7B": "13/11/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Consolidar conceitos de IA, automação e sociedade.",
+                                    "Organizar registros e corrigir lacunas."
+                        ],
+                        "materiais": "Cadernos, gabarito, flashcards e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Retrieval Rápido (15 min): Cinco Conceitos",
+                                    "detalhes": "Perguntas curtas sobre algoritmo, dados, automação, ética e pensamento crítico."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Correção Orientada (25 min): Explique o Erro",
+                                    "detalhes": "Alunos corrigem respostas e escrevem por que a alternativa anterior não estava adequada."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Visto e Plano de Ação (10 min): Fechar Pendências",
+                                    "detalhes": "Checagem dos registros e indicação individual do que precisa ser finalizado."
+                        },
+                        "estrategias_cognitivas": "Retrieval Practice, feedback explicativo, autorregulação e no-stakes assessment.",
+                        "avaliacao_formativa": "Correção justificada e visto qualitativo.",
+                        "tarefa_casa": "Finalizar as pendências indicadas.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 94",
+                                    "7B": "Aula 95"
+                        },
+                        "aplicacao": "Correção explicada de atividades do Módulo 24."
+            },
+            {
+                        "id": "7-ag3-95",
+                        "aula_num": "Sequência 95",
+                        "excel_ref": "Atividade Complementar — Mód. 20",
+                        "modulo": "Recomposição",
+                        "titulo": "Atividade Complementar do Manual do Professor — Efeito Estufa",
+                        "foco_pedagogico": "Spaced Retrieval & Aplicação Cumulativa",
+                        "datas": {
+                                    "7A": "17/11/2026 (Ter - 11:10)",
+                                    "7B": "16/11/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Retomar efeito estufa e poluição após intervalo de várias semanas.",
+                                    "Aplicar conceitos em uma atividade complementar."
+                        ],
+                        "materiais": "Atividade do Manual do Professor, caderno e quadro.",
+                        "abertura": {
+                                    "titulo": "1. Recuperação Espaçada (10 min): O que Ainda Lembramos?",
+                                    "detalhes": "Perguntas sem consulta recuperam efeito estufa natural, intensificação e camada de ozônio."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Atividade Complementar (30 min): Aplicar e Justificar",
+                                    "detalhes": "Os alunos resolvem a proposta do manual com suporte por perguntas-guia."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Correção (10 min): Evidência na Resposta",
+                                    "detalhes": "Compare soluções e destaque o uso correto dos conceitos."
+                        },
+                        "estrategias_cognitivas": "Spaced Retrieval, prática cumulativa e feedback explicativo.",
+                        "avaliacao_formativa": "Resolução da atividade e justificativa conceitual.",
+                        "tarefa_casa": "Corrigir a atividade conforme o feedback.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 95",
+                                    "7B": "Aula 96"
+                        },
+                        "aplicacao": "Atividade cumulativa sobre efeito estufa e poluição."
+            },
+            {
+                        "id": "7-ag3-96",
+                        "aula_num": "Sequência 96",
+                        "excel_ref": "Recomposição — Mód. 23",
+                        "modulo": "Recomposição",
+                        "titulo": "Recomposição de Aprendizagem: Desenvolvimento Tecnológico",
+                        "foco_pedagogico": "Prática Deliberada & Apoio Individualizado",
+                        "datas": {
+                                    "7A": "19/11/2026 (Qui - 07:10)",
+                                    "7B": "19/11/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Sanar lacunas sobre impactos sociais e ambientais da tecnologia.",
+                                    "Reforçar consumo consciente e descarte correto."
+                        ],
+                        "materiais": "Atividades graduadas, infográficos e cadernos.",
+                        "abertura": {
+                                    "titulo": "1. Diagnóstico (8 min): Conceito, Causa e Solução",
+                                    "detalhes": "Itens curtos identificam se a dificuldade está na definição, na relação causal ou na proposta de solução."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Apoio por Estações (32 min): Reaprender com Foco",
+                                    "detalhes": "Atividades graduadas abordam obsolescência, lixo eletrônico e consumo consciente."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento (10 min): Progresso Visível",
+                                    "detalhes": "Cada aluno compara uma resposta inicial e final."
+                        },
+                        "estrategias_cognitivas": "Prática deliberada, scaffolding, feedback imediato e recomposição.",
+                        "avaliacao_formativa": "Comparação de respostas e registro de progresso.",
+                        "tarefa_casa": "Concluir o nível de atividade indicado.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 96",
+                                    "7B": "Aula 97"
+                        },
+                        "aplicacao": "Estações de apoio focadas em lacunas específicas."
+            },
+            {
+                        "id": "7-ag3-97",
+                        "aula_num": "Sequência 97",
+                        "excel_ref": "Recomposição — Mód. 22",
+                        "modulo": "Recomposição",
+                        "titulo": "Recomposição e Ajustes de Vistos: Máquinas e Novos Combustíveis",
+                        "foco_pedagogico": "Retrieval Espaçado & Correção Orientada",
+                        "datas": {
+                                    "7A": "23/11/2026 (Seg - 07:10)",
+                                    "7B": "23/11/2026 (Seg - 08:50)"
+                        },
+                        "objetivos": [
+                                    "Revisar novos combustíveis e tecnologias de transporte.",
+                                    "Organizar atividades pendentes."
+                        ],
+                        "materiais": "Flashcards, cadernos e gabarito.",
+                        "abertura": {
+                                    "titulo": "1. Retrieval (15 min): Vantagem e Limite",
+                                    "detalhes": "Cada cartão apresenta uma tecnologia; o aluno deve indicar benefício e limitação."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Correção & Atendimento (25 min): Ajustes Prioritários",
+                                    "detalhes": "O professor atende dúvidas e orienta correções no caderno."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Visto (10 min): Fechamento do Módulo",
+                                    "detalhes": "Registro das pendências resolvidas."
+                        },
+                        "estrategias_cognitivas": "Spaced Retrieval, comparação, feedback e autorregulação.",
+                        "avaliacao_formativa": "Desempenho nos flashcards e vistoria dos registros.",
+                        "tarefa_casa": "Finalizar pendências indicadas.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 97",
+                                    "7B": "Aula 98"
+                        },
+                        "aplicacao": "Flashcards comparativos e correção orientada."
+            },
+            {
+                        "id": "7-ag3-98",
+                        "aula_num": "Sequência 98",
+                        "excel_ref": "Recomposição — Mód. 21",
+                        "modulo": "Recomposição",
+                        "titulo": "Recomposição e Fechamento de Cadernos: Combustíveis",
+                        "foco_pedagogico": "Síntese, Retrieval & Organização",
+                        "datas": {
+                                    "7A": "24/11/2026 (Ter - 11:10)",
+                                    "7B": "26/11/2026 (Qui - 08:00)"
+                        },
+                        "objetivos": [
+                                    "Consolidar tipos de combustíveis e critérios de comparação.",
+                                    "Fechar os registros do ano letivo."
+                        ],
+                        "materiais": "Cadernos, mapa conceitual e checklist.",
+                        "abertura": {
+                                    "titulo": "1. Síntese Ativa (15 min): Quatro Critérios",
+                                    "detalhes": "Os alunos comparam combustíveis por renovabilidade, emissão, custo e disponibilidade."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Correção Final (20 min): Completar o Mapa",
+                                    "detalhes": "Revisão do mapa conceitual e esclarecimento de dúvidas."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Fechamento de Cadernos (15 min): Checklist",
+                                    "detalhes": "Organização dos registros e assinatura das pendências resolvidas."
+                        },
+                        "estrategias_cognitivas": "Retrieval cumulativo, organização do conhecimento e autorregulação.",
+                        "avaliacao_formativa": "Checklist de caderno e mapa conceitual completo.",
+                        "tarefa_casa": "Preparar-se para a dinâmica de encerramento.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 98",
+                                    "7B": "Aula 99"
+                        },
+                        "aplicacao": "Comparação multicritério e fechamento do mapa conceitual."
+            },
+            {
+                        "id": "7-ag3-99",
+                        "aula_num": "Encerramento",
+                        "excel_ref": "Atividade Lúdica",
+                        "modulo": "Encerramento",
+                        "titulo": "Kahoot de Revisão Geral & Encerramento do Ano",
+                        "foco_pedagogico": "Gamificação, Retrieval Cumulativo & Vínculo Positivo",
+                        "datas": {
+                                    "7A": "26/11/2026 (Qui - 07:10)",
+                                    "7B": "27/11/2026 (Sex - 11:10)"
+                        },
+                        "objetivos": [
+                                    "Recuperar de forma lúdica temas marcantes do ano.",
+                                    "Celebrar avanços acadêmicos e metacognitivos."
+                        ],
+                        "materiais": "Projetor, Kahoot, Chromebooks ou celulares conforme regras da escola e mensagem de encerramento.",
+                        "abertura": {
+                                    "titulo": "1. Organização (5 min): Regras e Equipes",
+                                    "detalhes": "Explique que o objetivo é recuperar conhecimentos e aprender com cada resposta, não apenas vencer."
+                        },
+                        "desenvolvimento": {
+                                    "titulo": "2. Kahoot de Revisão (35 min): Ciências em Jogo",
+                                    "detalhes": "Questões envolvem dinâmica, Termologia, atmosfera, efeito estufa, combustíveis e tecnologia. Após itens-chave, faça feedback explicativo curto."
+                        },
+                        "fechamento": {
+                                    "titulo": "3. Encerramento Emocional (10 min): O que Aprendemos sobre Aprender?",
+                                    "detalhes": "Retome a prática de recuperação introduzida no início do semestre e reconheça o desenvolvimento da turma."
+                        },
+                        "estrategias_cognitivas": "Gamificação, Testing Effect, feedback imediato e consolidação afetiva.",
+                        "avaliacao_formativa": "Participação e respostas do Kahoot como diagnóstico informal final.",
+                        "tarefa_casa": "Sem tarefa — encerramento do ano letivo.",
+                        "link": "",
+                        "referencias": {
+                                    "7A": "Aula 99",
+                                    "7B": "Dinâmica final"
+                        },
+                        "acessorio": {
+                                    "tipo": "Gamificação",
+                                    "titulo": "Kahoot de Revisão Geral",
+                                    "instrucoes": "1. Organizar equipes ou participação individual.\n2. Pausar em questões-chave para feedback explicativo.\n3. Valorizar a recuperação do conhecimento e a evolução da turma."
+                        },
+                        "aplicacao": "Kahoot cumulativo com feedback após questões-chave."
+            }
+];
+
+const aulas8AP3 = [
             {
                 id: "ap3-1", aula_num: "Aula 01", excel_ref: "Abertura Semestre", modulo: "Introdução",
                 titulo: "A Ciência de Como Aprendemos & Metacognição", foco_pedagogico: "Retrieval Practice & Metacognição",
@@ -673,7 +2445,7 @@
             }
         ];
 
-        const aulasAG3 = [
+const aulas8AG3 = [
             {
                 id: "ag3-76", aula_num: "Aula 01", excel_ref: "Excel 76", modulo: "Módulo 20",
                 titulo: "Controle Hormonal Reprodutivo Feminino & Fase Menstrual", foco_pedagogico: "Ancoragem Hormonal & Modelo Mental",
@@ -1085,311 +2857,208 @@
             }
         ];
 
-        // Estado Global
+        const SERIES = {
+            '7': {
+                titulo: 'Ciências — 7º Ano (EFAF)', subtitulo: 'Aprendizagem Ativa, Investigação & Ciência da Aprendizagem',
+                icone: 'fa-atom', headerClasses: 'bg-teal-500/20 text-teal-300 border-teal-500/30', accentText: 'text-teal-300', accentBorder: 'border-teal-500/40',
+                foco: 'Investigação Ativa', turmas: [{id:'7A',label:'7ºA'},{id:'7B',label:'7ºB'}], AP3: aulas7AP3, AG3: aulas7AG3,
+                modulosAP3: ['Cad. 2 / Mód. 14','Cad. 3 / Mód. 15','Cad. 3 / Mód. 16','Cad. 3 / Mód. 17','Cad. 3 / Mód. 18','Cad. 3 / Mód. 19','Retomada AP3'],
+                modulosAG3: ['Cad. 4 / Mód. 20','Cad. 4 / Mód. 21','Cad. 4 / Mód. 21–22','Cad. 4 / Mód. 22','Cad. 4 / Mód. 23','Cad. 4 / Mód. 24','Recomposição','Retomada AG3','Encerramento']
+            },
+            '8': {
+                titulo: 'Ciências — 8º Ano (EFAF)', subtitulo: 'Ciência da Aprendizagem & Neurociência Cognitiva',
+                icone: 'fa-dna', headerClasses: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30', accentText: 'text-indigo-300', accentBorder: 'border-indigo-500/40',
+                foco: 'Neurociência', turmas: [{id:'8B',label:'8ºB (Manhã)'},{id:'8AM',label:'8ºA (Manhã)'},{id:'8AT',label:'8ºA (Tarde)'}], AP3: aulas8AP3, AG3: aulas8AG3,
+                modulosAP3: ['Introdução','Módulo 15','Módulo 16','Módulo 17','Módulo 18','Módulo 19','Retomada','Módulo 20'],
+                modulosAG3: ['Módulo 20','Módulo 21','Módulo 22','Módulo 23','Módulo 24','Módulo 18','Revisão','Extra']
+            }
+        };
+
+        let serieAtual = null;
         let cicloAtual = 'AP3';
         let turmaAtual = 'todas';
-        let concluidasState = JSON.parse(localStorage.getItem('concluidas_eudson_8ano') || '{}');
+        let concluidasState = JSON.parse(localStorage.getItem('concluidas_eudson_multisseries') || '{}');
 
-        const modulosAP3 = ["Introdução", "Módulo 15", "Módulo 16", "Módulo 17", "Módulo 18", "Módulo 19", "Retomada", "Módulo 20"];
-        const modulosAG3 = ["Módulo 20", "Módulo 21", "Módulo 22", "Módulo 23", "Módulo 24", "Módulo 18", "Revisão", "Extra"];
+        const inactiveTab = 'flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white';
+        const activeAP3 = 'flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-lg';
+        const activeAG3 = 'flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-indigo-600 text-white shadow-lg';
+
+        function configAtual() { return SERIES[serieAtual]; }
+        function dataAtual() { return configAtual()[cicloAtual]; }
+        function stateKey(aulaId) { return `${serieAtual}-${cicloAtual}-${aulaId}`; }
+
+        function selectSerie(serie) {
+            serieAtual = serie; cicloAtual = 'AP3'; turmaAtual = 'todas';
+            document.getElementById('homeView').classList.add('hidden');
+            const app = document.getElementById('appView'); app.classList.remove('hidden'); app.classList.add('flex');
+            document.getElementById('searchInput').value = '';
+            atualizarIdentidade(); renderTurmas(); switchCiclo('AP3');
+            window.scrollTo({top:0,behavior:'smooth'});
+        }
+
+        function goHome() {
+            closeModal();
+            document.getElementById('appView').classList.add('hidden');
+            document.getElementById('appView').classList.remove('flex');
+            document.getElementById('homeView').classList.remove('hidden');
+            serieAtual = null; window.scrollTo({top:0,behavior:'smooth'});
+        }
+
+        function atualizarIdentidade() {
+            const cfg = configAtual();
+            document.getElementById('headerTitle').innerText = cfg.titulo;
+            document.getElementById('headerSubtitle').innerText = cfg.subtitulo;
+            document.getElementById('headerIconContainer').className = `shrink-0 p-3 rounded-xl border ${cfg.headerClasses}`;
+            document.getElementById('headerIcon').className = `fa-solid ${cfg.icone} text-2xl`;
+            document.getElementById('focoStatText').innerText = cfg.foco;
+        }
+
+        function renderTurmas() {
+            const c = document.getElementById('turmasContainer');
+            c.innerHTML = '<span class="text-xs sm:text-sm font-semibold text-slate-400 uppercase tracking-wider mr-2">Turma:</span>';
+            const itens = [{id:'todas',label:'Todas'}, ...configAtual().turmas];
+            itens.forEach(t => {
+                const b = document.createElement('button'); b.id = `btn-${t.id}`; b.innerText = t.label; b.onclick = () => setTurma(t.id);
+                b.className = 'turma-btn text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap'; c.appendChild(b);
+            });
+            atualizarBotoesTurma();
+        }
+
+        function atualizarBotoesTurma() {
+            document.querySelectorAll('.turma-btn').forEach(btn => btn.className = 'turma-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition border border-slate-800 whitespace-nowrap');
+            const ativo = document.getElementById(`btn-${turmaAtual}`);
+            if (ativo) ativo.className = `turma-btn ${cicloAtual === 'AP3' ? 'bg-emerald-600 border-emerald-500' : 'bg-indigo-600 border-indigo-500'} text-white shadow-lg text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap`;
+        }
 
         function atualizarSelectModulos() {
             const select = document.getElementById('moduloSelect');
             select.innerHTML = '<option value="todos">Todos os Módulos</option>';
-            const modulos = cicloAtual === 'AP3' ? modulosAP3 : modulosAG3;
-            modulos.forEach(mod => {
-                select.innerHTML += `<option value="${mod}">${mod}</option>`;
-            });
+            const mods = cicloAtual === 'AP3' ? configAtual().modulosAP3 : configAtual().modulosAG3;
+            mods.forEach(mod => { const o = document.createElement('option'); o.value = mod; o.innerText = mod; select.appendChild(o); });
         }
 
         function switchCiclo(ciclo) {
             cicloAtual = ciclo;
-            document.getElementById('tabAP3').className = ciclo === 'AP3' ? "flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-lg" : "flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white";
-            document.getElementById('tabAG3').className = ciclo === 'AG3' ? "flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-indigo-600 text-white shadow-lg" : "flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white";
-            
-            document.getElementById('cicloBadge').innerText = ciclo === 'AP3' ? "Ciclo AP3" : "Ciclo AG3";
-            document.getElementById('cicloBadge').className = ciclo === 'AP3' ? "bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-medium" : "bg-indigo-500/20 text-indigo-300 text-xs px-2.5 py-0.5 rounded-full border border-indigo-500/30 font-medium";
-            
-            document.getElementById('statLabelAulas').innerText = ciclo === 'AP3' ? "Aulas no Ciclo AP3" : "Aulas no Ciclo AG3";
-
-            atualizarSelectModulos();
-            renderAulas();
+            document.getElementById('tabAP3').className = ciclo === 'AP3' ? activeAP3 : inactiveTab;
+            document.getElementById('tabAG3').className = ciclo === 'AG3' ? activeAG3 : inactiveTab;
+            const badge = document.getElementById('cicloBadge'); badge.innerText = `Ciclo ${ciclo}`;
+            badge.className = ciclo === 'AP3' ? 'bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-medium' : 'bg-indigo-500/20 text-indigo-300 text-xs px-2.5 py-0.5 rounded-full border border-indigo-500/30 font-medium';
+            document.getElementById('statLabelAulas').innerText = `Aulas no Ciclo ${ciclo}`;
+            turmaAtual = 'todas'; atualizarBotoesTurma(); atualizarSelectModulos(); renderAulas();
         }
 
-        function setTurma(turma) {
-            turmaAtual = turma;
-            document.querySelectorAll('.turma-btn').forEach(btn => {
-                btn.className = "turma-btn bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition border border-slate-800 whitespace-nowrap";
-            });
-            const activeColor = cicloAtual === 'AP3' ? 'bg-emerald-600 text-white shadow-lg border-emerald-500' : 'bg-indigo-600 text-white shadow-lg border-indigo-500';
-            document.getElementById(`btn-${turma}`).className = `turma-btn ${activeColor} text-xs sm:text-sm px-3.5 py-2 rounded-lg font-medium transition whitespace-nowrap`;
-            renderAulas();
+        function setTurma(turma) { turmaAtual = turma; atualizarBotoesTurma(); renderAulas(); }
+
+        function aulaLabel(aula) {
+            if (turmaAtual !== 'todas' && aula.referencias && aula.referencias[turmaAtual]) return aula.referencias[turmaAtual];
+            return aula.aula_num;
+        }
+
+        function datasVisiveis(aula) {
+            const turmas = configAtual().turmas;
+            return turmas.filter(t => aula.datas && aula.datas[t.id]).map(t => `<span class="inline-flex items-center gap-1.5 bg-slate-950/70 border border-slate-800 px-2.5 py-1.5 rounded-md"><i class="fa-regular fa-calendar text-slate-500"></i><strong>${t.label}:</strong> ${aula.datas[t.id]}</span>`).join('');
         }
 
         function renderAulas() {
+            if (!serieAtual) return;
             const grid = document.getElementById('aulasGrid');
-            const searchVal = document.getElementById('searchInput').value.toLowerCase();
-            const moduloVal = document.getElementById('moduloSelect').value;
-
-            const dataSource = cicloAtual === 'AP3' ? aulasAP3 : aulasAG3;
-            grid.innerHTML = '';
-
-            const filtradas = dataSource.filter(aula => {
-                const matchSearch = aula.titulo.toLowerCase().includes(searchVal) || 
-                                    aula.modulo.toLowerCase().includes(searchVal) ||
-                                    aula.foco_pedagogico.toLowerCase().includes(searchVal) ||
-                                    aula.aula_num.toLowerCase().includes(searchVal);
-                
-                const matchModulo = moduloVal === 'todos' || aula.modulo.includes(moduloVal);
-                return matchSearch && matchModulo;
+            const search = document.getElementById('searchInput').value.trim().toLowerCase();
+            const modulo = document.getElementById('moduloSelect').value;
+            const source = dataAtual();
+            const filtered = source.filter(a => {
+                const haystack = [a.titulo,a.modulo,a.foco_pedagogico,a.aula_num,a.excel_ref,...(a.objetivos||[])].join(' ').toLowerCase();
+                const turmaOk = turmaAtual === 'todas' || Boolean(a.datas && a.datas[turmaAtual]);
+                const moduloOk = modulo === 'todos' || a.modulo === modulo || a.modulo.includes(modulo);
+                return turmaOk && moduloOk && haystack.includes(search);
             });
+            grid.innerHTML = '';
+            document.getElementById('totalAulasCount').innerText = filtered.length;
+            const doneCount = filtered.filter(a => concluidasState[stateKey(a.id)]).length;
+            document.getElementById('concluidasCount').innerText = doneCount;
 
-            document.getElementById('totalAulasCount').innerText = dataSource.length;
-            let concluidasNum = dataSource.filter(a => concluidasState[a.id]).length;
-            document.getElementById('concluidasCount').innerText = concluidasNum;
-
-            if (filtradas.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full py-12 text-center text-slate-500">
-                        <i class="fa-solid fa-folder-open text-4xl mb-3"></i>
-                        <p class="text-sm">Nenhum plano de aula encontrado com os filtros selecionados.</p>
-                    </div>
-                `;
-                return;
+            if (!filtered.length) {
+                grid.innerHTML = '<div class="col-span-full text-center py-16 bg-slate-900/50 border border-slate-800 rounded-2xl"><i class="fa-solid fa-magnifying-glass text-3xl text-slate-600 mb-3"></i><p class="text-slate-400">Nenhuma aula encontrada com os filtros atuais.</p></div>'; return;
             }
 
-            filtradas.forEach(aula => {
-                const isConcluido = concluidasState[aula.id] || false;
-                const temAcessorio = aula.acessorio ? true : false;
-                const accentColor = cicloAtual === 'AP3' ? 'emerald' : 'indigo';
-
-                let badgeColor = "bg-slate-800 text-slate-300 border-slate-700";
-                if(aula.modulo.includes("Módulo 15") || aula.modulo.includes("Módulo 20")) badgeColor = "bg-cyan-500/20 text-cyan-300 border-cyan-500/30";
-                if(aula.modulo.includes("Módulo 16") || aula.modulo.includes("Módulo 21")) badgeColor = "bg-pink-500/20 text-pink-300 border-pink-500/30";
-                if(aula.modulo.includes("Módulo 17") || aula.modulo.includes("Módulo 22")) badgeColor = "bg-amber-500/20 text-amber-300 border-amber-500/30";
-                if(aula.modulo.includes("Módulo 18") || aula.modulo.includes("Módulo 23")) badgeColor = "bg-purple-500/20 text-purple-300 border-purple-500/30";
-                if(aula.modulo.includes("Módulo 19") || aula.modulo.includes("Módulo 24")) badgeColor = "bg-rose-500/20 text-rose-300 border-rose-500/30";
-                if(aula.modulo.includes("Retomada") || aula.modulo.includes("Revisão")) badgeColor = "bg-indigo-500/20 text-indigo-300 border-indigo-500/30";
-
-                // Estilização diferenciada (borda âmbar/dourada) para aulas com atividades acessórias especiais
-                let cardBorderClass = "border-slate-800";
-                if (temAcessorio) {
-                    cardBorderClass = "border-amber-500/70 bg-amber-950/10 shadow-amber-500/5";
-                } else if (isConcluido) {
-                    cardBorderClass = "border-emerald-500/60 bg-emerald-950/10";
-                }
-
-                let datasHtml = '';
-                if (turmaAtual === 'todas') {
-                    datasHtml = `
-                        <div class="text-xs text-slate-400 space-y-1 mt-2 bg-slate-950/60 p-2.5 rounded border border-slate-800">
-                            <div><strong class="text-slate-300">8ºB:</strong> ${aula.datas['8B']}</div>
-                            <div><strong class="text-slate-300">8ºA (M):</strong> ${aula.datas['8AM']}</div>
-                            <div><strong class="text-slate-300">8ºA (T):</strong> ${aula.datas['8AT']}</div>
-                        </div>
-                    `;
-                } else {
-                    const labelTurma = turmaAtual === '8B' ? '8ºB (Manhã)' : (turmaAtual === '8AM' ? '8ºA (Manhã)' : '8ºA (Tarde)');
-                    datasHtml = `
-                        <div class="text-xs text-${accentColor}-400 font-medium mt-2 bg-${accentColor}-950/30 p-2.5 rounded border border-${accentColor}-800/40">
-                            <i class="fa-regular fa-clock mr-1"></i> <strong>${labelTurma}:</strong> ${aula.datas[turmaAtual]}
-                        </div>
-                    `;
-                }
-
-                const card = document.createElement('div');
-                card.className = `bg-slate-900/80 hover:bg-slate-900 border ${cardBorderClass} hover:border-${accentColor}-500/50 rounded-xl p-5 transition flex flex-col justify-between group shadow-lg relative overflow-hidden`;
-
+            filtered.forEach(aula => {
+                const checked = concluidasState[stateKey(aula.id)] ? 'checked' : '';
+                const accent = cicloAtual === 'AP3' ? 'emerald' : 'indigo';
+                const card = document.createElement('article');
+                card.className = `bg-slate-900/80 border border-slate-800 hover:border-${accent}-500/60 rounded-xl overflow-hidden transition-all hover:shadow-xl flex flex-col`;
                 card.innerHTML = `
-                    <div onclick="openModal('${aula.id}')" class="cursor-pointer">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="bg-${accentColor}-500/20 text-${accentColor}-300 border border-${accentColor}-500/30 font-bold text-xs px-2.5 py-1 rounded-full">${aula.aula_num}</span>
-                            <span class="text-xs border px-2 py-0.5 rounded ${badgeColor}">${aula.modulo} (${aula.excel_ref})</span>
-                        </div>
-                        ${temAcessorio ? `
-                            <div class="mb-2 inline-flex items-center gap-1.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-semibold px-2.5 py-0.5 rounded-full">
-                                <i class="fa-solid fa-puzzle-piece text-amber-400"></i> ${aula.acessorio.tipo}
-                            </div>
-                        ` : ''}
-                        <h3 class="font-semibold text-slate-100 text-base group-hover:text-${accentColor}-400 transition mb-2">${aula.titulo}</h3>
-                        <p class="text-xs sm:text-sm text-slate-400 line-clamp-2 mb-3"><i class="fa-solid fa-brain text-${accentColor}-400 mr-1"></i> ${aula.foco_pedagogico}</p>
+                    <div class="p-4 sm:p-5 flex-1 cursor-pointer" onclick="openModal('${aula.id}')">
+                        <div class="flex items-start justify-between gap-3 mb-3"><div class="flex flex-wrap gap-2"><span class="bg-${accent}-500/20 text-${accent}-300 text-xs px-2.5 py-1 rounded-full border border-${accent}-500/30 font-bold">${aulaLabel(aula)}</span><span class="bg-slate-800 text-slate-400 text-xs px-2.5 py-1 rounded-full">${aula.modulo}</span></div><i class="fa-solid fa-arrow-up-right-from-square text-slate-600"></i></div>
+                        <h2 class="font-bold text-white text-base leading-snug mb-2">${aula.titulo}</h2>
+                        <p class="text-xs text-${accent}-300 font-semibold mb-3"><i class="fa-solid fa-brain mr-1"></i>${aula.foco_pedagogico}</p>
+                        <div class="flex flex-col gap-1.5 text-[11px] text-slate-400">${datasVisiveis(aula)}</div>
                     </div>
-                    <div>
-                        <div onclick="openModal('${aula.id}')" class="cursor-pointer">
-                            ${datasHtml}
-                        </div>
-                        <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs sm:text-sm">
-                            <button onclick="toggleConcluido('${aula.id}')" class="flex items-center gap-1.5 font-medium ${isConcluido ? 'text-emerald-400' : 'text-slate-400 hover:text-white'} transition">
-                                <i class="fa-solid ${isConcluido ? 'fa-square-check text-lg' : 'fa-square text-lg'}"></i>
-                                <span>${isConcluido ? 'Concluído (OK)' : 'Marcar OK'}</span>
-                            </button>
-                            ${aula.link ? `<a href="${aula.link}" target="_blank" class="text-sky-400 hover:underline flex items-center gap-1"><i class="fa-solid fa-link text-xs"></i> Link</a>` : ''}
-                        </div>
-                    </div>
-                `;
-
+                    <div class="bg-slate-950/50 border-t border-slate-800 px-4 py-3 flex items-center justify-between gap-3"><button onclick="openModal('${aula.id}')" class="text-xs font-semibold text-${accent}-300 hover:text-white transition">Ver plano detalhado <i class="fa-solid fa-arrow-right ml-1"></i></button><label class="flex items-center gap-2 text-xs text-slate-400 cursor-pointer select-none"><input type="checkbox" ${checked} onchange="toggleConcluida('${aula.id}', this.checked)" class="w-4 h-4 rounded accent-emerald-500"> Concluída</label></div>`;
                 grid.appendChild(card);
             });
         }
 
-        function toggleConcluido(id) {
-            concluidasState[id] = !concluidasState[id];
-            localStorage.setItem('concluidas_eudson_8ano', JSON.stringify(concluidasState));
-            renderAulas();
+        function toggleConcluida(id, checked) {
+            concluidasState[stateKey(id)] = checked; localStorage.setItem('concluidas_eudson_multisseries', JSON.stringify(concluidasState)); renderAulas();
         }
 
         function toggleAccordion(id) {
-            const el = document.getElementById(id);
-            const icon = document.getElementById(id + '-icon');
-            if (el.classList.contains('hidden')) {
-                el.classList.remove('hidden');
-                icon.classList.remove('fa-chevron-down');
-                icon.classList.add('fa-chevron-up');
-            } else {
-                el.classList.add('hidden');
-                icon.classList.remove('fa-chevron-up');
-                icon.classList.add('fa-chevron-down');
-            }
+            const el = document.getElementById(id), icon = document.getElementById(`${id}-icon`); if (!el) return;
+            el.classList.toggle('hidden'); if (icon) icon.classList.toggle('rotate-180');
+        }
+
+        function flowStage(icon, title, subtitle, tone) {
+            return `<div class="flow-stage bg-slate-900/70 border border-slate-800 rounded-xl p-3 text-center min-h-28 flex flex-col items-center justify-center"><div class="w-10 h-10 rounded-full ${tone} flex items-center justify-center mb-2"><i class="fa-solid ${icon}"></i></div><strong class="text-xs text-white">${title}</strong><span class="text-[11px] text-slate-400 mt-1 line-clamp-2">${subtitle}</span></div>`;
         }
 
         function openModal(id) {
-            const dataSource = cicloAtual === 'AP3' ? aulasAP3 : aulasAG3;
-            const aula = dataSource.find(a => a.id === id);
-            if (!aula) return;
-
-            document.getElementById('modalNumberBadge').innerText = `${aula.aula_num} • Ref: ${aula.excel_ref}`;
+            const aula = dataAtual().find(a => a.id === id); if (!aula) return;
+            const cfg = configAtual();
+            document.getElementById('modalNumberBadge').innerText = `${aulaLabel(aula)} • ${aula.excel_ref}`;
             document.getElementById('modalModuloTag').innerText = aula.modulo;
+            const dateCards = cfg.turmas.filter(t => aula.datas && aula.datas[t.id]).map(t => `<div class="bg-slate-900/80 p-2.5 rounded border border-slate-800"><strong>${t.label}:</strong> ${aula.datas[t.id]}${aula.referencias && aula.referencias[t.id] ? `<span class="block text-[10px] text-slate-500 mt-1">${aula.referencias[t.id]}</span>` : ''}</div>`).join('');
+            const applicationText = aula.aplicacao || aula.avaliacao_formativa;
+            document.getElementById('modalContent').innerHTML = `
+                <section class="bg-slate-800/80 p-4 sm:p-5 rounded-xl border border-slate-700 space-y-3">
+                    <h2 class="text-lg sm:text-xl font-bold text-white flex items-start gap-2"><i class="fa-solid fa-graduation-cap ${cfg.accentText} mt-1"></i><span>${aula.titulo}</span></h2>
+                    <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-300 pt-2 border-t border-slate-700/60"><div><strong class="text-slate-400">Ciclo:</strong> ${cicloAtual}</div><div><strong class="text-slate-400">Docente:</strong> Prof. Eudson Marques</div><div><strong class="text-slate-400">Foco Cognitivo:</strong> <span class="${cfg.accentText} font-semibold">${aula.foco_pedagogico}</span></div></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-${Math.min(3, Math.max(1, cfg.turmas.length))} gap-2 text-xs pt-2 text-slate-400">${dateCards}</div>
+                    ${aula.link ? `<a href="${aula.link}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white text-xs px-3.5 py-2 rounded-lg"><i class="fa-solid fa-link"></i>Acessar recurso externo</a>` : ''}
+                </section>
 
-            const accentColor = cicloAtual === 'AP3' ? 'emerald' : 'indigo';
-
-            const content = document.getElementById('modalContent');
-            content.innerHTML = `
-                <div class="bg-slate-800/80 p-4 sm:p-5 rounded-xl border border-slate-700 space-y-3">
-                    <h2 class="text-base sm:text-lg font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-graduation-cap text-${accentColor}-400"></i>
-                        ${aula.titulo}
-                    </h2>
-                    <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-300 pt-2 border-t border-slate-700/60">
-                        <div><strong class="text-slate-400">Ciclo:</strong> ${cicloAtual}</div>
-                        <div><strong class="text-slate-400">Docente:</strong> Prof. Eudson Marques</div>
-                        <div><strong class="text-slate-400">Foco Cognitivo:</strong> <span class="text-${accentColor}-300 font-semibold">${aula.foco_pedagogico}</span></div>
+                <section>
+                    <h3 class="text-xs sm:text-sm font-bold text-emerald-300 uppercase tracking-wider mb-3 flex items-center gap-2"><i class="fa-solid fa-route"></i> Fluxo da Aprendizagem Baseado em Evidências</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-3 md:gap-6">
+                        ${flowStage('fa-bolt','Ativação','Conhecimento prévio e engajamento','bg-emerald-500/20 text-emerald-300')}
+                        ${flowStage('fa-lightbulb','Construção',aula.abertura.titulo,'bg-amber-500/20 text-amber-300')}
+                        ${flowStage('fa-person-chalkboard','Prática Guiada',aula.desenvolvimento.titulo,'bg-indigo-500/20 text-indigo-300')}
+                        ${flowStage('fa-pen-to-square','Aplicação',applicationText,'bg-sky-500/20 text-sky-300')}
+                        ${flowStage('fa-circle-check','Consolidação',aula.fechamento.titulo,'bg-rose-500/20 text-rose-300')}
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs pt-2 text-slate-400">
-                        <div class="bg-slate-900/80 p-2.5 rounded border border-slate-800"><strong>Turma 8ºB:</strong> ${aula.datas['8B']}</div>
-                        <div class="bg-slate-900/80 p-2.5 rounded border border-slate-800"><strong>Turma 8ºA (M):</strong> ${aula.datas['8AM']}</div>
-                        <div class="bg-slate-900/80 p-2.5 rounded border border-slate-800"><strong>Turma 8ºA (T):</strong> ${aula.datas['8AT']}</div>
-                    </div>
-                    ${aula.link ? `<div class="pt-2"><a href="${aula.link}" target="_blank" class="inline-flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm px-3.5 py-2 rounded-lg transition font-medium"><i class="fa-solid fa-link"></i> Acessar Link Externo de Apoio</a></div>` : ''}
-                </div>
+                    <p class="text-[11px] text-slate-500 mt-3">O fluxo explicita a sequência cognitiva do plano; os detalhes completos permanecem nos blocos abaixo.</p>
+                </section>
 
-                <!-- BLOCO EXCLUSIVO DE ATIVIDADE ACESSÓRIA (SE HOUVER) -->
-                ${aula.acessorio ? `
-                    <div class="bg-amber-950/30 border-l-4 border-amber-500 border border-amber-500/40 p-4 sm:p-5 rounded-xl space-y-2 shadow-lg">
-                        <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-puzzle-piece"></i> Ferramenta Acessória: ${aula.acessorio.tipo}
-                        </h3>
-                        <p class="text-xs sm:text-sm font-semibold text-amber-200">${aula.acessorio.titulo}</p>
-                        <div class="text-xs sm:text-sm text-slate-300 leading-relaxed pt-2 border-t border-amber-500/30 whitespace-pre-line">
-                            <strong>Orientações de Execução:</strong><br>
-                            ${aula.acessorio.instrucoes}
-                        </div>
-                    </div>
-                ` : ''}
+                ${aula.acessorio ? `<section class="bg-amber-950/30 border-l-4 border-amber-500 border border-amber-500/40 p-4 sm:p-5 rounded-xl space-y-2"><h3 class="text-xs sm:text-sm font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-puzzle-piece"></i>${aula.acessorio.tipo}</h3><p class="font-semibold text-amber-100">${aula.acessorio.titulo}</p><div class="text-xs sm:text-sm text-slate-300 pt-2 border-t border-amber-500/30 whitespace-pre-line">${aula.acessorio.instrucoes}</div></section>` : ''}
 
-                <div>
-                    <h3 class="text-xs sm:text-sm font-bold text-${accentColor}-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-bullseye"></i> Objetivos de Aprendizagem
-                    </h3>
-                    <ul class="list-disc list-inside space-y-1.5 bg-slate-800/40 p-4 rounded-lg border border-slate-800 text-slate-200 text-xs sm:text-sm">
-                        ${aula.objetivos.map(obj => `<li>${obj}</li>`).join('')}
-                    </ul>
-                </div>
+                <section><h3 class="text-xs sm:text-sm font-bold ${cfg.accentText} uppercase tracking-wider mb-2 flex items-center gap-2"><i class="fa-solid fa-bullseye"></i> Objetivos de Aprendizagem</h3><ul class="list-disc list-inside space-y-1.5 bg-slate-800/40 p-4 rounded-lg border border-slate-800 text-slate-200 text-xs sm:text-sm">${aula.objetivos.map(o => `<li>${o}</li>`).join('')}</ul></section>
+                <section><h3 class="text-xs sm:text-sm font-bold text-purple-300 uppercase tracking-wider mb-2 flex items-center gap-2"><i class="fa-solid fa-box-open"></i> Materiais & Recursos</h3><p class="bg-slate-800/40 p-4 rounded-lg border border-slate-800 text-xs sm:text-sm">${aula.materiais}</p></section>
 
-                <div>
-                    <h3 class="text-xs sm:text-sm font-bold text-purple-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-box-open"></i> Materiais &amp; Recursos Didáticos
-                    </h3>
-                    <p class="bg-slate-800/40 p-4 rounded-lg border border-slate-800 text-slate-300 text-xs sm:text-sm">${aula.materiais}</p>
-                </div>
+                <section><h3 class="text-xs sm:text-sm font-bold text-amber-300 uppercase tracking-wider mb-3 flex items-center gap-2"><i class="fa-solid fa-list-check"></i> Desenvolvimento Metodológico Detalhado</h3><div class="space-y-3">
+                    <div class="bg-slate-800/50 rounded-xl border-l-4 border-emerald-500 border border-slate-800 overflow-hidden"><button onclick="toggleAccordion('step1')" class="w-full p-4 flex justify-between items-center text-left hover:bg-slate-800/80"><span class="font-bold text-emerald-300 text-xs sm:text-sm">${aula.abertura.titulo}</span><i id="step1-icon" class="fa-solid fa-chevron-down text-xs text-slate-400 transition"></i></button><div id="step1" class="hidden p-4 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 bg-slate-900/40 whitespace-pre-line">${aula.abertura.detalhes}</div></div>
+                    <div class="bg-slate-800/50 rounded-xl border-l-4 border-amber-500 border border-slate-800 overflow-hidden"><button onclick="toggleAccordion('step2')" class="w-full p-4 flex justify-between items-center text-left hover:bg-slate-800/80"><span class="font-bold text-amber-300 text-xs sm:text-sm">${aula.desenvolvimento.titulo}</span><i id="step2-icon" class="fa-solid fa-chevron-down text-xs text-slate-400 transition"></i></button><div id="step2" class="hidden p-4 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 bg-slate-900/40 whitespace-pre-line">${aula.desenvolvimento.detalhes}</div></div>
+                    <div class="bg-slate-800/50 rounded-xl border-l-4 border-blue-500 border border-slate-800 overflow-hidden"><button onclick="toggleAccordion('step3')" class="w-full p-4 flex justify-between items-center text-left hover:bg-slate-800/80"><span class="font-bold text-blue-300 text-xs sm:text-sm">${aula.fechamento.titulo}</span><i id="step3-icon" class="fa-solid fa-chevron-down text-xs text-slate-400 transition"></i></button><div id="step3" class="hidden p-4 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 bg-slate-900/40 whitespace-pre-line">${aula.fechamento.detalhes}</div></div>
+                </div></section>
 
-                <!-- DESENVOLVIMENTO METODOLÓGICO (ACCORDIONS) -->
-                <div>
-                    <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-list-check"></i> Desenvolvimento Metodológico Detalhado (Ciência da Aprendizagem)
-                    </h3>
-                    <div class="space-y-3">
-                        <div class="bg-slate-800/50 rounded-xl border-l-4 border-emerald-500 border border-slate-800 overflow-hidden transition">
-                            <div onclick="toggleAccordion('step1')" class="p-3.5 sm:p-4 flex justify-between items-center cursor-pointer hover:bg-slate-800/80 transition">
-                                <span class="font-bold text-emerald-400 text-xs sm:text-sm">${aula.abertura.titulo}</span>
-                                <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition" id="step1-icon"></i>
-                            </div>
-                            <div id="step1" class="hidden p-4 pt-0 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 mt-2 bg-slate-900/40 whitespace-pre-line">
-                                <p class="pt-2">${aula.abertura.detalhes}</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-800/50 rounded-xl border-l-4 border-amber-500 border border-slate-800 overflow-hidden transition">
-                            <div onclick="toggleAccordion('step2')" class="p-3.5 sm:p-4 flex justify-between items-center cursor-pointer hover:bg-slate-800/80 transition">
-                                <span class="font-bold text-amber-400 text-xs sm:text-sm">${aula.desenvolvimento.titulo}</span>
-                                <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition" id="step2-icon"></i>
-                            </div>
-                            <div id="step2" class="hidden p-4 pt-0 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 mt-2 bg-slate-900/40 whitespace-pre-line">
-                                <p class="pt-2">${aula.desenvolvimento.detalhes}</p>
-                            </div>
-                        </div>
-
-                        <div class="bg-slate-800/50 rounded-xl border-l-4 border-blue-500 border border-slate-800 overflow-hidden transition">
-                            <div onclick="toggleAccordion('step3')" class="p-3.5 sm:p-4 flex justify-between items-center cursor-pointer hover:bg-slate-800/80 transition">
-                                <span class="font-bold text-blue-400 text-xs sm:text-sm">${aula.fechamento.titulo}</span>
-                                <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition" id="step3-icon"></i>
-                            </div>
-                            <div id="step3" class="hidden p-4 pt-0 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 mt-2 bg-slate-900/40 whitespace-pre-line">
-                                <p class="pt-2">${aula.fechamento.detalhes}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                    <div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl">
-                        <h4 class="text-xs sm:text-sm font-bold text-${accentColor}-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                            <i class="fa-solid fa-brain"></i> Ciência da Aprendizagem
-                        </h4>
-                        <p class="text-xs sm:text-sm text-slate-300">${aula.estrategias_cognitivas}</p>
-                    </div>
-                    <div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl">
-                        <h4 class="text-xs sm:text-sm font-bold text-rose-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                            <i class="fa-solid fa-check-double"></i> Avaliação Formativa
-                        </h4>
-                        <p class="text-xs sm:text-sm text-slate-300">${aula.avaliacao_formativa}</p>
-                    </div>
-                </div>
-
-                <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex items-center gap-3">
-                    <div class="bg-sky-500/20 text-sky-400 p-2.5 rounded-lg text-xl"><i class="fa-solid fa-house-chimney"></i></div>
-                    <div>
-                        <span class="text-xs font-bold text-slate-400 uppercase block">Atividade de Casa / Tarefa</span>
-                        <span class="text-xs sm:text-sm font-medium text-slate-200">${aula.tarefa_casa}</span>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('lessonModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+                <section class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl"><h4 class="text-xs sm:text-sm font-bold ${cfg.accentText} uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-brain"></i> Ciência da Aprendizagem</h4><p class="text-xs sm:text-sm">${aula.estrategias_cognitivas}</p></div><div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl"><h4 class="text-xs sm:text-sm font-bold text-rose-300 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-check-double"></i> Avaliação Formativa</h4><p class="text-xs sm:text-sm">${aula.avaliacao_formativa}</p></div></section>
+                <section class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex items-center gap-3"><div class="bg-sky-500/20 text-sky-300 p-2.5 rounded-lg text-xl"><i class="fa-solid fa-house-chimney"></i></div><div><span class="text-xs font-bold text-slate-400 uppercase block">Atividade de Casa / Tarefa</span><span class="text-xs sm:text-sm font-medium text-slate-200">${aula.tarefa_casa}</span></div></section>`;
+            document.getElementById('lessonModal').classList.remove('hidden'); document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
-            document.getElementById('lessonModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
-        });
-
+        function closeModal() { document.getElementById('lessonModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+        document.getElementById('lessonModal').addEventListener('click', e => { if (e.target.id === 'lessonModal') closeModal(); });
         document.addEventListener('DOMContentLoaded', () => {
-            atualizarSelectModulos();
-            renderAulas();
+            document.getElementById('homeCount7').innerText = new Set([...aulas7AP3, ...aulas7AG3].map(a => a.aula_num)).size;
+            document.getElementById('homeCount8').innerText = aulas8AP3.length + aulas8AG3.length;
         });
     </script>
 </body>
