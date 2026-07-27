@@ -87,7 +87,7 @@
                 </article>
             </div>
         </main>
-        <footer class="text-center py-5 text-xs text-slate-500 border-t border-slate-900">PlanejaEDU • Plataforma de Apoio Docente • Prof. Eudson Marques © 2026</footer>
+        <footer class="text-center py-5 text-xs text-slate-500 border-t border-slate-900">PlanejaEDU • Plataforma de Apoio Docente • Prof. Eudson Marques © 2026 • Dados multiséries restaurados</footer>
     </div>
 
     <!-- PAINEL POR SÉRIE -->
@@ -128,6 +128,7 @@
                     <div class="flex flex-wrap gap-2">
                         <button id="weekAllBtn" onclick="setAgendaScope('todas')" class="text-xs px-3 py-2 rounded-lg border transition">Todas as séries</button>
                         <button id="weekSerieBtn" onclick="setAgendaScope('serie')" class="text-xs px-3 py-2 rounded-lg border transition">Série atual</button>
+                        <button onclick="exportarNotionCSV()" class="text-xs px-3 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 border border-purple-500 text-white transition" title="Exportar todas as aulas para o Notion"><i class="fa-solid fa-file-csv mr-1"></i>Notion</button>
                         <button onclick="renderMinhaSemana()" class="text-xs px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition" title="Atualizar painel"><i class="fa-solid fa-rotate"></i></button>
                     </div>
                 </div>
@@ -5259,32 +5260,69 @@ const aulas8AG3 = [
             '6': {
                 titulo: 'Ciências — 6º Ano (EFAF)', subtitulo: 'Aprender a Aprender, Investigação & Alfabetização Científica',
                 icone: 'fa-seedling', headerClasses: 'bg-amber-500/20 text-amber-300 border-amber-500/30', accentText: 'text-amber-300', accentBorder: 'border-amber-500/40',
-                foco: 'Alfabetização Científica', turmas: [{id:'6A',label:'6ºA'}], AP3: aulas6AP3, AG3: aulas6AG3,
+                foco: 'Alfabetização Científica', turmas: [{id:'6A',label:'6ºA'}], AP3: Object.freeze([...aulas6AP3]), AG3: Object.freeze([...aulas6AG3]),
                 modulosAP3: ['Introdução','Cad. 2 / Mód. 14','Mapas e retomada','Recomposição','Cad. 3 / Mód. 15','Cad. 3 / Mód. 16','Cad. 3 / Mód. 17','Cad. 3 / Mód. 18','Cad. 3 / Mód. 19','Retomada AP3'],
                 modulosAG3: ['Cad. 4 / Mód. 20','Cad. 4 / Mód. 21','Cad. 4 / Mód. 22','Cad. 4 / Mód. 23','Recomposição','Mapas e retomada']
             },
             '7': {
                 titulo: 'Ciências — 7º Ano (EFAF)', subtitulo: 'Aprendizagem Ativa, Investigação & Ciência da Aprendizagem',
                 icone: 'fa-atom', headerClasses: 'bg-teal-500/20 text-teal-300 border-teal-500/30', accentText: 'text-teal-300', accentBorder: 'border-teal-500/40',
-                foco: 'Investigação Ativa', turmas: [{id:'7A',label:'7ºA'},{id:'7B',label:'7ºB'}], AP3: aulas7AP3, AG3: aulas7AG3,
+                foco: 'Investigação Ativa', turmas: [{id:'7A',label:'7ºA'},{id:'7B',label:'7ºB'}], AP3: Object.freeze([...aulas7AP3]), AG3: Object.freeze([...aulas7AG3]),
                 modulosAP3: ['Introdução','Cad. 2 / Mód. 14','Cad. 3 / Mód. 15','Cad. 3 / Mód. 16','Cad. 3 / Mód. 17','Cad. 3 / Mód. 18','Cad. 3 / Mód. 19','Retomada AP3'],
                 modulosAG3: ['Cad. 4 / Mód. 20','Cad. 4 / Mód. 21','Cad. 4 / Mód. 21–22','Cad. 4 / Mód. 22','Cad. 4 / Mód. 23','Cad. 4 / Mód. 24','Recomposição','Retomada AG3','Encerramento']
             },
             '8': {
                 titulo: 'Ciências — 8º Ano (EFAF)', subtitulo: 'Ciência da Aprendizagem & Neurociência Cognitiva',
                 icone: 'fa-dna', headerClasses: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30', accentText: 'text-indigo-300', accentBorder: 'border-indigo-500/40',
-                foco: 'Neurociência', turmas: [{id:'8B',label:'8ºB (Manhã)'},{id:'8AM',label:'8ºA (Manhã)'},{id:'8AT',label:'8ºA (Tarde)'}], AP3: aulas8AP3, AG3: aulas8AG3,
+                foco: 'Neurociência', turmas: [{id:'8B',label:'8ºB (Manhã)'},{id:'8AM',label:'8ºA (Manhã)'},{id:'8AT',label:'8ºA (Tarde)'}], AP3: Object.freeze([...aulas8AP3]), AG3: Object.freeze([...aulas8AG3]),
                 modulosAP3: ['Introdução','Módulo 15','Módulo 16','Módulo 17','Módulo 18','Módulo 19','Retomada','Módulo 20'],
                 modulosAG3: ['Módulo 20','Módulo 21','Módulo 22','Módulo 23','Módulo 24','Módulo 18','Revisão','Extra']
             },
             '9': {
                 titulo: 'Biologia — 9º Ano (EFAF)', subtitulo: 'Ciência da Aprendizagem, Investigação & Argumentação Científica',
                 icone: 'fa-microscope', headerClasses: 'bg-rose-500/20 text-rose-300 border-rose-500/30', accentText: 'text-rose-300', accentBorder: 'border-rose-500/40',
-                foco: 'Argumentação Científica', turmas: [{id:'9A',label:'9ºA'},{id:'9B',label:'9ºB'}], AP3: aulas9AP3, AG3: aulas9AG3,
+                foco: 'Argumentação Científica', turmas: [{id:'9A',label:'9ºA'},{id:'9B',label:'9ºB'}], AP3: Object.freeze([...aulas9AP3]), AG3: Object.freeze([...aulas9AG3]),
                 modulosAP3: ['Introdução','A6 — Vírus e procariontes','A6 — Protozoários e fungos','Genética — Herança autossômica','Genética — Probabilidade','Genética — Oficina','Retomada cumulativa','A7 — Ecologia','A7 — Recursos naturais','A7 — Oficina','A7 — Consolidação','A8 — Biodiversidade','A8 — Proteção','Retomada AP3'],
                 modulosAG3: ['A8 — Perda de biodiversidade','A8 — Unidades de conservação','A8 — Conservação','Filogenia','Retomada AG3','Consolidação']
             }
         };
+
+
+        const PLANEJAEDU_VERSION = '2026.07.27-restauracao-multisseries-1';
+        const EXPECTED_SERIES_SIGNATURES = {
+            '6': { ap3Min: 20, ag3Min: 14, terms: ['Química', 'célula', 'sistema nervoso'] },
+            '7': { ap3Min: 20, ag3Min: 20, terms: ['Newton', 'atmosfera', 'combustíveis'] },
+            '8': { ap3Min: 20, ag3Min: 15, terms: ['reprodução', 'endócrino', 'IST'] },
+            '9': { ap3Min: 15, ag3Min: 8, terms: ['vírus', 'Ecologia', 'biodiversidade'] }
+        };
+
+        function validarIntegridadeMultisseries() {
+            const erros = [];
+            Object.entries(EXPECTED_SERIES_SIGNATURES).forEach(([serie, regra]) => {
+                const cfg = SERIES[serie];
+                if (!cfg || cfg.AP3.length < regra.ap3Min || cfg.AG3.length < regra.ag3Min) {
+                    erros.push(`${serie}º ano com quantidade inesperada de planos`);
+                    return;
+                }
+                const corpus = [...cfg.AP3, ...cfg.AG3].map(a => `${a.titulo} ${a.modulo} ${a.foco_pedagogico}`).join(' ').toLowerCase();
+                const encontrados = regra.terms.filter(t => corpus.includes(t.toLowerCase())).length;
+                if (encontrados < 2) erros.push(`${serie}º ano não corresponde ao conteúdo esperado`);
+            });
+            const refs = Object.values(SERIES).flatMap(cfg => [cfg.AP3, cfg.AG3]);
+            for (let i = 0; i < refs.length; i++) for (let j = i + 1; j < refs.length; j++) {
+                if (refs[i] === refs[j]) erros.push('Duas séries compartilham a mesma lista de planos');
+            }
+            if (erros.length) {
+                console.error('Falha de integridade PlanejaEDU:', erros);
+                const aviso = document.createElement('div');
+                aviso.className = 'fixed inset-x-3 top-3 z-[100] bg-rose-950 border border-rose-500 text-rose-100 rounded-xl p-4 shadow-2xl';
+                aviso.innerHTML = `<strong>PlanejaEDU detectou um problema nos dados.</strong><br><span class="text-sm">${erros.join(' • ')}</span>`;
+                document.body.appendChild(aviso);
+                return false;
+            }
+            console.info(`PlanejaEDU ${PLANEJAEDU_VERSION}: dados das quatro séries validados.`);
+            return true;
+        }
 
         let serieAtual = null;
         let cicloAtual = 'AP3';
@@ -5386,9 +5424,10 @@ const aulas8AG3 = [
 
         function parseDataAula(texto) {
             if (!texto) return null;
-            const m = texto.match(/(\d{2})\/(\d{2})\/(\d{4}).*?(\d{2}):(\d{2})/);
-            if (!m) return null;
-            return new Date(Number(m[3]), Number(m[2])-1, Number(m[1]), Number(m[4]), Number(m[5]), 0, 0);
+            const m = String(texto).match(/(\d{2})\/(\d{2})(?:\/(\d{4}))?.*?(\d{2}):(\d{2})/);
+            if (m) return new Date(Number(m[3] || 2026), Number(m[2])-1, Number(m[1]), Number(m[4]), Number(m[5]), 0, 0);
+            const apenasData = String(texto).match(/(\d{2})(?:[–-]\d{2})?\/(\d{2})(?:\/(\d{4}))?/);
+            return apenasData ? new Date(Number(apenasData[3] || 2026), Number(apenasData[2])-1, Number(apenasData[1]), 0, 0, 0, 0) : null;
         }
 
         function parseDataSimples(texto) {
@@ -5474,6 +5513,46 @@ const aulas8AG3 = [
             ].filter(Boolean).join('\n\n');
             const q = new URLSearchParams({action:'TEMPLATE',text:titulo,dates:`${fmt(inicio)}/${fmt(fim)}`,details:detalhes,location:'Colégio Antares',ctz:'America/Fortaleza'});
             return `https://calendar.google.com/calendar/render?${q.toString()}`;
+        }
+
+        function csvCampo(valor) {
+            const texto = String(valor ?? '').replace(/\r?\n/g, ' ').replace(/\s+/g, ' ').trim();
+            return `"${texto.replace(/"/g, '""')}"`;
+        }
+
+        function exportarNotionCSV() {
+            const cabecalhos = ['Aula','Data e hora','Data BR','Turma','Série','Componente','Ciclo','Capítulo ou módulo','Aula do planejamento','Referência anual','Foco pedagógico','Preparar','Atividade obrigatória','Tarefa ou correção','Estratégias cognitivas','Avaliação formativa','Status','Material preparado','Aula ministrada','Tipo','ID PlanejaEDU','Link PlanejaEDU','Referências pedagógicas'];
+            const linhas = [cabecalhos.map(csvCampo).join(',')];
+            todasOcorrencias().forEach(item => {
+                const key = agendaOccurrenceKey(item);
+                const dataUS = `${pad2(item.data.getMonth()+1)}/${pad2(item.data.getDate())}/${item.data.getFullYear()} ${formatHora(item.data)}`;
+                const dataBR = `${pad2(item.data.getDate())}/${pad2(item.data.getMonth()+1)}/${item.data.getFullYear()} ${formatHora(item.data)}`;
+                const status = ministradaState[key] ? 'Ministrada' : (preparoState[key] ? 'Preparada' : 'Planejada');
+                const componente = item.serie === '9' ? 'Biologia' : 'Ciências';
+                const id = `${item.serie}-${item.ciclo}-${item.aula.id}-${item.turma.id}-${item.data.getTime()}`;
+                const link = `${location.href.split('#')[0]}#${encodeURIComponent(item.aula.id)}`;
+                const valores = [
+                    `${item.turma.label} — ${item.aula.titulo}`, dataUS, dataBR, item.turma.label, `${item.serie}º ano`, componente,
+                    item.ciclo, item.aula.modulo || '', item.aula.aula_num || '', item.aula.excel_ref || '', item.aula.foco_pedagogico || '',
+                    item.aula.materiais || '', item.aula.material_ph || '', item.aula.tarefa_casa || '', item.aula.estrategias_cognitivas || '',
+                    item.aula.avaliacao_formativa || '', status, !!preparoState[key], !!ministradaState[key], 'Aula', id, link,
+                    item.aula.referencias_pedagogicas || ''
+                ];
+                linhas.push(valores.map(csvCampo).join(','));
+            });
+            MARCOS_2026.forEach((marco, i) => {
+                const d = parseDataSimples(marco.data);
+                if (!d) return;
+                const dataUS = `${pad2(d.getMonth()+1)}/${pad2(d.getDate())}/${d.getFullYear()}`;
+                const dataBR = `${pad2(d.getDate())}/${pad2(d.getMonth()+1)}/${d.getFullYear()}`;
+                const valores = [marco.titulo,dataUS,dataBR,'Todas','Todas','Calendário escolar','Marco','Calendário 2026','','','',marco.detalhe || '','','','','','Confirmado',true,false,marco.tipo === 'prova' ? 'Avaliação' : (marco.tipo === 'feriado' ? 'Feriado' : 'Evento'),`marco-2026-${i}`,location.href.split('#')[0],''];
+                linhas.push(valores.map(csvCampo).join(','));
+            });
+            const blob = new Blob(['\ufeff' + linhas.join('\r\n')], {type:'text/csv;charset=utf-8;'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'agenda_planejaedu_notion.csv'; document.body.appendChild(a); a.click(); a.remove();
+            URL.revokeObjectURL(url);
         }
 
         function renderMinhaSemana() {
@@ -5669,6 +5748,7 @@ const aulas8AG3 = [
         window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
         document.getElementById('lessonModal').addEventListener('click', e => { if (e.target.id === 'lessonModal') closeModal(); });
         document.addEventListener('DOMContentLoaded', () => {
+            validarIntegridadeMultisseries();
             document.getElementById('homeCount6').innerText = aulas6AP3.length + aulas6AG3.length;
             document.getElementById('homeCount7').innerText = new Set([...aulas7AP3, ...aulas7AG3].map(a => a.aula_num)).size;
             document.getElementById('homeCount8').innerText = aulas8AP3.length + aulas8AG3.length;
