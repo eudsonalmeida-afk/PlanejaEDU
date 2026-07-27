@@ -19,6 +19,9 @@
         .view-transition { animation: viewIn .28s ease-out; }
         @keyframes viewIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .flow-stage { position: relative; }
+        .week-card-done { opacity: .62; }
+        .week-card-done .week-title { text-decoration: line-through; }
+        .status-check { accent-color: #10b981; }
         @media (min-width: 768px) {
             .flow-stage:not(:last-child)::after {
                 content: ""; position: absolute; top: 25px; right: -13px; width: 26px; height: 2px; background: #334155;
@@ -117,6 +120,23 @@
         </section>
 
         <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
+            <section id="minhaSemanaSection" class="mb-6 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/30 border border-emerald-500/25 rounded-2xl overflow-hidden shadow-xl shadow-emerald-950/10">
+                <div class="p-4 sm:p-5 border-b border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2"><span class="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-300 flex items-center justify-center"><i class="fa-solid fa-calendar-week"></i></span><div><h2 class="text-lg sm:text-xl font-bold text-white">Minha semana</h2><p id="weekRangeLabel" class="text-xs text-slate-400 mt-0.5">Próximas aulas e preparações</p></div></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button id="weekAllBtn" onclick="setAgendaScope('todas')" class="text-xs px-3 py-2 rounded-lg border transition">Todas as séries</button>
+                        <button id="weekSerieBtn" onclick="setAgendaScope('serie')" class="text-xs px-3 py-2 rounded-lg border transition">Série atual</button>
+                        <button onclick="renderMinhaSemana()" class="text-xs px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition" title="Atualizar painel"><i class="fa-solid fa-rotate"></i></button>
+                    </div>
+                </div>
+                <div class="p-4 sm:p-5">
+                    <div id="weekSummary" class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4"></div>
+                    <div id="weekLessons" class="grid grid-cols-1 lg:grid-cols-2 gap-3"></div>
+                    <div id="weekMilestones" class="mt-4"></div>
+                </div>
+            </section>
             <div class="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium" id="statLabelAulas">Aulas no Ciclo</p><p class="text-xl sm:text-2xl font-bold text-white mt-1" id="totalAulasCount">0</p></div><div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-book-open"></i></div></div>
                 <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium">Aulas Concluídas</p><p class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1" id="concluidasCount">0</p></div><div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-square-check"></i></div></div>
@@ -5270,6 +5290,19 @@ const aulas8AG3 = [
         let cicloAtual = 'AP3';
         let turmaAtual = 'todas';
         let concluidasState = JSON.parse(localStorage.getItem('concluidas_eudson_multisseries') || '{}');
+        let preparoState = JSON.parse(localStorage.getItem('planejaedu_preparo_aulas') || '{}');
+        let ministradaState = JSON.parse(localStorage.getItem('planejaedu_aulas_ministradas') || '{}');
+        let agendaScope = localStorage.getItem('planejaedu_agenda_scope') || 'todas';
+
+        const MARCOS_2026 = [
+            {data:'14/08/2026', titulo:'Dia do Estudante', tipo:'feriado', detalhe:'Sem aula.'},
+            {data:'08/09/2026', fim:'11/09/2026', titulo:'InterAntares', tipo:'evento', detalhe:'Período sem aulas.'},
+            {data:'08/10/2026', titulo:'AP3 de Biologia — 9º ano', tipo:'prova', detalhe:'A6, Genética e A7.'},
+            {data:'12/10/2026', titulo:'Nossa Senhora Aparecida', tipo:'feriado', detalhe:'Sem aula.'},
+            {data:'13/10/2026', titulo:'Feriado do Professor transferido', tipo:'feriado', detalhe:'Sem aula.'},
+            {data:'02/11/2026', titulo:'Finados', tipo:'feriado', detalhe:'Sem aula.'},
+            {data:'05/11/2026', titulo:'AG3 de Biologia — 9º ano', tipo:'prova', detalhe:'Avaliação cumulativa com ênfase em A7 e A8.'}
+        ];
 
         const inactiveTab = 'flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white';
         const activeAP3 = 'flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-lg';
@@ -5284,7 +5317,7 @@ const aulas8AG3 = [
             document.getElementById('homeView').classList.add('hidden');
             const app = document.getElementById('appView'); app.classList.remove('hidden'); app.classList.add('flex');
             document.getElementById('searchInput').value = '';
-            atualizarIdentidade(); renderTurmas(); switchCiclo('AP3');
+            atualizarIdentidade(); renderTurmas(); switchCiclo('AP3'); renderMinhaSemana();
             window.scrollTo({top:0,behavior:'smooth'});
         }
 
@@ -5336,7 +5369,7 @@ const aulas8AG3 = [
             const badge = document.getElementById('cicloBadge'); badge.innerText = `Ciclo ${ciclo}`;
             badge.className = ciclo === 'AP3' ? 'bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-medium' : 'bg-indigo-500/20 text-indigo-300 text-xs px-2.5 py-0.5 rounded-full border border-indigo-500/30 font-medium';
             document.getElementById('statLabelAulas').innerText = `Aulas no Ciclo ${ciclo}`;
-            turmaAtual = 'todas'; atualizarBotoesTurma(); atualizarSelectModulos(); renderAulas();
+            turmaAtual = 'todas'; atualizarBotoesTurma(); atualizarSelectModulos(); renderAulas(); renderMinhaSemana();
         }
 
         function setTurma(turma) { turmaAtual = turma; atualizarBotoesTurma(); renderAulas(); }
@@ -5349,6 +5382,139 @@ const aulas8AG3 = [
         function datasVisiveis(aula) {
             const turmas = configAtual().turmas;
             return turmas.filter(t => aula.datas && aula.datas[t.id]).map(t => `<span class="inline-flex items-center gap-1.5 bg-slate-950/70 border border-slate-800 px-2.5 py-1.5 rounded-md"><i class="fa-regular fa-calendar text-slate-500"></i><strong>${t.label}:</strong> ${aula.datas[t.id]}</span>`).join('');
+        }
+
+        function parseDataAula(texto) {
+            if (!texto) return null;
+            const m = texto.match(/(\d{2})\/(\d{2})\/(\d{4}).*?(\d{2}):(\d{2})/);
+            if (!m) return null;
+            return new Date(Number(m[3]), Number(m[2])-1, Number(m[1]), Number(m[4]), Number(m[5]), 0, 0);
+        }
+
+        function parseDataSimples(texto) {
+            const m = String(texto || '').match(/(\d{2})\/(\d{2})\/(\d{4})/);
+            return m ? new Date(Number(m[3]), Number(m[2])-1, Number(m[1]), 0, 0, 0, 0) : null;
+        }
+
+        function startOfDay(d) { const x = new Date(d); x.setHours(0,0,0,0); return x; }
+        function addDays(d,n) { const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+        function pad2(n) { return String(n).padStart(2,'0'); }
+        function formatDia(d) { return d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'}).replace('.',''); }
+        function formatHora(d) { return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`; }
+        function agendaOccurrenceKey(item) { return `${item.serie}-${item.ciclo}-${item.aula.id}-${item.turma.id}-${item.data.getTime()}`; }
+
+        function todasOcorrencias() {
+            const itens = [];
+            Object.entries(SERIES).forEach(([serie,cfg]) => {
+                ['AP3','AG3'].forEach(ciclo => {
+                    (cfg[ciclo] || []).forEach(aula => {
+                        cfg.turmas.forEach(turma => {
+                            const texto = aula.datas && aula.datas[turma.id];
+                            const data = parseDataAula(texto);
+                            if (data) itens.push({serie,ciclo,cfg,aula,turma,data,texto});
+                        });
+                    });
+                });
+            });
+            return itens.sort((a,b)=>a.data-b.data);
+        }
+
+        function resumoTexto(texto, limite=110) {
+            const limpo = String(texto || '').replace(/\s+/g,' ').trim();
+            return limpo.length > limite ? limpo.slice(0,limite-1).trim() + '…' : limpo;
+        }
+
+        function setAgendaScope(scope) {
+            agendaScope = scope;
+            localStorage.setItem('planejaedu_agenda_scope', scope);
+            renderMinhaSemana();
+        }
+
+        function updateAgendaScopeButtons() {
+            const all = document.getElementById('weekAllBtn'), serie = document.getElementById('weekSerieBtn');
+            if (!all || !serie) return;
+            const active = 'text-xs px-3 py-2 rounded-lg border transition bg-emerald-600 border-emerald-500 text-white shadow-lg';
+            const inactive = 'text-xs px-3 py-2 rounded-lg border transition bg-slate-900 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600';
+            all.className = agendaScope === 'todas' ? active : inactive;
+            serie.className = agendaScope === 'serie' ? active : inactive;
+            serie.innerText = serieAtual ? SERIES[serieAtual].titulo.split('—')[0].trim() : 'Série atual';
+        }
+
+        function togglePreparo(key, checked) {
+            preparoState[key] = checked;
+            localStorage.setItem('planejaedu_preparo_aulas', JSON.stringify(preparoState));
+            renderMinhaSemana();
+        }
+
+        function toggleMinistradaAgenda(key, checked) {
+            ministradaState[key] = checked;
+            localStorage.setItem('planejaedu_aulas_ministradas', JSON.stringify(ministradaState));
+            renderMinhaSemana();
+        }
+
+        function abrirPlanoDaAgenda(serie, ciclo, aulaId, turmaId) {
+            serieAtual = serie; cicloAtual = ciclo; turmaAtual = turmaId || 'todas';
+            document.getElementById('homeView').classList.add('hidden');
+            const app = document.getElementById('appView'); app.classList.remove('hidden'); app.classList.add('flex');
+            atualizarIdentidade(); renderTurmas(); switchCiclo(ciclo); setTurma(turmaId || 'todas');
+            openModal(aulaId);
+        }
+
+        function googleCalendarUrl(item) {
+            const inicio = item.data;
+            const fim = new Date(inicio.getTime() + 50*60000);
+            const fmt = d => `${d.getFullYear()}${pad2(d.getMonth()+1)}${pad2(d.getDate())}T${pad2(d.getHours())}${pad2(d.getMinutes())}00`;
+            const titulo = `${item.turma.label} — ${item.aula.titulo}`;
+            const detalhes = [
+                `PlanejaEDU • ${item.cfg.titulo}`,
+                `Ciclo ${item.ciclo} • ${item.aula.modulo}`,
+                `Preparar: ${item.aula.materiais || 'Consultar o plano completo.'}`,
+                item.aula.material_ph ? `Material obrigatório: ${item.aula.material_ph}` : '',
+                `Tarefa/correção: ${item.aula.tarefa_casa || 'Sem registro.'}`
+            ].filter(Boolean).join('\n\n');
+            const q = new URLSearchParams({action:'TEMPLATE',text:titulo,dates:`${fmt(inicio)}/${fmt(fim)}`,details:detalhes,location:'Colégio Antares',ctz:'America/Fortaleza'});
+            return `https://calendar.google.com/calendar/render?${q.toString()}`;
+        }
+
+        function renderMinhaSemana() {
+            const lessons = document.getElementById('weekLessons');
+            if (!lessons || !serieAtual) return;
+            updateAgendaScopeButtons();
+            const hoje = new Date();
+            const inicio = startOfDay(hoje);
+            const fim = addDays(inicio, 7); fim.setHours(23,59,59,999);
+            const ocorrencias = todasOcorrencias().filter(x => x.data >= inicio && x.data <= fim && (agendaScope === 'todas' || x.serie === serieAtual));
+            const hojeItens = ocorrencias.filter(x => startOfDay(x.data).getTime() === inicio.getTime());
+            const pendPreparo = ocorrencias.filter(x => !preparoState[agendaOccurrenceKey(x)]).length;
+            const ministradas = ocorrencias.filter(x => ministradaState[agendaOccurrenceKey(x)]).length;
+            document.getElementById('weekRangeLabel').innerText = `${inicio.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})} a ${fim.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})} • atualização automática`;
+            document.getElementById('weekSummary').innerHTML = `
+                <div class="bg-slate-950/55 border border-slate-800 rounded-xl p-3"><span class="text-[11px] text-slate-500 uppercase font-bold">Hoje</span><strong class="block text-xl text-white mt-1">${hojeItens.length}</strong><span class="text-[11px] text-slate-500">aula(s)</span></div>
+                <div class="bg-slate-950/55 border border-slate-800 rounded-xl p-3"><span class="text-[11px] text-slate-500 uppercase font-bold">Próximos 7 dias</span><strong class="block text-xl text-emerald-300 mt-1">${ocorrencias.length}</strong><span class="text-[11px] text-slate-500">aula(s)</span></div>
+                <div class="bg-slate-950/55 border border-slate-800 rounded-xl p-3"><span class="text-[11px] text-slate-500 uppercase font-bold">A preparar</span><strong class="block text-xl text-amber-300 mt-1">${pendPreparo}</strong><span class="text-[11px] text-slate-500">pendência(s)</span></div>
+                <div class="bg-slate-950/55 border border-slate-800 rounded-xl p-3"><span class="text-[11px] text-slate-500 uppercase font-bold">Ministradas</span><strong class="block text-xl text-sky-300 mt-1">${ministradas}</strong><span class="text-[11px] text-slate-500">nesta janela</span></div>`;
+
+            if (!ocorrencias.length) {
+                lessons.innerHTML = '<div class="lg:col-span-2 text-center py-10 bg-slate-950/40 border border-slate-800 rounded-xl"><i class="fa-regular fa-calendar-check text-3xl text-slate-600 mb-3"></i><p class="text-slate-300 font-semibold">Nenhuma aula cadastrada nos próximos sete dias.</p><p class="text-xs text-slate-500 mt-1">O painel usa as datas registradas nos planos.</p></div>';
+            } else {
+                lessons.innerHTML = ocorrencias.map(item => {
+                    const key = agendaOccurrenceKey(item), preparada=!!preparoState[key], ministrada=!!ministradaState[key];
+                    const hojeBadge = startOfDay(item.data).getTime() === inicio.getTime() ? '<span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full text-[10px] font-bold">HOJE</span>' : '';
+                    return `<article class="${ministrada?'week-card-done ':''}bg-slate-950/55 border ${preparada?'border-emerald-500/35':'border-slate-800'} rounded-xl p-4 transition">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0"><div class="flex flex-wrap items-center gap-2 mb-2">${hojeBadge}<span class="text-xs font-bold text-white">${formatDia(item.data)} • ${formatHora(item.data)}</span><span class="text-[10px] px-2 py-0.5 bg-slate-800 text-slate-400 rounded-full">${item.turma.label}</span><span class="text-[10px] px-2 py-0.5 bg-slate-800 text-slate-400 rounded-full">${item.ciclo}</span></div><h3 class="week-title text-sm sm:text-base font-bold text-white leading-snug">${item.aula.titulo}</h3><p class="text-[11px] text-slate-500 mt-1">${item.cfg.titulo} • ${item.aula.modulo}</p></div>
+                            <span class="shrink-0 w-9 h-9 rounded-lg ${preparada?'bg-emerald-500/15 text-emerald-300':'bg-amber-500/15 text-amber-300'} flex items-center justify-center"><i class="fa-solid ${preparada?'fa-check':'fa-box-open'}"></i></span>
+                        </div>
+                        <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]"><div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5"><strong class="text-purple-300 block mb-1"><i class="fa-solid fa-box-open mr-1"></i>Preparar</strong><span class="text-slate-400">${resumoTexto(item.aula.materiais,135)}</span></div><div class="bg-slate-900/70 border border-slate-800 rounded-lg p-2.5"><strong class="text-sky-300 block mb-1"><i class="fa-solid fa-list-check mr-1"></i>Pendência</strong><span class="text-slate-400">${resumoTexto(item.aula.material_ph || item.aula.tarefa_casa,135) || 'Sem atividade registrada.'}</span></div></div>
+                        <div class="mt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-slate-800 pt-3"><div class="flex flex-wrap gap-3"><label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer"><input class="status-check w-4 h-4" type="checkbox" ${preparada?'checked':''} onchange="togglePreparo('${key}',this.checked)"> Material preparado</label><label class="flex items-center gap-1.5 text-[11px] text-slate-300 cursor-pointer"><input class="status-check w-4 h-4" type="checkbox" ${ministrada?'checked':''} onchange="toggleMinistradaAgenda('${key}',this.checked)"> Aula ministrada</label></div><div class="flex gap-2"><button onclick="abrirPlanoDaAgenda('${item.serie}','${item.ciclo}','${item.aula.id}','${item.turma.id}')" class="text-[11px] font-semibold px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"><i class="fa-solid fa-book-open mr-1"></i>Abrir plano</button><a href="${googleCalendarUrl(item)}" target="_blank" rel="noopener" class="text-[11px] font-semibold px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition"><i class="fa-brands fa-google mr-1"></i>Agenda</a></div></div>
+                    </article>`;
+                }).join('');
+            }
+
+            const marcoFim = addDays(inicio,30); marcoFim.setHours(23,59,59,999);
+            const marcos = MARCOS_2026.filter(m => { const d=parseDataSimples(m.data); return d && d>=inicio && d<=marcoFim; });
+            const box = document.getElementById('weekMilestones');
+            box.innerHTML = marcos.length ? `<div class="border-t border-slate-800 pt-4"><h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-bell mr-1 text-amber-300"></i>Próximos marcos</h3><div class="flex gap-2 overflow-x-auto pb-1 custom-scrollbar">${marcos.map(m=>`<div class="shrink-0 min-w-56 bg-slate-950/50 border ${m.tipo==='prova'?'border-rose-500/35':m.tipo==='feriado'?'border-amber-500/30':'border-sky-500/30'} rounded-lg p-3"><span class="text-[10px] font-bold ${m.tipo==='prova'?'text-rose-300':m.tipo==='feriado'?'text-amber-300':'text-sky-300'} uppercase">${m.data}${m.fim?' a '+m.fim:''}</span><strong class="block text-xs text-white mt-1">${m.titulo}</strong><span class="text-[11px] text-slate-500">${m.detalhe}</span></div>`).join('')}</div></div>` : '';
         }
 
         function renderAulas() {
