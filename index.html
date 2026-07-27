@@ -73,14 +73,14 @@
                     <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-indigo-300 font-semibold text-sm"><span><span id="homeCount8">0</span> planos estruturados</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition"></i></div>
                 </article>
 
-                <article class="relative bg-gradient-to-br from-slate-900 via-slate-900 to-rose-950/40 border border-rose-500/20 rounded-2xl p-6 sm:p-7 opacity-70">
+                <article onclick="selectSerie('9')" class="group relative bg-gradient-to-br from-slate-900 via-slate-900 to-rose-950/50 border border-rose-500/30 hover:border-rose-500 rounded-2xl p-6 sm:p-7 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-rose-500/10">
                     <div class="flex justify-between gap-4">
-                        <div><span class="inline-block bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold px-3 py-1 rounded-full">EFAF • Em preparação</span>
-                        <h2 class="text-2xl font-bold text-white mt-4">9º Ano — Ciências</h2></div>
-                        <div class="w-12 h-12 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-300"><i class="fa-solid fa-microscope text-xl"></i></div>
+                        <div><span class="inline-block bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold px-3 py-1 rounded-full">EFAF • 9ºA e 9ºB</span>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-rose-300 transition mt-4">9º Ano — Biologia</h2></div>
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-300 group-hover:scale-110 transition"><i class="fa-solid fa-microscope text-xl"></i></div>
                     </div>
-                    <p class="text-slate-400 text-sm mt-4">Espaço reservado para os planos, turmas e ciclos do 9º ano.</p>
-                    <div class="mt-6 pt-4 border-t border-slate-800 text-xs font-semibold text-rose-300">Conteúdo será adicionado depois</div>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-4">Ciência da Aprendizagem, microbiologia, Genética, Ecologia, Biodiversidade, conservação e árvores filogenéticas.</p>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-rose-300 font-semibold text-sm"><span><span id="homeCount9">0</span> planos estruturados</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition"></i></div>
                 </article>
             </div>
         </main>
@@ -4174,6 +4174,1067 @@ const aulas8AG3 = [
             }
         ];
 
+
+        const aulas9AP3 = [
+  {
+    "id": "9-ap3-intro",
+    "aula_num": "Abertura",
+    "excel_ref": "Ciência da Aprendizagem",
+    "modulo": "Introdução",
+    "titulo": "Como aprender Biologia de verdade",
+    "foco_pedagogico": "Metacognição, recuperação ativa, espaçamento e calibração",
+    "datas": {
+      "9A": "28/07/2026 (Ter - 10:20)",
+      "9B": "28/07/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Diferenciar familiaridade e domínio real.",
+      "Experimentar recuperação ativa antes da consulta.",
+      "Compreender espaçamento, intercalação, erro produtivo e feedback.",
+      "Elaborar um plano 3–2–1 para estudar Biologia."
+    ],
+    "materiais": "Quadro ou slides, lista de termos biológicos, folha de diagnóstico, cartões de casos e Google Forms opcional.",
+    "abertura": {
+      "titulo": "1. Diagnóstico e experimento (13 min): a ilusão de domínio",
+      "detalhes": "Levantar hábitos de estudo e projetar dez termos biológicos por 45 segundos. Retirar a lista e pedir recordação e explicação. Comparar reconhecer, lembrar, explicar e aplicar."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Construção e oficina (27 min): estratégias que funcionam",
+      "detalhes": "Explicar recuperação ativa, prática espaçada, intercalação e erro produtivo. Analisar casos de releitura, estudo na véspera e prática distribuída. Grupos propõem formas de estudar vocabulário, estruturas, processos e questões."
+    },
+    "fechamento": {
+      "titulo": "3. Plano pessoal e Exit Ticket (10 min)",
+      "detalhes": "Cada estudante monta o plano 3–2–1: três encontros curtos, duas formas de recuperação e uma forma de verificar domínio. Finalizar com perguntas de metacognição."
+    },
+    "estrategias_cognitivas": "Recuperação de baixo risco, geração, espaçamento, intercalação, calibração da confiança e feedback explicativo.",
+    "avaliacao_formativa": "Diagnóstico dos hábitos, desempenho no experimento, plano 3–2–1 e Exit Ticket.",
+    "tarefa_casa": "Aplicar o plano 3–2–1 ao conteúdo de vírus e trazer uma dúvida.",
+    "material_ph": "",
+    "aplicacao": "Diagnóstico dos hábitos, desempenho no experimento, plano 3–2–1 e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-39",
+    "aula_num": "Aula 39",
+    "excel_ref": "Vol. 3 / A6",
+    "modulo": "A6 — Vírus e procariontes",
+    "titulo": "Archaea e Bacteria: estrutura e reprodução",
+    "foco_pedagogico": "Comparação, modelagem e recuperação espaçada",
+    "datas": {
+      "9A": "28/07/2026 (Ter - 12:00)",
+      "9B": "31/07/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Diferenciar procariontes e eucariontes.",
+      "Reconhecer estruturas gerais de Archaea e Bacteria.",
+      "Explicar a divisão binária.",
+      "Comparar bactérias e vírus."
+    ],
+    "materiais": "Material didático, esquema bacteriano, cartões de estruturas, modelos de divisão binária e Sala Google opcional.",
+    "abertura": {
+      "titulo": "1. Recuperação e provocação (10 min)",
+      "detalhes": "Sem consulta, escrever cinco informações sobre vírus e indicar certeza, dúvida ou palpite. Discutir por que antibiótico não é solução para virose."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Start, estrutura e modelagem (30 min)",
+      "detalhes": "Realizar o Start do material; construir a comparação procarionte × eucarionte; associar estruturas bacterianas às funções; ordenar as etapas da divisão binária e distinguir reprodução de variabilidade genética."
+    },
+    "fechamento": {
+      "titulo": "3. Vírus, bactéria ou ambos? (10 min)",
+      "detalhes": "Classificar cartões por critérios e justificar. Finalizar com quatro perguntas de recuperação."
+    },
+    "estrategias_cognitivas": "Recuperação espaçada, comparação, geração, modelagem e feedback.",
+    "avaliacao_formativa": "Respostas do Start, justificativas no jogo, modelo da divisão binária e Exit Ticket.",
+    "tarefa_casa": "Realizar a seção Exercitando correspondente à Aula 39.",
+    "material_ph": "Start e Exercitando da Aula 39; páginas e questões conforme o material físico.",
+    "aplicacao": "Respostas do Start, justificativas no jogo, modelo da divisão binária e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-40",
+    "aula_num": "Aula 40",
+    "excel_ref": "Vol. 3 / A6",
+    "modulo": "A6 — Vírus e procariontes",
+    "titulo": "Metabolismo, papel ecológico e doenças bacterianas",
+    "foco_pedagogico": "Estudo de caso, causalidade e aplicação",
+    "datas": {
+      "9A": "04/08/2026 (Ter - 10:20)",
+      "9B": "04/08/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Reconhecer a diversidade metabólica de Archaea e Bacteria.",
+      "Explicar o papel dos decompositores.",
+      "Diferenciar bactéria e doença bacteriana.",
+      "Relacionar uso inadequado de antibióticos à seleção de resistência."
+    ],
+    "materiais": "Material didático, quadro comparativo, caso sobre decomposição, cartões de contextos e Sala Google.",
+    "abertura": {
+      "titulo": "1. Correção ativa e recuperação (13 min)",
+      "detalhes": "Comparar o Exercitando em duplas, localizar divergências e corrigir o raciocínio. Recuperar brevemente A4 e A5 em um quadro 2 × 2."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Diversidade e estudo de caso (27 min)",
+      "detalhes": "Construir as formas gerais de obtenção de matéria e energia. Investigar um planeta sem decompositores e produzir explicação no formato afirmação–evidência–raciocínio. Organizar doenças previstas no material por agente, transmissão e prevenção."
+    },
+    "fechamento": {
+      "titulo": "3. Benefício, impacto ou depende? (10 min)",
+      "detalhes": "Classificar decomposição, microbiota, fermentação, infecção e resistência, sempre com justificativa. Encerrar com recuperação sem consulta."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, elaboração, causalidade, estudo de caso e feedback.",
+    "avaliacao_formativa": "Correção do Exercitando, CER ecológico, classificações justificadas e Exit Ticket.",
+    "tarefa_casa": "Realizar o Exercitando da Aula 40 e usar flashcards como perguntas antes de revelar as respostas.",
+    "material_ph": "Exercitando e recursos de retomada de A4 e A5 indicados no planejamento.",
+    "aplicacao": "Correção do Exercitando, CER ecológico, classificações justificadas e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-a6-consolida",
+    "aula_num": "Consolidação",
+    "excel_ref": "Vol. 3 / A6",
+    "modulo": "A6 — Vírus e procariontes",
+    "titulo": "Laboratório de comparação: vírus, Archaea e Bacteria",
+    "foco_pedagogico": "Discriminação conceitual e calibração",
+    "datas": {
+      "9A": "04/08/2026 (Ter - 12:00)",
+      "9B": "07/08/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Comparar organização, metabolismo e reprodução.",
+      "Corrigir erros conceituais.",
+      "Identificar lacunas antes de protozoários e fungos."
+    ],
+    "materiais": "Folha de Brain Dump, matriz comparativa, estudos de caso e Google Forms.",
+    "abertura": {
+      "titulo": "1. Correção seletiva e Brain Dump (14 min)",
+      "detalhes": "Classificar erros como conceito, leitura, vocabulário ou justificativa. Produzir de memória um quadro sobre vírus, Archaea e Bacteria e acrescentar lacunas em outra cor."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Matriz e casos (26 min)",
+      "detalhes": "Completar a matriz comparativa e resolver casos de agentes acelulares, decompositores e procariontes de ambientes extremos. Aplicar quiz de calibração com confiança registrada."
+    },
+    "fechamento": {
+      "titulo": "3. Planejamento espaçado (10 min)",
+      "detalhes": "Agendar três retomadas curtas e registrar o erro conceitual prioritário."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, discriminação, calibração metacognitiva e espaçamento.",
+    "avaliacao_formativa": "Matriz, casos, quiz e plano de retomada.",
+    "tarefa_casa": "Corrigir as questões erradas, refazer uma sem consulta e produzir cinco flashcards próprios.",
+    "material_ph": "",
+    "aplicacao": "Matriz, casos, quiz e plano de retomada.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-41",
+    "aula_num": "Aula 41",
+    "excel_ref": "Vol. 3 / A6",
+    "modulo": "A6 — Protozoários e fungos",
+    "titulo": "Protozoários: diversidade, reprodução e locomoção",
+    "foco_pedagogico": "Investigação visual e comparação",
+    "datas": {
+      "9A": "11/08/2026 (Ter - 10:20)",
+      "9B": "11/08/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Reconhecer protozoários como eucariontes geralmente unicelulares.",
+      "Diferenciar pseudópodes, cílios e flagelos.",
+      "Comparar reprodução sexuada e assexuada.",
+      "Distinguir protozoários, bactérias e vírus."
+    ],
+    "materiais": "Material didático, imagens ou vídeos microscópicos, cartões e modelos simples.",
+    "abertura": {
+      "titulo": "1. Recuperação e provocação (10 min)",
+      "detalhes": "Completar sem consulta um quadro vírus × bactéria × protozoário e discutir se uma célula única pode se movimentar, capturar alimento e responder ao ambiente."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Estações de locomoção e reprodução (30 min)",
+      "detalhes": "Construir características gerais; analisar pseudópodes, cílios, flagelos e ausência de estrutura locomotora evidente; modelar reprodução assexuada e sexuada; resolver o perfil de um protozoário desconhecido."
+    },
+    "fechamento": {
+      "titulo": "3. Recuperação de saída (10 min)",
+      "detalhes": "Responder sem consulta sobre célula eucariótica, locomoção, reprodução e parasitismo."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, investigação visual, geração, modelagem e feedback.",
+    "avaliacao_formativa": "Quadro comparativo, ficha das estações, perfil investigativo e Exit Ticket.",
+    "tarefa_casa": "Realizar o Exercitando da Aula 41 e produzir quadro de locomoção de memória.",
+    "material_ph": "Exercitando da Aula 41; páginas e questões conforme o material.",
+    "aplicacao": "Quadro comparativo, ficha das estações, perfil investigativo e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-42",
+    "aula_num": "Aula 42",
+    "excel_ref": "Vol. 3 / A6",
+    "modulo": "A6 — Protozoários e fungos",
+    "titulo": "Protozoários e doenças humanas",
+    "foco_pedagogico": "Investigação epidemiológica e ensino entre pares",
+    "datas": {
+      "9A": "11/08/2026 (Ter - 12:00)",
+      "9B": "18/08/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Diferenciar agente etiológico, vetor, hospedeiro e transmissão.",
+      "Relacionar protozooses às medidas preventivas.",
+      "Evitar generalizações sobre protozoários."
+    ],
+    "materiais": "Material didático, dossiês de doenças, fichas epidemiológicas e Sala Google.",
+    "abertura": {
+      "titulo": "1. Correção e recuperação (12 min)",
+      "detalhes": "Corrigir o Exercitando por categorias de erro e recuperar formas de locomoção sem imagens. Problematizar a afirmação de que o barbeiro causa a doença de Chagas."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Dossiês e rotação de especialistas (28 min)",
+      "detalhes": "Construir o vocabulário epidemiológico. Grupos investigam doenças previstas no material: agente, vetor, transmissão, prevenção e erro comum. Reorganizar grupos para explicação sem leitura, seguida de conferência."
+    },
+    "fechamento": {
+      "titulo": "3. CER epidemiológico (10 min)",
+      "detalhes": "Cada aluno escolhe uma doença e justifica uma medida preventiva com afirmação, evidência e raciocínio."
+    },
+    "estrategias_cognitivas": "Recuperação, elaboração, ensino entre pares, geração e feedback após a tentativa.",
+    "avaliacao_formativa": "Ficha do dossiê, explicação oral, CER e correção dos exercícios.",
+    "tarefa_casa": "Realizar o Exercitando da Aula 42 e criar quatro flashcards autorais.",
+    "material_ph": "Exercitando da Aula 42; exemplos específicos conforme o capítulo.",
+    "aplicacao": "Ficha do dossiê, explicação oral, CER e correção dos exercícios.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-43",
+    "aula_num": "Aula 43",
+    "excel_ref": "Vol. 3 / A6",
+    "modulo": "A6 — Protozoários e fungos",
+    "titulo": "Fungos: estrutura, diversidade e importância",
+    "foco_pedagogico": "Modelagem, estações ecológicas e aplicação",
+    "datas": {
+      "9A": "18/08/2026 (Ter - 10:20)",
+      "9B": "21/08/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Reconhecer fungos como eucariontes heterotróficos.",
+      "Explicar hifas, micélio e nutrição por absorção.",
+      "Relacionar fungos à decomposição, produção e saúde.",
+      "Comparar fungos, protozoários, bactérias e vírus."
+    ],
+    "materiais": "Material didático, imagens de leveduras, bolores e cogumelos, barbante e cartões de contextos.",
+    "abertura": {
+      "titulo": "1. Correção e provocação (12 min)",
+      "detalhes": "Corrigir questões sobre agente, vetor e prevenção. Completar quadro bactéria × protozoário × fungo e discutir o que pão, bolor e floresta têm em comum."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Construção, modelo e estações (28 min)",
+      "detalhes": "Construir características gerais; modelar hifas e micélio com fios; realizar estações sobre decomposição, alimentação, relações ecológicas e saúde; analisar caso de micose sem diagnosticar."
+    },
+    "fechamento": {
+      "titulo": "3. Jogo e Exit Ticket (10 min)",
+      "detalhes": "Classificar pistas como fungo, bactéria, protozoário ou vírus e recuperar os conceitos centrais."
+    },
+    "estrategias_cognitivas": "Recuperação intercalada, modelagem, comparação, estudo de caso e feedback.",
+    "avaliacao_formativa": "Quadro comparativo, registro das estações, classificações e Exit Ticket.",
+    "tarefa_casa": "Realizar o Exercitando da Aula 43 e produzir tabela cumulativa dos quatro grupos.",
+    "material_ph": "Exercitando da Aula 43; páginas e questões conforme o material.",
+    "aplicacao": "Quadro comparativo, registro das estações, classificações e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-44",
+    "aula_num": "Aula 44",
+    "excel_ref": "Genética",
+    "modulo": "Genética — Herança autossômica",
+    "titulo": "Doenças autossômicas dominantes e recessivas",
+    "foco_pedagogico": "Recuperação espaçada e raciocínio por evidências",
+    "datas": {
+      "9A": "18/08/2026 (Ter - 12:00)",
+      "9B": "25/08/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Compreender herança autossômica.",
+      "Diferenciar condições dominantes e recessivas.",
+      "Relacionar genótipo e manifestação.",
+      "Interpretar heredogramas simples."
+    ],
+    "materiais": "Material didático, cartões AA/Aa/aa, heredogramas e Sala Google.",
+    "abertura": {
+      "titulo": "1. Recuperação e mitos (11 min)",
+      "detalhes": "Definir gene, alelo, genótipo, fenótipo e heterozigoto. Avaliar afirmações como “dominante é mais comum” e “recessivo é mais fraco”."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Genótipos e heredogramas (29 min)",
+      "detalhes": "Construir autossômica, dominante e recessiva; classificar AA, Aa e aa em dois cenários; investigar heredogramas e localizar genótipos certos e possíveis; resolver dois casos familiares."
+    },
+    "fechamento": {
+      "titulo": "3. Correção dos mitos e Exit Ticket (10 min)",
+      "detalhes": "Reescrever as afirmações iniciais e responder sobre padrões de herança."
+    },
+    "estrategias_cognitivas": "Recuperação espaçada, geração, análise de evidências e feedback.",
+    "avaliacao_formativa": "Definições, quadro de genótipos, heredogramas e Exit Ticket.",
+    "tarefa_casa": "Realizar o Exercitando da Aula 44 e explicar como responsáveis sem manifestação podem ter descendente afetado.",
+    "material_ph": "Exercitando da Aula 44; páginas e questões conforme o material.",
+    "aplicacao": "Definições, quadro de genótipos, heredogramas e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-45",
+    "aula_num": "Aula 45",
+    "excel_ref": "Genética",
+    "modulo": "Genética — Probabilidade",
+    "titulo": "Probabilidade aplicada à Genética",
+    "foco_pedagogico": "Experimentação, modelagem e resolução",
+    "datas": {
+      "9A": "25/08/2026 (Ter - 10:20)",
+      "9B": "28/08/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Compreender probabilidade como chance, não garantia.",
+      "Aplicar probabilidade a cruzamentos simples.",
+      "Interpretar quadro de Punnett.",
+      "Reconhecer a independência dos nascimentos."
+    ],
+    "materiais": "Moedas ou fichas, cartões de alelos, quadro de Punnett e material didático.",
+    "abertura": {
+      "titulo": "1. Correção e experimento (14 min)",
+      "detalhes": "Corrigir o Exercitando e recuperar herança dominante e recessiva. Lançar moedas, comparar frequência observada e probabilidade e discutir se a moeda tem memória."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Dos gametas ao Punnett (26 min)",
+      "detalhes": "Representar Aa com uma moeda, identificar gametas antes do quadro e resolver Aa × Aa. Trabalhar casos em níveis, sempre com interpretação biológica."
+    },
+    "fechamento": {
+      "titulo": "3. Eventos independentes e Exit Ticket (10 min)",
+      "detalhes": "Analisar se três filhos sem a condição obrigam o quarto a apresentá-la e responder questões de síntese."
+    },
+    "estrategias_cognitivas": "Experimentação, geração, modelagem, prática guiada e feedback.",
+    "avaliacao_formativa": "Registro dos lançamentos, cruzamentos justificados e Exit Ticket.",
+    "tarefa_casa": "Realizar o Exercitando da Aula 45 usando o protocolo: padrão, símbolos, genótipos, gametas, cálculo e frase final.",
+    "material_ph": "Exercitando da Aula 45.",
+    "aplicacao": "Registro dos lançamentos, cruzamentos justificados e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-46",
+    "aula_num": "Aula 46",
+    "excel_ref": "Genética",
+    "modulo": "Genética — Oficina",
+    "titulo": "Aprofundando heredogramas e probabilidade",
+    "foco_pedagogico": "Prática deliberada e clínica dos erros",
+    "datas": {
+      "9A": "25/08/2026 (Ter - 12:00)",
+      "9B": "01/09/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Consolidar padrões autossômicos.",
+      "Interpretar heredogramas e probabilidades.",
+      "Diagnosticar erros de raciocínio.",
+      "Cumprir Aprofundando, Aprimorando e Testando."
+    ],
+    "materiais": "Material didático, folha de correção e questões graduadas.",
+    "abertura": {
+      "titulo": "1. Folha em branco e correção (13 min)",
+      "detalhes": "Escrever regras de herança e probabilidade sem consulta. Corrigir seletivamente o Exercitando usando: resposta inicial, ponto do erro, conceito correto e nova resposta."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Oficina em três estações (27 min)",
+      "detalhes": "Realizar Aprofundando, Aprimorando e Testando com tentativa individual, confiança registrada, comparação e feedback. Cada grupo apresenta o raciocínio de uma questão."
+    },
+    "fechamento": {
+      "titulo": "3. Clínica dos erros (10 min)",
+      "detalhes": "Corrigir afirmações sobre frequência, eventos independentes, genótipos de não afetados e interpretação de 25%."
+    },
+    "estrategias_cognitivas": "Prática deliberada, recuperação, calibração e feedback explicativo.",
+    "avaliacao_formativa": "Desempenho nas seções, tabela de correção e autoavaliação 0–3.",
+    "tarefa_casa": "Concluir as seções obrigatórias e refazer duas questões sem consulta.",
+    "material_ph": "Aprofundando, Aprimorando e Testando da Aula 46.",
+    "aplicacao": "Desempenho nas seções, tabela de correção e autoavaliação 0–3.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-47",
+    "aula_num": "Aula 47",
+    "excel_ref": "A6 + Genética",
+    "modulo": "Retomada cumulativa",
+    "titulo": "Consolidação do A6 e da Genética",
+    "foco_pedagogico": "Recuperação cumulativa e calibração",
+    "datas": {
+      "9A": "01/09/2026 (Ter - 10:20)",
+      "9B": "04/09/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Recuperar A6 e Genética.",
+      "Comparar grupos biológicos.",
+      "Aplicar herança e probabilidade.",
+      "Identificar lacunas para a AP3."
+    ],
+    "materiais": "Folha dividida, estações, miniquiz e fichas de confiança.",
+    "abertura": {
+      "titulo": "1. Brain Dump cumulativo (15 min)",
+      "detalhes": "Dividir a folha em vírus, procariontes, protozoários, fungos, herança e probabilidade. Comparar, consultar e circular lacunas."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Circuito AP3 e correção (25 min)",
+      "detalhes": "Estações sobre agentes, transmissão, heredogramas e probabilidade. Corrigir questões representativas explorando pistas e distratores."
+    },
+    "fechamento": {
+      "titulo": "3. Miniquiz e plano espaçado (10 min)",
+      "detalhes": "Responder oito itens sem nota, cruzar confiança e desempenho e agendar novas recuperações."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, intercalação, calibração e espaçamento.",
+    "avaliacao_formativa": "Brain Dump, circuito, miniquiz e plano de estudo.",
+    "tarefa_casa": "Corrigir o miniquiz e criar seis perguntas cumulativas.",
+    "material_ph": "",
+    "aplicacao": "Brain Dump, circuito, miniquiz e plano de estudo.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-48",
+    "aula_num": "Aula 48",
+    "excel_ref": "Vol. 4 / A7",
+    "modulo": "A7 — Ecologia",
+    "titulo": "Ecologia e níveis de organização",
+    "foco_pedagogico": "Problematização, mapas de relações e evidências",
+    "datas": {
+      "9A": "01/09/2026 (Ter - 12:00)",
+      "9B": "15/09/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Compreender Ecologia como ciência das relações.",
+      "Diferenciar indivíduo, população, comunidade, ecossistema e biosfera.",
+      "Distinguir observação, inferência e hipótese."
+    ],
+    "materiais": "Material didático, imagens de ambientes, cartões e situação de lagoa urbana.",
+    "abertura": {
+      "titulo": "1. Recuperação e caso da lagoa (11 min)",
+      "detalhes": "Recuperar decompositores e ciclagem. Apresentar lagoa esverdeada e levantar hipóteses sobre nutrientes, algas, decomposição e oxigênio."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Níveis e mapa de relações (29 min)",
+      "detalhes": "Construir níveis ecológicos; classificar situações; analisar imagens de ambientes e produzir setas entre organismos, recursos e componentes físicos, separando observação, inferência e hipótese."
+    },
+    "fechamento": {
+      "titulo": "3. Retorno ao problema (10 min)",
+      "detalhes": "Organizar uma cadeia causal possível e realizar as atividades do material."
+    },
+    "estrategias_cognitivas": "Recuperação, geração de hipóteses, elaboração e feedback.",
+    "avaliacao_formativa": "Classificações, mapa de relações, cadeia causal e Exit Ticket.",
+    "tarefa_casa": "Concluir as atividades da Aula 48 e registrar um ambiente próximo.",
+    "material_ph": "Atividades da Aula 48; páginas conforme o material.",
+    "aplicacao": "Classificações, mapa de relações, cadeia causal e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-49",
+    "aula_num": "Aula 49",
+    "excel_ref": "Vol. 4 / A7",
+    "modulo": "A7 — Ecologia",
+    "titulo": "Fatores bióticos e abióticos",
+    "foco_pedagogico": "Interpretação de dados e causalidade",
+    "datas": {
+      "9A": "15/09/2026 (Ter - 10:20)",
+      "9B": "18/09/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Diferenciar fatores bióticos e abióticos.",
+      "Analisar fatores limitantes.",
+      "Explicar efeitos diretos e indiretos."
+    ],
+    "materiais": "Material didático, tabela fictícia de dados ambientais e cartões de situações.",
+    "abertura": {
+      "titulo": "1. Recuperação pós-InterAntares (11 min)",
+      "detalhes": "Reconstruir Ecologia, população, comunidade e ecossistema. Problematizar a classificação simples “vivo × não vivo”."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Dados e faixa de tolerância (29 min)",
+      "detalhes": "Construir fatores bióticos e abióticos; investigar dados de temperatura, oxigênio, algas e peixes; representar faixa ótima e zonas de estresse; analisar efeitos diretos e indiretos."
+    },
+    "fechamento": {
+      "titulo": "3. Testes e Exit Ticket (10 min)",
+      "detalhes": "Responder Testes com confiança e conceito usado; consolidar fator limitante e relações ambientais."
+    },
+    "estrategias_cognitivas": "Recuperação após intervalo, análise de dados, geração e feedback.",
+    "avaliacao_formativa": "Tabela investigativa, justificativas dos Testes e Exit Ticket.",
+    "tarefa_casa": "Concluir os Testes e criar um exemplo de interação biótico–abiótico–população.",
+    "material_ph": "Testes da Aula 49.",
+    "aplicacao": "Tabela investigativa, justificativas dos Testes e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-50",
+    "aula_num": "Aula 50",
+    "excel_ref": "Vol. 4 / A7",
+    "modulo": "A7 — Recursos naturais",
+    "titulo": "Ser humano, recursos naturais e impactos",
+    "foco_pedagogico": "Estudo de casos e análise de sistemas",
+    "datas": {
+      "9A": "15/09/2026 (Ter - 12:00)",
+      "9B": "22/09/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Definir recurso natural.",
+      "Diferenciar renovável e não renovável.",
+      "Construir cadeias de impacto.",
+      "Avaliar soluções ambientais."
+    ],
+    "materiais": "Material didático, estudos de caso e matriz causa–impacto–consequência.",
+    "abertura": {
+      "titulo": "1. Recuperação e dilema (10 min)",
+      "detalhes": "Recuperar níveis e fatores ambientais. Debater “renovável significa inesgotável?” antes da explicação."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Recursos, impactos e casos (30 min)",
+      "detalhes": "Construir a classificação considerando taxa de reposição, qualidade e escala temporal. Grupos investigam desmatamento, poluição, mineração, urbanização ou pesca excessiva e preenchem causa, alterações e consequências."
+    },
+    "fechamento": {
+      "titulo": "3. Tribunal das soluções fáceis (10 min)",
+      "detalhes": "Avaliar propostas genéricas e exigir ligação com causa, escala, viabilidade e monitoramento. Iniciar os Testes."
+    },
+    "estrategias_cognitivas": "Geração, estudo de caso, pensamento sistêmico, elaboração e feedback.",
+    "avaliacao_formativa": "Matriz dos casos, justificativas e cadeia de impacto.",
+    "tarefa_casa": "Concluir os Testes e analisar um problema ambiental de Fortaleza.",
+    "material_ph": "Testes da Aula 50.",
+    "aplicacao": "Matriz dos casos, justificativas e cadeia de impacto.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-51",
+    "aula_num": "Aula 51",
+    "excel_ref": "Vol. 4 / A7",
+    "modulo": "A7 — Oficina",
+    "titulo": "Aprofundando, Aprimorando e Testando Ecologia",
+    "foco_pedagogico": "Prática deliberada e correção autônoma",
+    "datas": {
+      "9A": "22/09/2026 (Ter - 10:20)",
+      "9B": "25/09/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Aplicar níveis ecológicos, fatores, recursos e impactos.",
+      "Interpretar dados e evidências.",
+      "Diagnosticar erros antes da AP3."
+    ],
+    "materiais": "Material didático, folha de mapa e tabela de correção.",
+    "abertura": {
+      "titulo": "1. Mapa sem consulta e correção (13 min)",
+      "detalhes": "Construir mapa com oito conceitos de Ecologia e corrigir os Testes por tipo de erro."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Três estações do material (27 min)",
+      "detalhes": "Realizar Aprofundando, Aprimorando e Testando com tentativa, confiança, evidência e feedback. Cada grupo explica por que uma alternativa errada é plausível."
+    },
+    "fechamento": {
+      "titulo": "3. Clínica dos erros (10 min)",
+      "detalhes": "Corrigir frases sobre ecossistema, recursos renováveis, causalidade e presença humana."
+    },
+    "estrategias_cognitivas": "Recuperação, prática deliberada, calibração e feedback.",
+    "avaliacao_formativa": "Mapa, seções obrigatórias, clínica dos erros e Exit Ticket.",
+    "tarefa_casa": "Concluir atividades, corrigir erros e refazer duas questões.",
+    "material_ph": "Aprofundando, Aprimorando e Testando da Aula 51.",
+    "aplicacao": "Mapa, seções obrigatórias, clínica dos erros e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-52",
+    "aula_num": "Aula 52",
+    "excel_ref": "Vol. 4 / A7",
+    "modulo": "A7 — Consolidação",
+    "titulo": "Consolidação de Ecologia e retomada da AP3",
+    "foco_pedagogico": "Recuperação cumulativa e transferência",
+    "datas": {
+      "9A": "22/09/2026 (Ter - 12:00)",
+      "9B": "29/09/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Consolidar A7.",
+      "Recuperar A6 e Genética.",
+      "Interpretar situações ecológicas.",
+      "Planejar estudo espaçado."
+    ],
+    "materiais": "Folha de Brain Dump, estações, caso integrado e miniquiz.",
+    "abertura": {
+      "titulo": "1. Brain Dump e correção (13 min)",
+      "detalhes": "Recuperar conceitos ecológicos, recursos e impactos; corrigir questões de maior dificuldade."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Circuito A7 e intercalação AP3 (27 min)",
+      "detalhes": "Estações de níveis, dados, recursos e cadeias de impacto; questões misturadas com vírus, fungos, protozoários e Genética; caso integrado da lagoa."
+    },
+    "fechamento": {
+      "titulo": "3. Miniquiz e plano (10 min)",
+      "detalhes": "Cruzar confiança e desempenho e agendar uma recuperação de A6, uma de Genética e uma de Ecologia."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, intercalação, calibração e transferência.",
+    "avaliacao_formativa": "Brain Dump, circuito, caso, miniquiz e plano de estudo.",
+    "tarefa_casa": "Corrigir o miniquiz e criar seis perguntas cumulativas.",
+    "material_ph": "",
+    "aplicacao": "Brain Dump, circuito, caso, miniquiz e plano de estudo.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-53",
+    "aula_num": "Aula 53",
+    "excel_ref": "Vol. 4 / A8",
+    "modulo": "A8 — Biodiversidade",
+    "titulo": "Biodiversidade: níveis e importância",
+    "foco_pedagogico": "Geração, análise de dados e elaboração",
+    "datas": {
+      "9A": "29/09/2026 (Ter - 10:20)",
+      "9B": "02/10/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Definir biodiversidade.",
+      "Diferenciar diversidade genética, de espécies e de ecossistemas.",
+      "Justificar a importância da biodiversidade."
+    ],
+    "materiais": "Material didático, imagens, cartões e dados fictícios de fragmentos.",
+    "abertura": {
+      "titulo": "1. Recuperação e comparação de áreas (11 min)",
+      "detalhes": "Recuperar níveis ecológicos e gerar definição inicial. Comparar duas áreas e discutir por que contar espécies não revela toda a biodiversidade."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Três níveis e investigação (29 min)",
+      "detalhes": "Construir diversidade genética, de espécies e de ecossistemas; classificar cartões; analisar dados de dois fragmentos; elaborar justificativas ecológicas, econômicas, científicas e culturais."
+    },
+    "fechamento": {
+      "titulo": "3. Erros comuns e recuperação (10 min)",
+      "detalhes": "Corrigir generalizações e responder sem consulta aos conceitos centrais."
+    },
+    "estrategias_cognitivas": "Geração, recuperação, análise de dados, comparação e feedback.",
+    "avaliacao_formativa": "Classificações, análise dos fragmentos e Exit Ticket.",
+    "tarefa_casa": "Produzir retrato da biodiversidade local e realizar atividades disponíveis no capítulo.",
+    "material_ph": "Atividades do tópico Biodiversidade, conforme o material.",
+    "aplicacao": "Classificações, análise dos fragmentos e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-54",
+    "aula_num": "Aula 54",
+    "excel_ref": "Vol. 4 / A8",
+    "modulo": "A8 — Proteção",
+    "titulo": "Proteção da biodiversidade",
+    "foco_pedagogico": "Tomada de decisão e análise de conflitos",
+    "datas": {
+      "9A": "29/09/2026 (Ter - 12:00)",
+      "9B": "06/10/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Diferenciar preservação, conservação e uso sustentável.",
+      "Relacionar ameaças e respostas.",
+      "Avaliar medidas por eficácia, viabilidade e justiça social."
+    ],
+    "materiais": "Material didático, caso do manguezal, cartões de ameaças e matriz de decisão.",
+    "abertura": {
+      "titulo": "1. Recuperação e problema (9 min)",
+      "detalhes": "Recuperar os níveis da biodiversidade e discutir se proteger indivíduos em cativeiro é suficiente quando o habitat desaparece."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Formas de proteção e manguezal em disputa (27 min)",
+      "detalhes": "Construir preservação, conservação e uso sustentável; associar ameaças a respostas; analisar conflito em manguezal por diferentes papéis; aplicar matriz de decisão ambiental."
+    },
+    "fechamento": {
+      "titulo": "3. Consolidação e ajuste do 9ºB (14 min)",
+      "detalhes": "Consolidar A8. No 9ºB, utilizar os minutos finais para recuperação-relâmpago de A6, Genética e A7 para a AP3."
+    },
+    "estrategias_cognitivas": "Recuperação, geração, tomada de decisão, elaboração e feedback.",
+    "avaliacao_formativa": "Matriz de decisão, defesa das propostas e recuperação cumulativa do 9ºB.",
+    "tarefa_casa": "Revisar lacunas identificadas e responder ao pacote AP3 na Sala Google.",
+    "material_ph": "",
+    "aplicacao": "Matriz de decisão, defesa das propostas e recuperação cumulativa do 9ºB.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-revisao",
+    "aula_num": "Retomada AP3",
+    "excel_ref": "AP3 — 08/10",
+    "modulo": "Retomada AP3",
+    "titulo": "Retomada final cumulativa da AP3",
+    "foco_pedagogico": "Recuperação, discriminação e correção explicativa",
+    "datas": {
+      "9A": "06/10/2026 (Ter - 10:20)",
+      "9B": "06/10/2026 (Ter - integrada à Aula 54)"
+    },
+    "objetivos": [
+      "Recuperar A6, Genética e A7.",
+      "Diferenciar conceitos próximos.",
+      "Corrigir erros de alta confiança.",
+      "Organizar estudo até 08/10."
+    ],
+    "materiais": "Folha dividida, estações, questões mistas e ficha de correção.",
+    "abertura": {
+      "titulo": "1. Recuperação total (13 min)",
+      "detalhes": "Dividir a folha em A6, Genética e A7; escrever sem consulta, comparar, consultar e localizar três lacunas."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Discriminação e circuito AP3 (27 min)",
+      "detalhes": "Responder questões conceituais e percorrer estações de vírus/bactérias, protozoários/fungos, herança/probabilidade e Ecologia. Corrigir com evidência ignorada e novo raciocínio."
+    },
+    "fechamento": {
+      "titulo": "3. Exit Ticket pré-prova (10 min)",
+      "detalhes": "Selecionar conteúdo seguro, erro de alta confiança e estratégia para 06 e 07/10."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, intercalação, calibração e feedback seguido de nova tentativa.",
+    "avaliacao_formativa": "Folha de recuperação, circuito e Exit Ticket.",
+    "tarefa_casa": "Corrigir erros e realizar sessão curta de recuperação em 07/10.",
+    "material_ph": "",
+    "aplicacao": "Folha de recuperação, circuito e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ap3-simulado",
+    "aula_num": "Simulado",
+    "excel_ref": "AP3 — 08/10",
+    "modulo": "Retomada AP3",
+    "titulo": "Simulado formativo com feedback",
+    "foco_pedagogico": "Testing effect e nova tentativa",
+    "datas": {
+      "9A": "06/10/2026 (Ter - 12:00)",
+      "9B": "06–07/10/2026 (Sala Google)"
+    },
+    "objetivos": [
+      "Aplicar os conteúdos da AP3.",
+      "Justificar alternativas.",
+      "Transformar erros em perguntas de estudo."
+    ],
+    "materiais": "Simulado impresso ou Google Forms, folha de confiança e gabarito explicativo.",
+    "abertura": {
+      "titulo": "1. Simulado individual (20 min)",
+      "detalhes": "Responder dez questões objetivas e uma integrada, registrando confiança e conceito utilizado."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Correção em duas rodadas (22 min)",
+      "detalhes": "Realizar autocorreção orientada e depois responder versões modificadas das questões erradas, sem consultar a primeira resolução."
+    },
+    "fechamento": {
+      "titulo": "3. Plano de 48 horas (8 min)",
+      "detalhes": "Selecionar três erros, transformá-los em perguntas e planejar recuperação breve."
+    },
+    "estrategias_cognitivas": "Prática de teste, calibração, feedback e nova recuperação.",
+    "avaliacao_formativa": "Simulado, justificativas, desempenho na segunda tentativa e plano.",
+    "tarefa_casa": "Em 07/10: Brain Dump, cinco questões misturadas, correção e nova tentativa.",
+    "material_ph": "",
+    "aplicacao": "Simulado, justificativas, desempenho na segunda tentativa e plano.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  }
+];
+
+        const aulas9AG3 = [
+  {
+    "id": "9-ag3-55",
+    "aula_num": "Aula 55",
+    "excel_ref": "Vol. 4 / A8",
+    "modulo": "A8 — Perda de biodiversidade",
+    "titulo": "Perda de biodiversidade e ação humana",
+    "foco_pedagogico": "Causalidade, fragmentação e investigação",
+    "datas": {
+      "9A": "20/10/2026 (Ter - 10:20)",
+      "9B": "09/10/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Explicar perda genética, de espécies e de ecossistemas.",
+      "Diferenciar extinção local e global.",
+      "Analisar fragmentação, invasões e pressões humanas."
+    ],
+    "materiais": "Material didático, mapas de paisagem, cartões de causas e consequências.",
+    "abertura": {
+      "titulo": "1. Recuperação e problema (10 min)",
+      "detalhes": "Recuperar os três níveis da biodiversidade e discutir se uma espécie ausente de uma cidade está globalmente extinta."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Pressões e paisagem dividida (30 min)",
+      "detalhes": "Construir formas de perda; analisar destruição, fragmentação, exploração, poluição, invasoras e mudanças climáticas; investigar mapas antes/depois e montar cadeias causais."
+    },
+    "fechamento": {
+      "titulo": "3. Espécie invasora e Exit Ticket (10 min)",
+      "detalhes": "Diferenciar espécie exótica e invasora e indicar evidências necessárias para demonstrar impacto."
+    },
+    "estrategias_cognitivas": "Recuperação, geração, análise causal, comparação e feedback.",
+    "avaliacao_formativa": "Mapa investigativo, cadeia causal e Exit Ticket.",
+    "tarefa_casa": "Realizar atividades do tópico e produzir uma cadeia ameaça–efeito–medida.",
+    "material_ph": "Atividades disponíveis sobre perda de biodiversidade.",
+    "aplicacao": "Mapa investigativo, cadeia causal e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ag3-56",
+    "aula_num": "Aula 56",
+    "excel_ref": "Vol. 4 / A8",
+    "modulo": "A8 — Unidades de conservação",
+    "titulo": "Unidades de conservação: fundamentos e categorias",
+    "foco_pedagogico": "Problematização e classificação por objetivos",
+    "datas": {
+      "9A": "20/10/2026 (Ter - 12:00)",
+      "9B": "16/10/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Compreender unidade de conservação.",
+      "Diferenciar proteção integral e uso sustentável.",
+      "Reconhecer objetivos de parques, reservas e florestas nacionais.",
+      "Considerar populações humanas."
+    ],
+    "materiais": "Material didático, mapas, cartões de categorias fictícias e situações-problema.",
+    "abertura": {
+      "titulo": "1. Recuperação e dilema (10 min)",
+      "detalhes": "Associar ameaças a respostas e discutir por que desenhar uma linha no mapa não garante conservação."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Conceitos e classificação (30 min)",
+      "detalhes": "Construir unidade de conservação, proteção integral e uso sustentável; analisar parques, reservas e florestas nacionais; classificar unidades fictícias por objetivos e atividades compatíveis."
+    },
+    "fechamento": {
+      "titulo": "3. Pessoas e territórios (10 min)",
+      "detalhes": "Corrigir os extremos “retirar todas as pessoas” e “não aplicar regras” e produzir síntese."
+    },
+    "estrategias_cognitivas": "Recuperação, geração, classificação, análise de conflitos e feedback.",
+    "avaliacao_formativa": "Classificação das unidades, justificativas e Exit Ticket.",
+    "tarefa_casa": "Criar uma unidade de conservação imaginária com regras e monitoramento.",
+    "material_ph": "",
+    "aplicacao": "Classificação das unidades, justificativas e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ag3-57",
+    "aula_num": "Aula 57",
+    "excel_ref": "Vol. 4 / A8",
+    "modulo": "A8 — Unidades de conservação",
+    "titulo": "Gestão, conflitos e tomada de decisão",
+    "foco_pedagogico": "Simulação, elaboração e feedback entre pares",
+    "datas": {
+      "9A": "27/10/2026 (Ter - 10:20)",
+      "9B": "20/10/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Aplicar o conceito de unidade de conservação.",
+      "Compreender plano de manejo, fiscalização e monitoramento.",
+      "Analisar conflitos territoriais.",
+      "Realizar Atividades e Testes."
+    ],
+    "materiais": "Material didático, projeto de unidade imaginária e caso do parque costeiro.",
+    "abertura": {
+      "titulo": "1. Recuperação e revisão do projeto (11 min)",
+      "detalhes": "Recuperar conceitos sem consulta e revisar a unidade imaginária com critérios de objetivo, ameaça, categoria, pessoas e monitoramento."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Plano de manejo e conselho gestor (27 min)",
+      "detalhes": "Construir os elementos de gestão. Grupos representam atores no caso de um parque costeiro e negociam zonas, atividades, fiscalização e participação social."
+    },
+    "fechamento": {
+      "titulo": "3. Atividades, Testes e Exit Ticket (12 min)",
+      "detalhes": "Realizar as seções indicadas com tentativa individual, evidência e confiança antes da correção."
+    },
+    "estrategias_cognitivas": "Recuperação, simulação, elaboração, transferência e feedback.",
+    "avaliacao_formativa": "Projeto revisado, acordo do conselho, Atividades, Testes e Exit Ticket.",
+    "tarefa_casa": "Concluir Atividades e Testes e explicar um distrator plausível.",
+    "material_ph": "Atividades e Testes da Aula 57.",
+    "aplicacao": "Projeto revisado, acordo do conselho, Atividades, Testes e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ag3-58",
+    "aula_num": "Aula 58",
+    "excel_ref": "Vol. 4 / A8",
+    "modulo": "A8 — Conservação",
+    "titulo": "Desafios e soluções para a conservação",
+    "foco_pedagogico": "Avaliação de soluções e monitoramento",
+    "datas": {
+      "9A": "27/10/2026 (Ter - 12:00)",
+      "9B": "23/10/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Relacionar ameaças e respostas.",
+      "Diferenciar prevenção, mitigação, recuperação e compensação.",
+      "Propor indicadores de sucesso.",
+      "Corrigir os Testes."
+    ],
+    "materiais": "Material didático, tabela problema–solução e casos locais fictícios.",
+    "abertura": {
+      "titulo": "1. Recuperação e correção (14 min)",
+      "detalhes": "Explicar oito conceitos sem consulta e corrigir os Testes por tipo de erro."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Tipos de resposta e desafio local (26 min)",
+      "detalhes": "Construir a prioridade evitar–reduzir–recuperar–compensar; associar soluções às ameaças; produzir plano local com causa, atores, monitoramento e limitação."
+    },
+    "fechamento": {
+      "titulo": "3. Galeria e nova recuperação (10 min)",
+      "detalhes": "Receber feedback de outro grupo, revisar a proposta e responder questão de transferência."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, elaboração, avaliação de soluções e feedback seguido de revisão.",
+    "avaliacao_formativa": "Correção dos Testes, plano local, feedback e Exit Ticket.",
+    "tarefa_casa": "Criar quatro flashcards autorais e responder novamente após dois dias.",
+    "material_ph": "Revisão e Testes da Aula 58.",
+    "aplicacao": "Correção dos Testes, plano local, feedback e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ag3-59",
+    "aula_num": "Aula 59",
+    "excel_ref": "Árvores filogenéticas",
+    "modulo": "Filogenia",
+    "titulo": "Árvores filogenéticas: lendo relações evolutivas",
+    "foco_pedagogico": "Representação, discriminação e recuperação espaçada",
+    "datas": {
+      "9A": "03/11/2026 (Ter - 10:20)",
+      "9B": "27/10/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Identificar raiz, ramos, nós e grupos terminais.",
+      "Reconhecer ancestrais comuns e grupos-irmãos.",
+      "Evitar a interpretação de evolução como escada.",
+      "Compreender que girar ramos não altera relações."
+    ],
+    "materiais": "Material didático, árvores simples, cartões, barbante e Testes.",
+    "abertura": {
+      "titulo": "1. Recuperação e problema (10 min)",
+      "detalhes": "Recuperar ancestral comum, seleção natural e evolução; discutir se humanos descendem de primatas atuais e gerar hipótese de parentesco entre organismos fictícios."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Partes, rotação e árvore humana (30 min)",
+      "detalhes": "Construir os elementos da árvore; comparar árvores com ramos girados; modelar uma filogenia com barbante; interpretar árvore inédita e justificar proximidade pelos nós."
+    },
+    "fechamento": {
+      "titulo": "3. Clínica dos erros e Testes (10 min)",
+      "detalhes": "Corrigir ideias de “mais primitivo”, posição visual e progresso; iniciar Atividades e Testes."
+    },
+    "estrategias_cognitivas": "Recuperação espaçada, modelagem, comparação, geração e feedback.",
+    "avaliacao_formativa": "Interpretação da árvore, clínica dos erros, Atividades e Testes.",
+    "tarefa_casa": "Concluir Atividades e Testes e criar uma árvore com duas perguntas.",
+    "material_ph": "Atividades e Testes da Aula 59.",
+    "aplicacao": "Interpretação da árvore, clínica dos erros, Atividades e Testes.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ag3-60",
+    "aula_num": "Aula 60",
+    "excel_ref": "A7 + A8 + Filogenia",
+    "modulo": "Retomada AG3",
+    "titulo": "Aprofundando, Aprimorando e Testando",
+    "foco_pedagogico": "Prática deliberada, intercalação e calibração",
+    "datas": {
+      "9A": "03/11/2026 (Ter - 12:00)",
+      "9B": "30/10/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Interpretar árvores filogenéticas.",
+      "Aplicar A7 e A8.",
+      "Cumprir as seções obrigatórias.",
+      "Identificar erros de alta confiança para a AG3."
+    ],
+    "materiais": "Material didático, folha dividida, flashcards e tabela de correção.",
+    "abertura": {
+      "titulo": "1. Recuperação cumulativa e correção (13 min)",
+      "detalhes": "Dividir a folha em A7, A8 e Filogenia; recuperar sem consulta; corrigir seletivamente Atividades e Testes com evidência ignorada e conceito confundido."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Oficina em três estações (27 min)",
+      "detalhes": "Realizar Aprofundando, Aprimorando e Testando. Intercalar níveis ecológicos, recursos, biodiversidade, unidades e árvores. Utilizar flashcards respondendo antes de revelar."
+    },
+    "fechamento": {
+      "titulo": "3. Exit Ticket e prioridade (10 min)",
+      "detalhes": "Selecionar conteúdo menos seguro e erro de alta confiança para nova tentativa."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, intercalação, prática deliberada, calibração e feedback.",
+    "avaliacao_formativa": "Desempenho nas seções, tabela de correção e Exit Ticket.",
+    "tarefa_casa": "Concluir questões pendentes e refazer erros sem consulta.",
+    "material_ph": "Aprofundando, Aprimorando, Testando, Recapitulando e flashcards de A7 e A8.",
+    "aplicacao": "Desempenho nas seções, tabela de correção e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ag3-61",
+    "aula_num": "Aula 61",
+    "excel_ref": "AG3 — 05/11",
+    "modulo": "Retomada AG3",
+    "titulo": "Retomada final cumulativa da AG3",
+    "foco_pedagogico": "Recuperação total, simulado e planejamento",
+    "datas": {
+      "9A": "10/11/2026 (Ter - 10:20 — recomposição pós-prova)",
+      "9B": "03/11/2026 (Ter - 08:50)"
+    },
+    "objetivos": [
+      "Recuperar A7, A8 e Filogenia.",
+      "Corrigir Testes e erros de alta confiança.",
+      "Organizar estudo de 48 horas."
+    ],
+    "materiais": "Folha de Brain Dump, circuito, minissimulado e ficha de confiança.",
+    "abertura": {
+      "titulo": "1. Brain Dump e correção (15 min)",
+      "detalhes": "Recuperar Ecologia, recursos, biodiversidade, conservação e árvores; corrigir Testes priorizando erros frequentes e de confiança alta."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Circuito e minissimulado (27 min)",
+      "detalhes": "Estações de Ecologia, recursos, biodiversidade, conservação e Filogenia. Aplicar dez questões sem nota com confiança registrada e feedback."
+    },
+    "fechamento": {
+      "titulo": "3. Plano de 48 horas (8 min)",
+      "detalhes": "Transformar três lacunas em perguntas e agendar recuperação em 03, 04 e 05/11. Para o 9ºA pós-prova, usar a mesma estrutura como recomposição."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, intercalação, calibração, feedback e espaçamento.",
+    "avaliacao_formativa": "Brain Dump, circuito, minissimulado e plano.",
+    "tarefa_casa": "Corrigir o minissimulado e responder novamente às questões prioritárias.",
+    "material_ph": "",
+    "aplicacao": "Brain Dump, circuito, minissimulado e plano.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "9-ag3-62",
+    "aula_num": "Aula 62",
+    "excel_ref": "A7 + A8",
+    "modulo": "Consolidação",
+    "titulo": "Consolidação pós-AG3 e transferência",
+    "foco_pedagogico": "Reflexão metacognitiva e aplicação integrada",
+    "datas": {
+      "9A": "10/11/2026 (Ter - 12:00)",
+      "9B": "06/11/2026 (Sex - 07:10)"
+    },
+    "objetivos": [
+      "Consolidar A7, A8 e Filogenia.",
+      "Identificar dificuldades percebidas na AG3.",
+      "Transferir conhecimentos para um problema costeiro.",
+      "Corrigir Testes pendentes."
+    ],
+    "materiais": "Material didático, ficha pós-avaliação e caso de área costeira.",
+    "abertura": {
+      "titulo": "1. Reflexão e recuperação sem prova (11 min)",
+      "detalhes": "Registrar conteúdos fáceis, difíceis e estratégias usadas. Depois responder oito questões conceituais sem consultar."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Correção e desafio integrado (29 min)",
+      "detalhes": "Corrigir Testes pendentes; elaborar plano para área costeira com diagnóstico, ameaças, proteção, participação, fiscalização e indicadores."
+    },
+    "fechamento": {
+      "titulo": "3. Galeria, revisão e Exit Ticket (10 min)",
+      "detalhes": "Receber feedback de outro grupo, alterar a proposta e explicar como demonstrar que uma ação é adequada ao problema."
+    },
+    "estrategias_cognitivas": "Recuperação pós-avaliação, metacognição, elaboração, transferência e feedback.",
+    "avaliacao_formativa": "Reflexão, correção, plano costeiro, feedback e Exit Ticket.",
+    "tarefa_casa": "Refazer duas questões prioritárias e registrar o conceito que precisa reaparecer.",
+    "material_ph": "",
+    "aplicacao": "Reflexão, correção, plano costeiro, feedback e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  }
+];
+
         const SERIES = {
             '6': {
                 titulo: 'Ciências — 6º Ano (EFAF)', subtitulo: 'Aprender a Aprender, Investigação & Alfabetização Científica',
@@ -4195,6 +5256,13 @@ const aulas8AG3 = [
                 foco: 'Neurociência', turmas: [{id:'8B',label:'8ºB (Manhã)'},{id:'8AM',label:'8ºA (Manhã)'},{id:'8AT',label:'8ºA (Tarde)'}], AP3: aulas8AP3, AG3: aulas8AG3,
                 modulosAP3: ['Introdução','Módulo 15','Módulo 16','Módulo 17','Módulo 18','Módulo 19','Retomada','Módulo 20'],
                 modulosAG3: ['Módulo 20','Módulo 21','Módulo 22','Módulo 23','Módulo 24','Módulo 18','Revisão','Extra']
+            },
+            '9': {
+                titulo: 'Biologia — 9º Ano (EFAF)', subtitulo: 'Ciência da Aprendizagem, Investigação & Argumentação Científica',
+                icone: 'fa-microscope', headerClasses: 'bg-rose-500/20 text-rose-300 border-rose-500/30', accentText: 'text-rose-300', accentBorder: 'border-rose-500/40',
+                foco: 'Argumentação Científica', turmas: [{id:'9A',label:'9ºA'},{id:'9B',label:'9ºB'}], AP3: aulas9AP3, AG3: aulas9AG3,
+                modulosAP3: ['Introdução','A6 — Vírus e procariontes','A6 — Protozoários e fungos','Genética — Herança autossômica','Genética — Probabilidade','Genética — Oficina','Retomada cumulativa','A7 — Ecologia','A7 — Recursos naturais','A7 — Oficina','A7 — Consolidação','A8 — Biodiversidade','A8 — Proteção','Retomada AP3'],
+                modulosAG3: ['A8 — Perda de biodiversidade','A8 — Unidades de conservação','A8 — Conservação','Filogenia','Retomada AG3','Consolidação']
             }
         };
 
@@ -4424,7 +5492,7 @@ const aulas8AG3 = [
                     <div class="bg-slate-800/50 rounded-xl border-l-4 border-blue-500 border border-slate-800 overflow-hidden"><button onclick="toggleAccordion('step3')" class="w-full p-4 flex justify-between items-center text-left hover:bg-slate-800/80"><span class="font-bold text-blue-300 text-xs sm:text-sm">${aula.fechamento.titulo}</span><i id="step3-icon" class="fa-solid fa-chevron-down text-xs text-slate-400 transition"></i></button><div id="step3" class="hidden p-4 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 bg-slate-900/40 whitespace-pre-line">${detalheMetodologico(aula,'fechamento')}</div></div>
                 </div></section>
 
-                ${['6','7'].includes(serieAtual) ? `<section class="bg-slate-950/50 border border-slate-800 rounded-2xl p-4 sm:p-5"><div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4"><div><h3 class="text-xs sm:text-sm font-bold text-teal-300 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-book-open-reader"></i> Fundamentação Metodológica</h3><p class="text-xs text-slate-500 mt-1">Como as decisões da aula se conectam à Ciência da Aprendizagem</p></div><span class="text-[10px] text-slate-500">Base de estudo: Make It Stick • Retrieval Practice Guide • Spacing Guide</span></div><div class="grid grid-cols-1 md:grid-cols-2 gap-3">${cardsFundamentacao(aula)}</div></section>` : ''}
+                ${['6','7','9'].includes(serieAtual) ? `<section class="bg-slate-950/50 border border-slate-800 rounded-2xl p-4 sm:p-5"><div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4"><div><h3 class="text-xs sm:text-sm font-bold text-teal-300 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-book-open-reader"></i> Fundamentação Metodológica</h3><p class="text-xs text-slate-500 mt-1">Como as decisões da aula se conectam à Ciência da Aprendizagem</p></div><span class="text-[10px] text-slate-500">Base de estudo: Make It Stick • Retrieval Practice Guide • Spacing Guide</span></div><div class="grid grid-cols-1 md:grid-cols-2 gap-3">${cardsFundamentacao(aula)}</div></section>` : ''}
 
                 <section class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl"><h4 class="text-xs sm:text-sm font-bold ${cfg.accentText} uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-brain"></i> Ciência da Aprendizagem</h4><p class="text-xs sm:text-sm">${aula.estrategias_cognitivas}</p></div><div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl"><h4 class="text-xs sm:text-sm font-bold text-rose-300 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-check-double"></i> Avaliação Formativa</h4><p class="text-xs sm:text-sm">${aula.avaliacao_formativa}</p></div></section>
                 <section class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex items-center gap-3"><div class="bg-sky-500/20 text-sky-300 p-2.5 rounded-lg text-xl"><i class="fa-solid fa-house-chimney"></i></div><div><span class="text-xs font-bold text-slate-400 uppercase block">Atividade de Casa / Tarefa</span><span class="text-xs sm:text-sm font-medium text-slate-200">${aula.tarefa_casa}</span></div></section>`;
@@ -4438,6 +5506,7 @@ const aulas8AG3 = [
             document.getElementById('homeCount6').innerText = aulas6AP3.length + aulas6AG3.length;
             document.getElementById('homeCount7').innerText = new Set([...aulas7AP3, ...aulas7AG3].map(a => a.aula_num)).size;
             document.getElementById('homeCount8').innerText = aulas8AP3.length + aulas8AG3.length;
+            document.getElementById('homeCount9').innerText = aulas9AP3.length + aulas9AG3.length;
         });
     </script>
 </body>
