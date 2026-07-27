@@ -43,14 +43,14 @@
 
         <main class="flex-1 flex items-center py-5 sm:py-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 w-full">
-                <article class="relative bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/40 border border-amber-500/20 rounded-2xl p-6 sm:p-7 opacity-70">
+                <article onclick="selectSerie('6')" class="group relative bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/50 border border-amber-500/30 hover:border-amber-500 rounded-2xl p-6 sm:p-7 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-500/10">
                     <div class="flex justify-between gap-4">
-                        <div><span class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full">EFAF • Em preparação</span>
-                        <h2 class="text-2xl font-bold text-white mt-4">6º Ano — Ciências</h2></div>
-                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-300"><i class="fa-solid fa-seedling text-xl"></i></div>
+                        <div><span class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full">EFAF • 6ºA</span>
+                        <h2 class="text-2xl font-bold text-white group-hover:text-amber-300 transition mt-4">6º Ano — Ciências</h2></div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-300 group-hover:scale-110 transition"><i class="fa-solid fa-seedling text-xl"></i></div>
                     </div>
-                    <p class="text-slate-400 text-sm mt-4">Espaço reservado para os planos, turmas e ciclos do 6º ano.</p>
-                    <div class="mt-6 pt-4 border-t border-slate-800 text-xs font-semibold text-amber-300">Conteúdo será adicionado depois</div>
+                    <p class="text-slate-400 text-sm leading-relaxed mt-4">Química Verde, Terra e Universo, células, metabolismo, sistemas do corpo, sistema nervoso e sentidos.</p>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center text-amber-300 font-semibold text-sm"><span><span id="homeCount6">0</span> planos estruturados</span><i class="fa-solid fa-arrow-right group-hover:translate-x-1.5 transition"></i></div>
                 </article>
 
                 <article onclick="selectSerie('7')" class="group relative bg-gradient-to-br from-slate-900 via-slate-900 to-teal-950/50 border border-teal-500/30 hover:border-teal-500 rounded-2xl p-6 sm:p-7 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-teal-500/10">
@@ -136,6 +136,1314 @@
     </div>
 
     <script>
+const aulas6AP3 = [
+  {
+    "id": "6-ap3-intro",
+    "aula_num": "Abertura",
+    "excel_ref": "Ciência da Aprendizagem",
+    "modulo": "Introdução",
+    "titulo": "A Ciência de Como Aprendemos: como estudar de verdade",
+    "foco_pedagogico": "Metacognição, recuperação ativa, espaçamento e feedback",
+    "datas": {
+      "6A": "30/07/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Diferenciar reconhecer uma informação de recuperá-la sem consulta.",
+      "Compreender por que releitura isolada pode gerar falsa sensação de domínio.",
+      "Conhecer recuperação ativa, espaçamento, erro produtivo e feedback.",
+      "Elaborar uma rotina simples de estudo para o 6º ano."
+    ],
+    "materiais": "Quadro ou projetor, lista de palavras ou imagens, cartões de situações, folha “Meu plano de estudo ativo” e caderno.",
+    "abertura": {
+      "titulo": "1. Experimento inicial (13 min): ver não é lembrar",
+      "detalhes": "Os alunos registram anonimamente como costumam estudar. Em seguida, observam dez palavras ou imagens por 40 segundos e tentam recuperá-las sem consulta. Compare reconhecimento e recordação e explique a ilusão de competência em linguagem adequada à idade."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Construção e jogo (27 min): professor dos hábitos de estudo",
+      "detalhes": "Apresente memória de trabalho como uma mesa pequena e memória de longo prazo como uma biblioteca. Explique recuperação, espaçamento e erro produtivo. Em duplas, os alunos analisam casos de releitura, estudo na véspera, resumo copiado e erro apagado, propondo estratégias mais ativas."
+    },
+    "fechamento": {
+      "titulo": "3. Plano pessoal e Exit Ticket (10 min)",
+      "detalhes": "Cada aluno completa: antes de estudar, durante, depois, no dia seguinte e quando errar. Finalize com três perguntas: diferença entre reler e recuperar; por que estudar em dias diferentes; o que fazer após um erro."
+    },
+    "estrategias_cognitivas": "Recuperação de baixo risco, geração antes da explicação, metacognição, calibração da confiança, espaçamento e feedback explicativo.",
+    "avaliacao_formativa": "Ficha pessoal, respostas do experimento e Exit Ticket sem nota.",
+    "tarefa_casa": "Aplicar recuperação ativa a um conteúdo do primeiro semestre e registrar o que lembrou e o que precisou revisar.",
+    "material_ph": "",
+    "aplicacao": "Ficha pessoal, respostas do experimento e Exit Ticket sem nota.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-54-55",
+    "aula_num": "Aulas 54 + 55",
+    "excel_ref": "Cad. 2 / Mód. 14",
+    "modulo": "Cad. 2 / Mód. 14",
+    "titulo": "Química Verde e seus objetivos",
+    "foco_pedagogico": "Investigação cotidiana, leitura em grupos e classificação",
+    "datas": {
+      "6A": "30/07/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Compreender o conceito de Química Verde.",
+      "Identificar prevenção de resíduos, segurança, economia de recursos e planejamento do ciclo do produto.",
+      "Relacionar processos químicos à saúde e ao ambiente.",
+      "Justificar escolhas com evidências."
+    ],
+    "materiais": "Material pH, embalagem limpa, imagens de processos produtivos, cartões do Semáforo da Química Verde e post-its.",
+    "abertura": {
+      "titulo": "1. Provocação e Para começar (13 min)",
+      "detalhes": "Mostre uma embalagem e pergunte o que acontece antes de o lixo existir. Realize o Para começar da p. 534 com resposta individual, conversa em dupla e síntese coletiva."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Duas fábricas + leitura quebra-cabeça (27 min)",
+      "detalhes": "Compare uma fábrica que trata resíduos depois com outra que previne impactos. Trabalhe Para aprender, p. 535–538, em grupos especialistas. Cada grupo identifica ideia principal, problema evitado, exemplo e palavra-chave. Sistematize quatro objetivos da Química Verde."
+    },
+    "fechamento": {
+      "titulo": "3. Semáforo e consolidação (10 min)",
+      "detalhes": "Classifique situações como prática coerente, incoerente ou dependente de mais informações. O ponto só vale com justificativa. Feche com: “Química Verde não é apenas tratar a poluição; é...”"
+    },
+    "estrategias_cognitivas": "Recuperação da aula anterior, geração de hipóteses, comparação, elaboração e feedback.",
+    "avaliacao_formativa": "Justificativas no Semáforo, participação na leitura e frase de síntese.",
+    "tarefa_casa": "PA p. 531, questões 1, 2 e 3; DH p. 532, questões 1, 2 e 3. Correção em 03/08.",
+    "material_ph": "Para começar p. 534; Para aprender p. 535–538; PA p. 531 q. 1–3; DH p. 532 q. 1–3.",
+    "aplicacao": "Justificativas no Semáforo, participação na leitura e frase de síntese.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-56",
+    "aula_num": "Aula 56",
+    "excel_ref": "Cad. 2 / Mód. 14",
+    "modulo": "Cad. 2 / Mód. 14",
+    "titulo": "Detetives da Química Verde",
+    "foco_pedagogico": "Recuperação espaçada, estudo de caso e argumentação",
+    "datas": {
+      "6A": "03/08/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Recuperar os objetivos da Química Verde.",
+      "Analisar situações concretas e comparar alternativas.",
+      "Propor melhorias justificadas.",
+      "Concluir as atividades obrigatórias do módulo."
+    ],
+    "materiais": "Material pH, dossiês investigativos e cartões de objetivos da Química Verde.",
+    "abertura": {
+      "titulo": "1. Correção ativa e Brain Dump (16 min)",
+      "detalhes": "Compare em duplas as questões de casa, identifique divergências e corrija com explicação. Depois, sem consulta, escreva os quatro objetivos gerais da Química Verde e confira no caderno."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para solucionar, Para explorar e dossiês (27 min)",
+      "detalhes": "Trabalhe Para solucionar p. 540 e Para explorar p. 540–541. Em seguida, grupos analisam casos de produto de limpeza, embalagem descartável, processo de alta temperatura e medicamento com muitos resíduos, indicando problema, objetivo, melhoria e consequência."
+    },
+    "fechamento": {
+      "titulo": "3. Conselho científico e Exit Ticket (7 min)",
+      "detalhes": "Cada grupo defende uma proposta em 45 segundos e responde a uma pergunta de evidência. Finalize com prevenção x remediação e um exemplo de solução."
+    },
+    "estrategias_cognitivas": "Recuperação espaçada, prática de geração, estudo de caso, feedback e elaboração.",
+    "avaliacao_formativa": "Correção das tarefas, dossiê e Exit Ticket.",
+    "tarefa_casa": "PA p. 531, questão 4; DH p. 532, questão 4. Correção em 06/08.",
+    "material_ph": "Para solucionar p. 540; Para explorar p. 540–541; PA p. 531 q. 4; DH p. 532 q. 4.",
+    "aplicacao": "Correção das tarefas, dossiê e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-57",
+    "aula_num": "Aula 57",
+    "excel_ref": "Mapas Mód. 11–14",
+    "modulo": "Mapas e retomada",
+    "titulo": "Mapa de memória dos módulos 11 a 14",
+    "foco_pedagogico": "Recuperação cumulativa, elaboração e organização visual",
+    "datas": {
+      "6A": "06/08/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Corrigir as atividades do Módulo 14.",
+      "Recuperar conceitos dos módulos 11 a 14.",
+      "Construir mapas com setas e palavras de ligação.",
+      "Diagnosticar lacunas do primeiro semestre."
+    ],
+    "materiais": "Material pH, folhas A3, post-its, cartões de conceitos e canetas.",
+    "abertura": {
+      "titulo": "1. Correção e Brain Dump cumulativo (14 min)",
+      "detalhes": "Corrija PA e DH. Depois, divida a folha em quatro áreas e registre sem consulta tudo o que lembra dos módulos 11 a 14. Acrescente informações com outra cor após conversa e consulta."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Especialistas e mapa coletivo (28 min)",
+      "detalhes": "Explique a diferença entre lista e mapa conceitual. Quatro equipes selecionam cinco conceitos essenciais de cada módulo, criam relações com palavras de ligação e conectam as partes em um painel único."
+    },
+    "fechamento": {
+      "titulo": "3. Galeria e lacuna principal (8 min)",
+      "detalhes": "Os alunos deixam feedback em post-its e registram o conceito mais esquecido e a ação de revisão necessária."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, codificação dupla, elaboração e feedback entre pares.",
+    "avaliacao_formativa": "Brain Dump, qualidade das relações e registro da lacuna.",
+    "tarefa_casa": "Ler a abertura do Caderno 3 — Módulo 15.",
+    "material_ph": "Mapas conceituais dos módulos 11, 12, 13 e 14; leitura inicial do Módulo 15.",
+    "aplicacao": "Brain Dump, qualidade das relações e registro da lacuna.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-58",
+    "aula_num": "Aula 58",
+    "excel_ref": "Recomposição Mód. 14",
+    "modulo": "Recomposição",
+    "titulo": "Laboratório de recomposição da Química Verde",
+    "foco_pedagogico": "Diagnóstico, estações e intervenção diferenciada",
+    "datas": {
+      "6A": "06/08/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Identificar aprendizagens ainda não consolidadas.",
+      "Diferenciar prevenção, reciclagem e remediação.",
+      "Fortalecer justificativas e autonomia.",
+      "Preparar a transição para o Módulo 15."
+    ],
+    "materiais": "Cartões de recuperação, situações “É verde ou só parece?”, Chromebooks e ficha diagnóstica.",
+    "abertura": {
+      "titulo": "1. Diagnóstico sem nota (5 min)",
+      "detalhes": "Quatro perguntas curtas sobre conceito, prevenção, economia e análise de produto reciclável. Use as respostas para orientar os grupos."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Estações de recomposição (30 min)",
+      "detalhes": "Rotacione entre cartões de recuperação, jogo de classificação, Google Forms diagnóstico com feedback e clínica com o professor. Em cada estação, os alunos respondem antes de consultar."
+    },
+    "fechamento": {
+      "titulo": "3. Síntese e Exit Ticket (15 min)",
+      "detalhes": "Construa coletivamente os eixos prevenir, proteger, economizar e planejar. Cada aluno registra o que consolidou e o que ainda precisa revisar."
+    },
+    "estrategias_cognitivas": "Recuperação de baixo risco, feedback imediato, diferenciação e metacognição.",
+    "avaliacao_formativa": "Classificação em consolidado, em desenvolvimento ou recomposição necessária.",
+    "tarefa_casa": "Concluir a leitura inicial do Caderno 3 — Módulo 15.",
+    "material_ph": "Exploração dos conteúdos defasados do Módulo 14 e leitura do Módulo 15.",
+    "aplicacao": "Classificação em consolidado, em desenvolvimento ou recomposição necessária.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-59-60",
+    "aula_num": "Aulas 59 + 60",
+    "excel_ref": "Cad. 3 / Mód. 15",
+    "modulo": "Cad. 3 / Mód. 15",
+    "titulo": "Onde está a Terra e como sabemos seu formato?",
+    "foco_pedagogico": "Evidências, modelos e argumentação",
+    "datas": {
+      "6A": "10/08/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Localizar a Terra no Universo e no Sistema Solar.",
+      "Selecionar evidências da esfericidade terrestre.",
+      "Diferenciar opinião, afirmação e evidência."
+    ],
+    "materiais": "Material pH, globo, lanterna, imagens e cartões.",
+    "abertura": {
+      "titulo": "1. Brain Dump e visitante espacial (10 min)",
+      "detalhes": "Recupere a leitura prévia e discuta a pergunta: “Se vivemos numa esfera, por que não caímos?”. Foque na necessidade de evidências."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para começar + endereço cósmico + leitura especialista (32 min)",
+      "detalhes": "Trabalhe p. 301 e p. 302–305. Construa Universo → Via Láctea → Sistema Solar → Terra. Grupos localizam ideia principal, evidência e pergunta."
+    },
+    "fechamento": {
+      "titulo": "3. Tribunal das evidências (8 min)",
+      "detalhes": "Classifique eclipse lunar, navios no horizonte e imagens espaciais como evidências, relacionando observação e conclusão."
+    },
+    "estrategias_cognitivas": "Geração, recuperação, comparação e argumentação.",
+    "avaliacao_formativa": "Exit Ticket com endereço cósmico e uma evidência.",
+    "tarefa_casa": "PA p. 307, questões 1, 2 e 3. Levar materiais para a prática.",
+    "material_ph": "Para começar p. 301; Para aprender p. 302–305; PA p. 307 q. 1–3.",
+    "aplicacao": "Exit Ticket com endereço cósmico e uma evidência.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-61",
+    "aula_num": "Aula 61",
+    "excel_ref": "Cad. 3 / Mód. 15",
+    "modulo": "Cad. 3 / Mód. 15",
+    "titulo": "Laboratório de evidências da forma da Terra",
+    "foco_pedagogico": "Prática, previsão e CER científico",
+    "datas": {
+      "6A": "13/08/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Realizar a atividade prática do material.",
+      "Registrar previsão, observação e interpretação.",
+      "Explicar uma conclusão com evidência e raciocínio."
+    ],
+    "materiais": "Material pH, papelão, canetas, régua, transferidor, tesoura, palito e sulfite.",
+    "abertura": {
+      "titulo": "1. Correção e recuperação (12 min)",
+      "detalhes": "Corrija PA e recupere uma evidência, Via Láctea e Sistema Solar."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Previsão + Para solucionar/Para explorar (30 min)",
+      "detalhes": "Antes da prática, registre previsões. Siga o procedimento da p. 306 e relacione-o à p. 307. Distribua funções nos grupos."
+    },
+    "fechamento": {
+      "titulo": "3. CER científico (8 min)",
+      "detalhes": "Produza afirmação, evidência e raciocínio, distinguindo observação de interpretação."
+    },
+    "estrategias_cognitivas": "Geração antes da prática, colaboração e feedback.",
+    "avaliacao_formativa": "Ficha de previsão, observação e CER.",
+    "tarefa_casa": "DH p. 308, questões 1 e 2.",
+    "material_ph": "Para solucionar p. 306; Para explorar p. 307; DH p. 308 q. 1–2.",
+    "aplicacao": "Ficha de previsão, observação e CER.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-62",
+    "aula_num": "Aula 62",
+    "excel_ref": "Cad. 3 / Mód. 16",
+    "modulo": "Cad. 3 / Mód. 16",
+    "titulo": "Os movimentos da Terra: rotação, luz e sombra",
+    "foco_pedagogico": "Modelagem, previsão e correção conceitual",
+    "datas": {
+      "6A": "13/08/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Introduzir rotação e sua relação com dia e noite.",
+      "Relacionar iluminação, movimento aparente e sombras.",
+      "Interpretar um modelo Terra–Sol."
+    ],
+    "materiais": "Material pH, globo ou bola, lanterna, fita e cartões.",
+    "abertura": {
+      "titulo": "1. Correção e hipótese “o que se move?” (12 min)",
+      "detalhes": "Corrija DH e registre hipóteses sobre o movimento aparente do Sol e dia/noite."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para começar + demonstração (28 min)",
+      "detalhes": "Trabalhe p. 310 e use globo/lanterna para prever e observar lado iluminado, lado escuro e rotação. Faça a dinâmica Terra humana."
+    },
+    "fechamento": {
+      "titulo": "3. Verdadeiro, falso ou precisa melhorar (10 min)",
+      "detalhes": "Corrija afirmações e finalize com desenho explicativo de dia e noite."
+    },
+    "estrategias_cognitivas": "Previsão, modelagem, geração e feedback.",
+    "avaliacao_formativa": "Desenho causal e justificativas.",
+    "tarefa_casa": "PA p. 316, questão 1.",
+    "material_ph": "Para começar p. 310; PA p. 316 q. 1.",
+    "aplicacao": "Desenho causal e justificativas.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-63",
+    "aula_num": "Aula 63",
+    "excel_ref": "Cad. 3 / Mód. 16",
+    "modulo": "Cad. 3 / Mód. 16",
+    "titulo": "Rotação, translação e inclinação do eixo",
+    "foco_pedagogico": "Comparação, modelagem corporal e contraste",
+    "datas": {
+      "6A": "17/08/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Diferenciar rotação e translação.",
+      "Relacionar movimentos a dia, ano e estações.",
+      "Reconhecer o papel da inclinação do eixo."
+    ],
+    "materiais": "Material pH, bola, lanterna, fita para órbita e cartões.",
+    "abertura": {
+      "titulo": "1. Correção e quatro caixas (10 min)",
+      "detalhes": "Corrija PA e recupere rotação, dia/noite, forma da Terra e evidência."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + sistema Terra–Sol (28 min)",
+      "detalhes": "Leia p. 311–313 marcando R, T, E e ?. Monte tabela comparativa e modele rotação e translação simultâneas."
+    },
+    "fechamento": {
+      "titulo": "3. Batalha dos movimentos (12 min)",
+      "detalhes": "Classifique cartões e corrija a explicação incompleta de que as estações dependem apenas da distância."
+    },
+    "estrategias_cognitivas": "Recuperação espaçada, contraste e codificação dupla.",
+    "avaliacao_formativa": "Tabela comparativa, justificativas e resposta de consolidação.",
+    "tarefa_casa": "PA p. 316, questões 2 e 6; DH p. 317, questão 1.",
+    "material_ph": "Para aprender p. 311–313; PA p. 316 q. 2 e 6; DH p. 317 q. 1.",
+    "aplicacao": "Tabela comparativa, justificativas e resposta de consolidação.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-64",
+    "aula_num": "Aula 64",
+    "excel_ref": "Cad. 3 / Mód. 16",
+    "modulo": "Cad. 3 / Mód. 16",
+    "titulo": "Detetives das sombras",
+    "foco_pedagogico": "Investigação, dados e transferência",
+    "datas": {
+      "6A": "20/08/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Relacionar mudanças das sombras ao movimento aparente do Sol.",
+      "Aplicar rotação, translação e inclinação em problemas.",
+      "Comparar previsão e observação."
+    ],
+    "materiais": "Material pH, haste, suporte, papel, régua, giz e lanterna alternativa.",
+    "abertura": {
+      "titulo": "1. Correção e previsão da sombra (13 min)",
+      "detalhes": "Corrija as tarefas e faça a primeira marcação da sombra, sem olhar para o Sol. Registre horário, direção e comprimento."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para solucionar + estações (25 min)",
+      "detalhes": "Trabalhe p. 315 e estações de dia/noite, sombras, movimentos e correção de afirmações."
+    },
+    "fechamento": {
+      "titulo": "3. Segunda observação e mini-relatório (12 min)",
+      "detalhes": "Compare a sombra e complete pergunta, previsão, evidência e explicação."
+    },
+    "estrategias_cognitivas": "Investigação, análise de dados, geração e metacognição.",
+    "avaliacao_formativa": "Mini-relatório e checklist de domínio.",
+    "tarefa_casa": "PA p. 316, questões 3, 4 e 5; revisar q. 6. DH p. 317, questão 2.",
+    "material_ph": "Para solucionar p. 315; PA p. 316 q. 3–5 e revisão q. 6; DH p. 317 q. 2.",
+    "aplicacao": "Mini-relatório e checklist de domínio.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-65",
+    "aula_num": "Aula 65",
+    "excel_ref": "Cad. 3 / Mód. 17",
+    "modulo": "Cad. 3 / Mód. 17",
+    "titulo": "Uma viagem do núcleo da Terra ao espaço",
+    "foco_pedagogico": "Modelos, comparação e organização espacial",
+    "datas": {
+      "6A": "20/08/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Identificar núcleo, manto, crosta e atmosfera.",
+      "Reconhecer características gerais das camadas.",
+      "Interpretar modelos e suas limitações."
+    ],
+    "materiais": "Material pH, imagens em corte, cartões e canetas.",
+    "abertura": {
+      "titulo": "1. Recuperação e desenho inicial (10 min)",
+      "detalhes": "Recupere conteúdos do Bloco 2 e desenhe como imagina o interior da Terra."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para começar, Para aprender e Elevador Planetário (32 min)",
+      "detalhes": "Trabalhe p. 319–322; construa a sequência das camadas e jogue com pistas de localização e características."
+    },
+    "fechamento": {
+      "titulo": "3. Corrigindo meu modelo (8 min)",
+      "detalhes": "Retome o desenho inicial em outra cor e registre uma informação nova."
+    },
+    "estrategias_cognitivas": "Recuperação, modelos e feedback.",
+    "avaliacao_formativa": "Comparação entre modelos inicial e final.",
+    "tarefa_casa": "PA p. 327, questões 1–3; DH p. 327, questão 1.",
+    "material_ph": "Para começar p. 319; Para aprender p. 320–322; PA p. 327 q. 1–3; DH p. 327 q. 1.",
+    "aplicacao": "Comparação entre modelos inicial e final.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-66",
+    "aula_num": "Aula 66",
+    "excel_ref": "Cad. 3 / Mód. 17",
+    "modulo": "Cad. 3 / Mód. 17",
+    "titulo": "Como é o interior do planeta?",
+    "foco_pedagogico": "Evidências indiretas e interpretação de modelos",
+    "datas": {
+      "6A": "24/08/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Diferenciar crosta, manto e núcleo.",
+      "Interpretar cortes esquemáticos.",
+      "Compreender evidências indiretas e limites dos modelos."
+    ],
+    "materiais": "Material pH, caixa fechada e esquemas.",
+    "abertura": {
+      "titulo": "1. Correção e desenho de memória (15 min)",
+      "detalhes": "Corrija a tarefa e desenhe as camadas sem consulta."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Caixa-preta + Para aprender/Para explorar (28 min)",
+      "detalhes": "Use a caixa fechada como analogia de evidência indireta. Trabalhe p. 323–325 com tabela de camada, localização e característica."
+    },
+    "fechamento": {
+      "titulo": "3. Verdadeiro, falso ou impreciso (7 min)",
+      "detalhes": "Corrija afirmações sobre espessura, posição e escala dos modelos."
+    },
+    "estrategias_cognitivas": "Recuperação, analogia com limites e feedback.",
+    "avaliacao_formativa": "Tabela e explicação das limitações do modelo.",
+    "tarefa_casa": "PA p. 327, questão 4; DH p. 327, questão 2.",
+    "material_ph": "Para aprender p. 323–324; Para explorar p. 324–325; PA p. 327 q. 4; DH p. 327 q. 2.",
+    "aplicacao": "Tabela e explicação das limitações do modelo.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-67",
+    "aula_num": "Aula 67",
+    "excel_ref": "Cad. 3 / Mód. 17",
+    "modulo": "Cad. 3 / Mód. 17",
+    "titulo": "Missão: atravessar as camadas da Terra",
+    "foco_pedagogico": "Resolução de problemas e consolidação",
+    "datas": {
+      "6A": "27/08/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Aplicar conhecimentos sobre estrutura terrestre.",
+      "Relacionar localização e características.",
+      "Justificar respostas com evidências."
+    ],
+    "materiais": "Material pH, cartões de missão e folhas.",
+    "abertura": {
+      "titulo": "1. Correção e escada das camadas (13 min)",
+      "detalhes": "Corrija PA/DH e ordene as camadas sem consulta."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para solucionar + viagem ao centro (29 min)",
+      "detalhes": "Trabalhe p. 325–326 e organize uma missão fictícia com ordem, características e limitações."
+    },
+    "fechamento": {
+      "titulo": "3. Postal de uma camada (8 min)",
+      "detalhes": "Descreva uma camada sem nomeá-la para que o colega identifique."
+    },
+    "estrategias_cognitivas": "Recuperação, aplicação e elaboração.",
+    "avaliacao_formativa": "Exit Ticket e justificativas.",
+    "tarefa_casa": "Ler Para concluir, p. 327.",
+    "material_ph": "Para solucionar p. 325–326; Para concluir p. 327.",
+    "aplicacao": "Exit Ticket e justificativas.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-68",
+    "aula_num": "Aula 68",
+    "excel_ref": "Cad. 3 / Mód. 18",
+    "modulo": "Cad. 3 / Mód. 18",
+    "titulo": "A biosfera: a parte viva do planeta",
+    "foco_pedagogico": "Classificação, relações e redes",
+    "datas": {
+      "6A": "27/08/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Compreender biosfera.",
+      "Relacionar seres vivos e componentes ambientais.",
+      "Reconhecer influências recíprocas."
+    ],
+    "materiais": "Material pH, imagens de ambientes, cartões e barbante.",
+    "abertura": {
+      "titulo": "1. Transição e “onde há vida?” (11 min)",
+      "detalhes": "Questione em qual parte do planeta há vida e classifique imagens de ambientes."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para começar + conceito + rede da biosfera (31 min)",
+      "detalhes": "Trabalhe p. 329; construa conceito e uma rede com planta, animal, fungo, solo, água, ar e luz."
+    },
+    "fechamento": {
+      "titulo": "3. Vivo, não vivo ou já foi vivo (8 min)",
+      "detalhes": "Classifique cartões e justifique casos ambíguos."
+    },
+    "estrategias_cognitivas": "Ativação, classificação e elaboração relacional.",
+    "avaliacao_formativa": "Respostas e rede construída.",
+    "tarefa_casa": "Ler Para aprender, p. 330, registrando ideia, palavra e pergunta.",
+    "material_ph": "Para começar p. 329; leitura Para aprender p. 330.",
+    "aplicacao": "Respostas e rede construída.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-69",
+    "aula_num": "Aula 69",
+    "excel_ref": "Cad. 3 / Mód. 18",
+    "modulo": "Cad. 3 / Mód. 18",
+    "titulo": "A célula: unidade da vida",
+    "foco_pedagogico": "Representação visual e comparação",
+    "datas": {
+      "6A": "31/08/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Explicar célula como unidade estrutural e funcional.",
+      "Distinguir célula, tecido e organismo.",
+      "Interpretar imagens microscópicas."
+    ],
+    "materiais": "Material pH, imagens, esquema de zoom e Chromebooks.",
+    "abertura": {
+      "titulo": "1. Recuperação e analogia do muro (10 min)",
+      "detalhes": "Recupere a leitura e discuta a utilidade e os limites da analogia tijolo–célula."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + Zoom da vida + microscópio virtual (30 min)",
+      "detalhes": "Trabalhe p. 330–331; construa organismo → órgãos/tecidos → células e observe imagens microscópicas."
+    },
+    "fechamento": {
+      "titulo": "3. Praticando e consolidação (10 min)",
+      "detalhes": "Resolva em sala p. 335 q. 1–3 com tentativa, dupla e correção."
+    },
+    "estrategias_cognitivas": "Recuperação, codificação dupla e comparação.",
+    "avaliacao_formativa": "Questões em sala e frase “A célula é unidade da vida porque...”.",
+    "tarefa_casa": "PA p. 335, questão 4.",
+    "material_ph": "Para aprender p. 330–331; Praticando p. 335 q. 1–3; PA p. 335 q. 4.",
+    "aplicacao": "Questões em sala e frase “A célula é unidade da vida porque...”.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-70",
+    "aula_num": "Aula 70",
+    "excel_ref": "Cad. 3 / Mód. 18",
+    "modulo": "Cad. 3 / Mód. 18",
+    "titulo": "Seres vivos, fotossíntese e atmosfera",
+    "foco_pedagogico": "Relações causais e integração",
+    "datas": {
+      "6A": "03/09/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Relacionar fotossíntese, biosfera e atmosfera.",
+      "Compreender influências entre seres vivos e ambiente.",
+      "Construir explicações causais."
+    ],
+    "materiais": "Material pH, cartões de fluxo e quadro.",
+    "abertura": {
+      "titulo": "1. Correção, recuperação e planeta sem plantas (16 min)",
+      "detalhes": "Corrija PA, recupere biosfera/célula e preveja consequências do desaparecimento de plantas e algas."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + fluxo + Para solucionar (28 min)",
+      "detalhes": "Trabalhe p. 332–334; monte luz + água + gás carbônico → matéria orgânica + oxigênio e resolva a proposta p. 333–334."
+    },
+    "fechamento": {
+      "titulo": "3. Rede da vida e do ar (6 min)",
+      "detalhes": "Crie frase causal com planta, atmosfera, animal e fotossíntese."
+    },
+    "estrategias_cognitivas": "Recuperação, geração e construção causal.",
+    "avaliacao_formativa": "Respostas e frase de integração.",
+    "tarefa_casa": "DH p. 336, questões 1 e 2.",
+    "material_ph": "Para aprender p. 332–334; Para solucionar p. 333–334; DH p. 336 q. 1–2.",
+    "aplicacao": "Respostas e frase de integração.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-71",
+    "aula_num": "Aula 71",
+    "excel_ref": "Recomposição Mód. 18",
+    "modulo": "Recomposição",
+    "titulo": "Laboratório de recomposição do Módulo 18",
+    "foco_pedagogico": "Diagnóstico, estações e diferenciação",
+    "datas": {
+      "6A": "03/09/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Consolidar biosfera, célula, fotossíntese e atmosfera.",
+      "Corrigir confusões conceituais.",
+      "Preparar níveis de organização."
+    ],
+    "materiais": "Cartões, Chromebooks, imagens e ficha diagnóstica.",
+    "abertura": {
+      "titulo": "1. Correção e Brain Dump (12 min)",
+      "detalhes": "Corrija DH e recupere quatro áreas: biosfera, célula, fotossíntese e atmosfera."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Estações (30 min)",
+      "detalhes": "Rede da biosfera, zoom da organização, fotossíntese em cartões e clínica com professor."
+    },
+    "fechamento": {
+      "titulo": "3. Quem sou eu? e Exit Ticket (8 min)",
+      "detalhes": "Use pistas para célula, biosfera, fotossíntese e atmosfera e registre o conteúdo a revisar."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, feedback e intervenção diferenciada.",
+    "avaliacao_formativa": "Desempenho nas estações e Exit Ticket.",
+    "tarefa_casa": "Revisar Brain Dump e correções.",
+    "material_ph": "Recomposição dos conteúdos defasados do Módulo 18.",
+    "aplicacao": "Desempenho nas estações e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-72",
+    "aula_num": "Aula 72",
+    "excel_ref": "Cad. 3 / Mód. 19",
+    "modulo": "Cad. 3 / Mód. 19",
+    "titulo": "Do microscópico ao organismo",
+    "foco_pedagogico": "Organização hierárquica e modelos",
+    "datas": {
+      "6A": "14/09/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Ordenar célula, tecido, órgão, sistema e organismo.",
+      "Explicar as relações entre níveis.",
+      "Reconhecer integração do organismo."
+    ],
+    "materiais": "Material pH, cartões, imagens e post-its.",
+    "abertura": {
+      "titulo": "1. Zoom de memória e cidade viva (10 min)",
+      "detalhes": "Complete frases sobre célula, tecido, órgão e sistema e discuta os limites da analogia da cidade."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para começar + Para aprender + Escada biológica (32 min)",
+      "detalhes": "Trabalhe p. 338–340; construa célula → tecido → órgão → sistema → organismo e ordene cartões com justificativa."
+    },
+    "fechamento": {
+      "titulo": "3. Conserte a sequência (8 min)",
+      "detalhes": "Corrija uma sequência errada e explique a relação entre níveis."
+    },
+    "estrategias_cognitivas": "Recuperação, hierarquização e elaboração.",
+    "avaliacao_formativa": "Exit Ticket e justificativas.",
+    "tarefa_casa": "DH p. 348, questão 1.",
+    "material_ph": "Para começar p. 338; Para aprender p. 338–340; DH p. 348 q. 1.",
+    "aplicacao": "Exit Ticket e justificativas.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-73",
+    "aula_num": "Aula 73",
+    "excel_ref": "Cad. 3 / Mód. 19",
+    "modulo": "Cad. 3 / Mód. 19",
+    "titulo": "A jornada dos tecidos",
+    "foco_pedagogico": "Comparação, classificação e imagens",
+    "datas": {
+      "6A": "17/09/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Compreender tecidos epitelial, conjuntivo e muscular.",
+      "Associar estrutura e função.",
+      "Reconhecer múltiplos tecidos em órgãos."
+    ],
+    "materiais": "Material pH, imagens microscópicas, Chromebooks e cartões.",
+    "abertura": {
+      "titulo": "1. Correção e escada sem consulta (10 min)",
+      "detalhes": "Corrija DH e recupere a sequência dos níveis."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + especialistas + expedição microscópica (32 min)",
+      "detalhes": "Trabalhe p. 341–344 em equipes epitelial, conjuntivo e muscular. Analise imagens por características, não por cores."
+    },
+    "fechamento": {
+      "titulo": "3. Passaporte dos tecidos (8 min)",
+      "detalhes": "Identifique tecidos por pistas e discuta por que o coração não é formado apenas por músculo."
+    },
+    "estrategias_cognitivas": "Recuperação, contraste e codificação visual.",
+    "avaliacao_formativa": "Tabela comparativa e justificativas.",
+    "tarefa_casa": "DH p. 348, questão 2.",
+    "material_ph": "Para aprender p. 341–344; DH p. 348 q. 2.",
+    "aplicacao": "Tabela comparativa e justificativas.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-74-75",
+    "aula_num": "Aulas 74 + 75",
+    "excel_ref": "Cad. 3 / Mód. 19",
+    "modulo": "Cad. 3 / Mód. 19",
+    "titulo": "Missão Órgão Misterioso",
+    "foco_pedagogico": "Resolução, jogo e integração",
+    "datas": {
+      "6A": "17/09/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Relacionar tecidos, órgãos, sistemas e organismo.",
+      "Interpretar ilustrações e pistas.",
+      "Identificar órgãos e justificar com evidências."
+    ],
+    "materiais": "Material pH, cartões de órgãos e pistas.",
+    "abertura": {
+      "titulo": "1. Correção e recuperação intercalada (9 min)",
+      "detalhes": "Corrija DH e recupere tecidos e níveis de organização."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Atividade p. 345–346 + Órgão Misterioso (34 min)",
+      "detalhes": "Resolva a atividade com tentativa antes do feedback. Jogue com pistas progressivas de coração, estômago, pele e pulmão; o ponto exige justificativa."
+    },
+    "fechamento": {
+      "titulo": "3. Crie pistas e mapa de integração (7 min)",
+      "detalhes": "Equipes criam um órgão misterioso e concluem: células → tecidos → órgãos → sistemas → organismo."
+    },
+    "estrategias_cognitivas": "Recuperação, aplicação, jogo com evidência e elaboração.",
+    "avaliacao_formativa": "Resolução, justificativas e mapa final.",
+    "tarefa_casa": "Ler Para concluir, p. 348. Leitura inicial do Módulo 20 somente após a AP3.",
+    "material_ph": "Atividade p. 345–346; Para concluir p. 348; Jogo do Órgão Misterioso.",
+    "aplicacao": "Resolução, justificativas e mapa final.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ap3-review",
+    "aula_num": "Retomada AP3",
+    "excel_ref": "Mód. 14–19",
+    "modulo": "Retomada AP3",
+    "titulo": "Operação Resgate da Memória — AP3",
+    "foco_pedagogico": "Recuperação cumulativa, intercalação e metacognição",
+    "datas": {
+      "6A": "21/09/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Recuperar os módulos 14 a 19.",
+      "Identificar lacunas antes da prova.",
+      "Praticar questões factuais, conceituais e de aplicação.",
+      "Planejar revisão final."
+    ],
+    "materiais": "Folha de Brain Dump, cartões, estações e Chromebooks.",
+    "abertura": {
+      "titulo": "1. Painel de confiança + Brain Dump (12 min)",
+      "detalhes": "Classifique confiança em cinco áreas e recupere os seis módulos sem consulta."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Estações intercaladas (28 min)",
+      "detalhes": "Planeta sustentável; Terra em movimento; vida em escalas; quiz de baixo risco com feedback."
+    },
+    "fechamento": {
+      "titulo": "3. Correção explicativa e plano final (10 min)",
+      "detalhes": "Corrija erros prioritários e registre o que revisar hoje e amanhã."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, intercalação, feedback e calibração.",
+    "avaliacao_formativa": "Painel antes/depois, desempenho nas estações e plano de estudo.",
+    "tarefa_casa": "Corrigir questões erradas, explicar os módulos sem consulta e refazer duas questões difíceis.",
+    "material_ph": "Retomada AP3 — módulos 14 a 19.",
+    "aplicacao": "Painel antes/depois, desempenho nas estações e plano de estudo.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  }
+];
+
+const aulas6AG3 = [
+  {
+    "id": "6-ag3-76",
+    "aula_num": "Aula 76",
+    "excel_ref": "Cad. 4 / Mód. 20",
+    "modulo": "Cad. 4 / Mód. 20",
+    "titulo": "A vida dentro da célula",
+    "foco_pedagogico": "Metabolismo, hipóteses e história da ciência",
+    "datas": {
+      "6A": "24/09/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Recuperar a célula como unidade da vida.",
+      "Construir noção de metabolismo celular.",
+      "Reconhecer a importância do microscópio."
+    ],
+    "materiais": "Material pH, imagens microscópicas e cartões.",
+    "abertura": {
+      "titulo": "1. Escada da vida e cidade que não para (11 min)",
+      "detalhes": "Recupere níveis de organização e gere hipóteses sobre atividades celulares."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para começar + metabolismo + Gotas do Saber (31 min)",
+      "detalhes": "Trabalhe p. 287 e p. 288. Defina metabolismo como transformações para obter energia, produzir substâncias, reparar e manter a célula."
+    },
+    "fechamento": {
+      "titulo": "3. A célula está trabalhando (8 min)",
+      "detalhes": "Classifique ações celulares e conclua com Exit Ticket."
+    },
+    "estrategias_cognitivas": "Recuperação, geração e analogia com limites.",
+    "avaliacao_formativa": "Exit Ticket e classificações.",
+    "tarefa_casa": "Completar leitura do Módulo 20 e registrar informação, palavra e pergunta.",
+    "material_ph": "Para começar p. 287; Gotas do Saber p. 288; leitura do Módulo 20.",
+    "aplicacao": "Exit Ticket e classificações.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-77",
+    "aula_num": "Aula 77",
+    "excel_ref": "Cad. 4 / Mód. 20",
+    "modulo": "Cad. 4 / Mód. 20",
+    "titulo": "Célula: a unidade da vida",
+    "foco_pedagogico": "Comparação e associação componente–função",
+    "datas": {
+      "6A": "24/09/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Identificar componentes celulares apresentados.",
+      "Comparar células animal e vegetal.",
+      "Relacionar componentes e funções."
+    ],
+    "materiais": "Material pH, esquemas sem legendas e cartões.",
+    "abertura": {
+      "titulo": "1. Recuperação 3–2–1 (6 min)",
+      "detalhes": "Registre três informações, dois componentes e uma dúvida."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + detetives das células (34 min)",
+      "detalhes": "Trabalhe p. 287–291 em especialistas e complete esquemas de células animal e vegetal com justificativas."
+    },
+    "fechamento": {
+      "titulo": "3. Componente procura função (10 min)",
+      "detalhes": "Associe cartões e explique unidade estrutural e funcional."
+    },
+    "estrategias_cognitivas": "Recuperação, comparação e codificação visual.",
+    "avaliacao_formativa": "Esquema e justificativas.",
+    "tarefa_casa": "PA p. 296–297, questões 1 e 3; DH p. 298, questão 1.",
+    "material_ph": "Para aprender p. 287–291; PA p. 296–297 q. 1 e 3; DH p. 298 q. 1.",
+    "aplicacao": "Esquema e justificativas.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-78",
+    "aula_num": "Aula 78",
+    "excel_ref": "Cad. 4 / Mód. 20",
+    "modulo": "Cad. 4 / Mód. 20",
+    "titulo": "Três caminhos do metabolismo energético",
+    "foco_pedagogico": "Comparação e intercalação",
+    "datas": {
+      "6A": "28/09/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Diferenciar respiração celular, fermentação e fotossíntese.",
+      "Relacionar processos à energia e manutenção da vida.",
+      "Reconhecer aplicações."
+    ],
+    "materiais": "Material pH e cartões.",
+    "abertura": {
+      "titulo": "1. Correção e recuperação (12 min)",
+      "detalhes": "Corrija a tarefa e recupere metabolismo, nutrientes e processos."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + especialistas (26 min)",
+      "detalhes": "Trabalhe p. 291–293 em equipes de respiração, fermentação e fotossíntese e monte quadro comparativo."
+    },
+    "fechamento": {
+      "titulo": "3. Quem sou eu? (12 min)",
+      "detalhes": "Use pistas progressivas para distinguir os três processos."
+    },
+    "estrategias_cognitivas": "Recuperação, contraste e elaboração.",
+    "avaliacao_formativa": "Quadro e respostas de consolidação.",
+    "tarefa_casa": "PA p. 296–297, questões 2, 4, 5 e 6; DH p. 298, questão 2.",
+    "material_ph": "Para aprender p. 291–293; PA p. 296–297 q. 2,4,5,6; DH p. 298 q. 2.",
+    "aplicacao": "Quadro e respostas de consolidação.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-79",
+    "aula_num": "Aula 79",
+    "excel_ref": "Cad. 4 / Mód. 21",
+    "modulo": "Cad. 4 / Mód. 21",
+    "titulo": "A viagem do alimento",
+    "foco_pedagogico": "Narrativa, sequência e estrutura–função",
+    "datas": {
+      "6A": "01/10/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Compreender função geral da digestão.",
+      "Identificar órgãos e trajeto do alimento.",
+      "Relacionar digestão e nutrientes celulares."
+    ],
+    "materiais": "Material pH, cartões de órgãos e contorno corporal.",
+    "abertura": {
+      "titulo": "1. Correção e ponte para nutrientes (11 min)",
+      "detalhes": "Corrija o módulo anterior e questione como nutrientes chegam às células."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para começar + Para aprender + viagem do sanduíche (32 min)",
+      "detalhes": "Trabalhe p. 300–301 e monte uma narrativa científica do percurso do alimento."
+    },
+    "fechamento": {
+      "titulo": "3. Órgão no lugar certo (7 min)",
+      "detalhes": "Posicione órgãos e explique função e sequência."
+    },
+    "estrategias_cognitivas": "Recuperação, narrativa e sequenciamento.",
+    "avaliacao_formativa": "Storyboard e frase final.",
+    "tarefa_casa": "PA p. 310, questões 1 e 2.",
+    "material_ph": "Para começar p. 300; Para aprender p. 300–301; PA p. 310 q. 1–2.",
+    "aplicacao": "Storyboard e frase final.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-80",
+    "aula_num": "Aula 80",
+    "excel_ref": "Cad. 4 / Mód. 21",
+    "modulo": "Cad. 4 / Mód. 21",
+    "titulo": "A missão do oxigênio e do sangue",
+    "foco_pedagogico": "Integração de sistemas e trajetos",
+    "datas": {
+      "6A": "01/10/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Reconhecer funções dos sistemas respiratório e cardiovascular.",
+      "Relacionar oxigênio, circulação e células.",
+      "Explicar integração."
+    ],
+    "materiais": "Material pH, cartões e modelo corporal.",
+    "abertura": {
+      "titulo": "1. Correção e provocação (12 min)",
+      "detalhes": "Corrija PA e pergunte como o oxigênio chega a células distantes."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + viagem do oxigênio (29 min)",
+      "detalhes": "Trabalhe p. 303 e 306; organize ar, pulmões, sangue, coração, vasos, células e gás carbônico."
+    },
+    "fechamento": {
+      "titulo": "3. Modelo corporal e Exit Ticket (9 min)",
+      "detalhes": "Simule a rede de transporte e explique a integração."
+    },
+    "estrategias_cognitivas": "Recuperação, modelagem e causalidade.",
+    "avaliacao_formativa": "Mapa do trajeto e Exit Ticket.",
+    "tarefa_casa": "PA p. 310, questões 3 e 4; DH p. 310–311, questões 1 e 2.",
+    "material_ph": "Para aprender p. 303 e 306; PA p. 310 q. 3–4; DH p. 310–311 q. 1–2.",
+    "aplicacao": "Mapa do trajeto e Exit Ticket.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-81",
+    "aula_num": "Aula 81",
+    "excel_ref": "Cad. 4 / Mód. 21",
+    "modulo": "Cad. 4 / Mód. 21",
+    "titulo": "Sistema urinário e equipe de manutenção",
+    "foco_pedagogico": "Integração e fluxo de matéria",
+    "datas": {
+      "6A": "05/10/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Reconhecer função geral do sistema urinário.",
+      "Relacionar resíduos celulares e eliminação.",
+      "Integrar sistemas vitais."
+    ],
+    "materiais": "Material pH e cartões de fluxo.",
+    "abertura": {
+      "titulo": "1. Correção e recuperação (12 min)",
+      "detalhes": "Corrija tarefas e recupere nutrientes, oxigênio, metabolismo e resíduos."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + central de manutenção (28 min)",
+      "detalhes": "Trabalhe p. 307 e ordene entrada de alimento, digestão, circulação, metabolismo, resíduos e eliminação."
+    },
+    "fechamento": {
+      "titulo": "3. Caso da cidade e preparação da prática (10 min)",
+      "detalhes": "Analise uma cidade que acumulou resíduos e registre previsão sobre fermentação."
+    },
+    "estrategias_cognitivas": "Recuperação, integração e analogia com limites.",
+    "avaliacao_formativa": "Fluxo integrado e previsão.",
+    "tarefa_casa": "DH p. 311, questão 3.",
+    "material_ph": "Para aprender p. 307; DH p. 311 q. 3.",
+    "aplicacao": "Fluxo integrado e previsão.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-82",
+    "aula_num": "Aula 82",
+    "excel_ref": "Prática Mód. 21",
+    "modulo": "Cad. 4 / Mód. 21",
+    "titulo": "Investigação da fermentação alcoólica",
+    "foco_pedagogico": "Previsão, controle e evidência",
+    "datas": {
+      "6A": "08/10/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Observar evidências de fermentação.",
+      "Comparar montagens.",
+      "Produzir conclusão com evidência e raciocínio."
+    ],
+    "materiais": "Roteiro do Manual do Professor p. 7; recipientes, fermento, açúcar, água morna, balões e etiquetas.",
+    "abertura": {
+      "titulo": "1. Correção e hipóteses (12 min)",
+      "detalhes": "Corrija DH e recupere quem realiza fermentação, sua relação com energia e possíveis evidências."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Montagem comparativa e cartas do metabolismo (28 min)",
+      "detalhes": "Siga prioritariamente o Manual p. 7. Registre previsões para montagens com e sem açúcar/fermento e classifique cartões enquanto aguarda."
+    },
+    "fechamento": {
+      "titulo": "3. Observação e CER (10 min)",
+      "detalhes": "Registre bolhas/balões, compare condições e escreva afirmação, evidência e raciocínio."
+    },
+    "estrategias_cognitivas": "Geração, controle experimental e feedback.",
+    "avaliacao_formativa": "Ficha de previsão, observação e CER.",
+    "tarefa_casa": "Ler Para concluir, p. 311.",
+    "material_ph": "Prática do Manual do Professor p. 7; Para concluir p. 311.",
+    "aplicacao": "Ficha de previsão, observação e CER.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-83",
+    "aula_num": "Aula 83",
+    "excel_ref": "Cad. 4 / Mód. 22",
+    "modulo": "Cad. 4 / Mód. 22",
+    "titulo": "A central de comando do organismo",
+    "foco_pedagogico": "Organização, coordenação e estrutura–função",
+    "datas": {
+      "6A": "08/10/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Conhecer organização e funções do sistema nervoso.",
+      "Relacionar percepção, coordenação e resposta.",
+      "Identificar estruturas apresentadas no livro."
+    ],
+    "materiais": "Material pH, cartões, barbante e esquema.",
+    "abertura": {
+      "titulo": "1. Recuperação e comandos rápidos (10 min)",
+      "detalhes": "Recupere sistemas vitais e analise como o corpo percebe comandos e responde."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para começar + Para aprender + estrutura procura função (32 min)",
+      "detalhes": "Trabalhe p. 313–316 em missões e associe apenas as estruturas/funções do texto."
+    },
+    "fechamento": {
+      "titulo": "3. Resposta coordenada (8 min)",
+      "detalhes": "Explique situações de som, calor, bola e equilíbrio."
+    },
+    "estrategias_cognitivas": "Recuperação, geração e associação.",
+    "avaliacao_formativa": "Exit Ticket e justificativas.",
+    "tarefa_casa": "PA p. 322, questões 1–5; DH p. 323, questão 1.",
+    "material_ph": "Para começar p. 313; Para aprender p. 314–316; PA p. 322 q. 1–5; DH p. 323 q. 1.",
+    "aplicacao": "Exit Ticket e justificativas.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-84",
+    "aula_num": "Aula 84",
+    "excel_ref": "Cad. 4 / Mód. 22",
+    "modulo": "Cad. 4 / Mód. 22",
+    "titulo": "A rede de comunicação do corpo",
+    "foco_pedagogico": "Comparação central–periférico e trajetos",
+    "datas": {
+      "6A": "15/10/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Compreender sistema nervoso periférico.",
+      "Relacionar informação sensorial e resposta motora.",
+      "Integrar estruturas nervosas."
+    ],
+    "materiais": "Material pH, barbante e cartões.",
+    "abertura": {
+      "titulo": "1. Correção ativa (12 min)",
+      "detalhes": "Corrija PA/DH com registro “eu pensava/agora compreendo”."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Analogia da escola + Para aprender + rede nervosa (30 min)",
+      "detalhes": "Trabalhe p. 317–318 e modele caminhos de ida e resposta com barbante, explicitando limites."
+    },
+    "fechamento": {
+      "titulo": "3. Central, periférico ou integração (8 min)",
+      "detalhes": "Classifique afirmações e justifique."
+    },
+    "estrategias_cognitivas": "Recuperação, comparação e modelagem.",
+    "avaliacao_formativa": "Explicações de trajeto.",
+    "tarefa_casa": "PA p. 323, questão 6; DH p. 324, questões 2 e 3. Correção em 19/10.",
+    "material_ph": "Para aprender p. 317–318; PA p. 323 q. 6; DH p. 324 q. 2–3.",
+    "aplicacao": "Explicações de trajeto.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-85",
+    "aula_num": "Aula 85",
+    "excel_ref": "Cad. 4 / Mód. 22",
+    "modulo": "Cad. 4 / Mód. 22",
+    "titulo": "Substâncias psicoativas e sistema nervoso",
+    "foco_pedagogico": "Análise de informações e prevenção",
+    "datas": {
+      "6A": "15/10/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Explicar que substâncias psicoativas podem alterar o sistema nervoso.",
+      "Avaliar afirmações com base científica.",
+      "Tomar decisões responsáveis."
+    ],
+    "materiais": "Material pH, cartões e caixa de perguntas anônimas.",
+    "abertura": {
+      "titulo": "1. Recuperação e comunicação alterada (10 min)",
+      "detalhes": "Recupere função do sistema nervoso e faça uma dinâmica que mostra alterações em mensagens, deixando claro que não reproduz o mecanismo real."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + fato/interpretação + Para solucionar (34 min)",
+      "detalhes": "Trabalhe p. 319–322 de forma científica, preventiva e sem relatos pessoais. Classifique afirmações e responda com evidência."
+    },
+    "fechamento": {
+      "titulo": "3. Conselho científico responsável (6 min)",
+      "detalhes": "Elabore resposta a uma informação duvidosa sem moralismo e com fontes confiáveis."
+    },
+    "estrategias_cognitivas": "Recuperação, análise crítica e feedback.",
+    "avaliacao_formativa": "Respostas sustentadas e consolidação.",
+    "tarefa_casa": "DH p. 324, questão 4.",
+    "material_ph": "Para aprender p. 319–320; Para solucionar p. 321–322; DH p. 324 q. 4.",
+    "aplicacao": "Respostas sustentadas e consolidação.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-86",
+    "aula_num": "Aula 86",
+    "excel_ref": "Recomposição Mód. 22",
+    "modulo": "Recomposição",
+    "titulo": "Laboratório de recomposição do Módulo 22",
+    "foco_pedagogico": "Diagnóstico, estações e intervenção",
+    "datas": {
+      "6A": "19/10/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Corrigir atividades.",
+      "Consolidar organização central e periférica.",
+      "Compreender efeitos de substâncias psicoativas."
+    ],
+    "materiais": "Material pH, cartões, esquemas e Chromebooks.",
+    "abertura": {
+      "titulo": "1. Correção e Brain Dump (17 min)",
+      "detalhes": "Corrija PA q. 6 e DH q. 2–4; recupere organização, funções, periférico e substâncias."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Estações (24 min)",
+      "detalhes": "Organize o sistema; da informação à resposta; fato científico; clínica com professor."
+    },
+    "fechamento": {
+      "titulo": "3. Central de respostas e metacognição (9 min)",
+      "detalhes": "Use pistas e complete antes/eu pensava/agora compreendo."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, feedback e diferenciação.",
+    "avaliacao_formativa": "Reescrita de respostas e desempenho nas estações.",
+    "tarefa_casa": "Ler Para concluir, p. 324.",
+    "material_ph": "Correção e recomposição; Para concluir p. 324.",
+    "aplicacao": "Reescrita de respostas e desempenho nas estações.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-87",
+    "aula_num": "Aula 87",
+    "excel_ref": "Cad. 4 / Mód. 23",
+    "modulo": "Cad. 4 / Mód. 23",
+    "titulo": "Como percebemos o mundo? — visão",
+    "foco_pedagogico": "Percepção, interpretação e aplicação",
+    "datas": {
+      "6A": "22/10/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Associar visão ao sistema nervoso.",
+      "Diferenciar captação e interpretação.",
+      "Relacionar alterações visuais e lentes do material."
+    ],
+    "materiais": "Material pH, ilusões visuais, esquema do olho e cartões.",
+    "abertura": {
+      "titulo": "1. Recuperação e ilusão visual (10 min)",
+      "detalhes": "Recupere estímulo e sistema nervoso e use uma ilusão para discutir captação e interpretação."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para começar + Para aprender + clínica fictícia (32 min)",
+      "detalhes": "Trabalhe p. 326–329 em missões e analise casos apenas com as alterações/lentes do livro."
+    },
+    "fechamento": {
+      "titulo": "3. Rota da visão (8 min)",
+      "detalhes": "Ordene luz, objeto, olho, estruturas, sistema nervoso, interpretação e resposta."
+    },
+    "estrategias_cognitivas": "Recuperação, contraste e aplicação.",
+    "avaliacao_formativa": "Exit Ticket e justificativas.",
+    "tarefa_casa": "PA p. 336, questões 1–3; DH p. 327–328, questões 1–3.",
+    "material_ph": "Para começar p. 326; Para aprender p. 326–329; PA p. 336 q. 1–3; DH p. 327–328 q. 1–3.",
+    "aplicacao": "Exit Ticket e justificativas.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-88",
+    "aula_num": "Aula 88",
+    "excel_ref": "Cad. 4 / Mód. 23",
+    "modulo": "Cad. 4 / Mód. 23",
+    "titulo": "A viagem do som",
+    "foco_pedagogico": "Sequência, interpretação e cuidado auditivo",
+    "datas": {
+      "6A": "22/10/2026 (Qui - 16:20)"
+    },
+    "objetivos": [
+      "Conhecer estruturas e função geral da audição.",
+      "Relacionar som e sistema nervoso.",
+      "Aplicar cuidados auditivos."
+    ],
+    "materiais": "Material pH, sons simples e cartões.",
+    "abertura": {
+      "titulo": "1. Correção e som misterioso (15 min)",
+      "detalhes": "Corrija as tarefas e identifique sons sem ver a fonte."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Para aprender + estações da viagem sonora + Para solucionar (30 min)",
+      "detalhes": "Trabalhe p. 330–332 e p. 334–335; organize o percurso e explique cada etapa."
+    },
+    "fechamento": {
+      "titulo": "3. Conselho de proteção auditiva (5 min)",
+      "detalhes": "Produza orientação científica para situações de ruído."
+    },
+    "estrategias_cognitivas": "Recuperação, sequenciamento e aplicação.",
+    "avaliacao_formativa": "Explicações do percurso.",
+    "tarefa_casa": "PA p. 336, questões 4–5; DH p. 327–328, questão 4.",
+    "material_ph": "Para aprender p. 330–332; Para solucionar p. 334–335; PA p. 336 q. 4–5; DH p. 327–328 q. 4.",
+    "aplicacao": "Explicações do percurso.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-89",
+    "aula_num": "Aula 89",
+    "excel_ref": "Cad. 4 / Mód. 23",
+    "modulo": "Cad. 4 / Mód. 23",
+    "titulo": "Investigadores do olfato, gustação e tato",
+    "foco_pedagogico": "Comparação e integração sensorial",
+    "datas": {
+      "6A": "26/10/2026 (Seg - 13:20)"
+    },
+    "objetivos": [
+      "Conhecer funções gerais de olfato, gustação e tato.",
+      "Relacionar sentidos ao sistema nervoso.",
+      "Reconhecer integração sensorial."
+    ],
+    "materiais": "Material pH, objetos seguros, recipientes fechados e cartões.",
+    "abertura": {
+      "titulo": "1. Correção e tabela intercalada (13 min)",
+      "detalhes": "Corrija a tarefa e recupere os cinco sentidos."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Circuito sensorial + Para aprender (29 min)",
+      "detalhes": "Faça estações seguras de textura, aroma e imagens de alimentos; trabalhe p. 332–334 em especialistas."
+    },
+    "fechamento": {
+      "titulo": "3. Qual sentido está trabalhando? (8 min)",
+      "detalhes": "Classifique situações, priorizando “mais de um sentido” quando adequado."
+    },
+    "estrategias_cognitivas": "Recuperação, experiência segura e comparação.",
+    "avaliacao_formativa": "Exit Ticket e análise do caso de resfriado.",
+    "tarefa_casa": "PA p. 336, questão 6; DH p. 327–328, questão 5.",
+    "material_ph": "Para aprender p. 332–334; PA p. 336 q. 6; DH p. 327–328 q. 5.",
+    "aplicacao": "Exit Ticket e análise do caso de resfriado.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  },
+  {
+    "id": "6-ag3-90",
+    "aula_num": "Aula 90",
+    "excel_ref": "Mapas Mód. 18–20",
+    "modulo": "Mapas e retomada",
+    "titulo": "Mapas conceituais das bases da vida",
+    "foco_pedagogico": "Recuperação cumulativa e organização visual",
+    "datas": {
+      "6A": "29/10/2026 (Qui - 13:20)"
+    },
+    "objetivos": [
+      "Corrigir as atividades.",
+      "Construir mapas dos módulos 18, 19 e 20.",
+      "Criar conexões com os módulos 22 e 23."
+    ],
+    "materiais": "Material pH, folhas A3, post-its e Chromebooks.",
+    "abertura": {
+      "titulo": "1. Correção e Brain Dump triplo (13 min)",
+      "detalhes": "Corrija PA/DH e recupere sem consulta os módulos 18, 19 e 20."
+    },
+    "desenvolvimento": {
+      "titulo": "2. Grupos especialistas e mapas (27 min)",
+      "detalhes": "Produza mapas: biosfera/célula/fotossíntese; níveis de organização; célula/metabolismo. Exija setas, palavras de ligação, exemplos e conexão entre módulos."
+    },
+    "fechamento": {
+      "titulo": "3. Galeria e pontes (10 min)",
+      "detalhes": "Dê feedback e conecte órgãos dos sentidos a células/tecidos e metabolismo."
+    },
+    "estrategias_cognitivas": "Recuperação cumulativa, elaboração, codificação dupla e feedback.",
+    "avaliacao_formativa": "Qualidade das relações e acréscimos após galeria.",
+    "tarefa_casa": "Não há novos exercícios impressos.",
+    "material_ph": "Correção; mapas conceituais dos módulos 18, 19 e 20.",
+    "aplicacao": "Qualidade das relações e acréscimos após galeria.",
+    "link": "",
+    "referencias_pedagogicas": "Make It Stick; Retrieval Practice Guide; Spacing Guide."
+  }
+];
+
 const aulas7AP3 = [
           {
                     "id": "7-ap3-53",
@@ -2867,6 +4175,13 @@ const aulas8AG3 = [
         ];
 
         const SERIES = {
+            '6': {
+                titulo: 'Ciências — 6º Ano (EFAF)', subtitulo: 'Aprender a Aprender, Investigação & Alfabetização Científica',
+                icone: 'fa-seedling', headerClasses: 'bg-amber-500/20 text-amber-300 border-amber-500/30', accentText: 'text-amber-300', accentBorder: 'border-amber-500/40',
+                foco: 'Alfabetização Científica', turmas: [{id:'6A',label:'6ºA'}], AP3: aulas6AP3, AG3: aulas6AG3,
+                modulosAP3: ['Introdução','Cad. 2 / Mód. 14','Mapas e retomada','Recomposição','Cad. 3 / Mód. 15','Cad. 3 / Mód. 16','Cad. 3 / Mód. 17','Cad. 3 / Mód. 18','Cad. 3 / Mód. 19','Retomada AP3'],
+                modulosAG3: ['Cad. 4 / Mód. 20','Cad. 4 / Mód. 21','Cad. 4 / Mód. 22','Cad. 4 / Mód. 23','Recomposição','Mapas e retomada']
+            },
             '7': {
                 titulo: 'Ciências — 7º Ano (EFAF)', subtitulo: 'Aprendizagem Ativa, Investigação & Ciência da Aprendizagem',
                 icone: 'fa-atom', headerClasses: 'bg-teal-500/20 text-teal-300 border-teal-500/30', accentText: 'text-teal-300', accentBorder: 'border-teal-500/40',
@@ -3038,7 +4353,7 @@ const aulas8AG3 = [
 
         function detalheMetodologico(aula, etapa) {
             const detalhe = aula[etapa]?.detalhes || '';
-            if (serieAtual !== '7') return detalhe;
+            if (!['6','7'].includes(serieAtual)) return detalhe;
             const complementos = {
                 abertura: '<div class="mt-4 pt-3 border-t border-slate-700/60 text-slate-400"><strong class="text-emerald-300">Orientação de condução:</strong> dê primeiro tempo individual de pensamento e evite revelar a resposta imediatamente. Registre previsões ou conhecimentos prévios para compará-los com a aprendizagem ao final.</div>',
                 desenvolvimento: '<div class="mt-4 pt-3 border-t border-slate-700/60 text-slate-400"><strong class="text-amber-300">Orientação de condução:</strong> segmente a explicação em blocos curtos, intercale exposição com perguntas e tentativas dos estudantes e peça justificativas. Exemplos contrastantes e feedback devem tornar visível por que uma ideia se aplica e outra não.</div>',
@@ -3098,6 +4413,8 @@ const aulas8AG3 = [
 
                 ${aula.acessorio ? `<section class="bg-amber-950/30 border-l-4 border-amber-500 border border-amber-500/40 p-4 sm:p-5 rounded-xl space-y-2"><h3 class="text-xs sm:text-sm font-bold text-amber-300 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-puzzle-piece"></i>${aula.acessorio.tipo}</h3><p class="font-semibold text-amber-100">${aula.acessorio.titulo}</p><div class="text-xs sm:text-sm text-slate-300 pt-2 border-t border-amber-500/30 whitespace-pre-line">${aula.acessorio.instrucoes}</div></section>` : ''}
 
+                ${aula.material_ph ? `<section class="bg-amber-950/25 border border-amber-500/30 rounded-xl p-4 sm:p-5"><h3 class="text-xs sm:text-sm font-bold text-amber-300 uppercase tracking-wider mb-2 flex items-center gap-2"><i class="fa-solid fa-book"></i> Atividades obrigatórias do material pH</h3><p class="text-xs sm:text-sm text-slate-200 leading-relaxed">${aula.material_ph}</p></section>` : ''}
+
                 <section><h3 class="text-xs sm:text-sm font-bold ${cfg.accentText} uppercase tracking-wider mb-2 flex items-center gap-2"><i class="fa-solid fa-bullseye"></i> Objetivos de Aprendizagem</h3><ul class="list-disc list-inside space-y-1.5 bg-slate-800/40 p-4 rounded-lg border border-slate-800 text-slate-200 text-xs sm:text-sm">${aula.objetivos.map(o => `<li>${o}</li>`).join('')}</ul></section>
                 <section><h3 class="text-xs sm:text-sm font-bold text-purple-300 uppercase tracking-wider mb-2 flex items-center gap-2"><i class="fa-solid fa-box-open"></i> Materiais & Recursos</h3><p class="bg-slate-800/40 p-4 rounded-lg border border-slate-800 text-xs sm:text-sm">${aula.materiais}</p></section>
 
@@ -3107,7 +4424,7 @@ const aulas8AG3 = [
                     <div class="bg-slate-800/50 rounded-xl border-l-4 border-blue-500 border border-slate-800 overflow-hidden"><button onclick="toggleAccordion('step3')" class="w-full p-4 flex justify-between items-center text-left hover:bg-slate-800/80"><span class="font-bold text-blue-300 text-xs sm:text-sm">${aula.fechamento.titulo}</span><i id="step3-icon" class="fa-solid fa-chevron-down text-xs text-slate-400 transition"></i></button><div id="step3" class="hidden p-4 pt-1 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/50 bg-slate-900/40 whitespace-pre-line">${detalheMetodologico(aula,'fechamento')}</div></div>
                 </div></section>
 
-                ${serieAtual === '7' ? `<section class="bg-slate-950/50 border border-slate-800 rounded-2xl p-4 sm:p-5"><div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4"><div><h3 class="text-xs sm:text-sm font-bold text-teal-300 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-book-open-reader"></i> Fundamentação Metodológica</h3><p class="text-xs text-slate-500 mt-1">Como as decisões da aula se conectam à Ciência da Aprendizagem</p></div><span class="text-[10px] text-slate-500">Base de estudo: Make It Stick • Retrieval Practice Guide • Spacing Guide</span></div><div class="grid grid-cols-1 md:grid-cols-2 gap-3">${cardsFundamentacao(aula)}</div></section>` : ''}
+                ${['6','7'].includes(serieAtual) ? `<section class="bg-slate-950/50 border border-slate-800 rounded-2xl p-4 sm:p-5"><div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4"><div><h3 class="text-xs sm:text-sm font-bold text-teal-300 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-book-open-reader"></i> Fundamentação Metodológica</h3><p class="text-xs text-slate-500 mt-1">Como as decisões da aula se conectam à Ciência da Aprendizagem</p></div><span class="text-[10px] text-slate-500">Base de estudo: Make It Stick • Retrieval Practice Guide • Spacing Guide</span></div><div class="grid grid-cols-1 md:grid-cols-2 gap-3">${cardsFundamentacao(aula)}</div></section>` : ''}
 
                 <section class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl"><h4 class="text-xs sm:text-sm font-bold ${cfg.accentText} uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-brain"></i> Ciência da Aprendizagem</h4><p class="text-xs sm:text-sm">${aula.estrategias_cognitivas}</p></div><div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl"><h4 class="text-xs sm:text-sm font-bold text-rose-300 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-check-double"></i> Avaliação Formativa</h4><p class="text-xs sm:text-sm">${aula.avaliacao_formativa}</p></div></section>
                 <section class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex items-center gap-3"><div class="bg-sky-500/20 text-sky-300 p-2.5 rounded-lg text-xl"><i class="fa-solid fa-house-chimney"></i></div><div><span class="text-xs font-bold text-slate-400 uppercase block">Atividade de Casa / Tarefa</span><span class="text-xs sm:text-sm font-medium text-slate-200">${aula.tarefa_casa}</span></div></section>`;
@@ -3118,6 +4435,7 @@ const aulas8AG3 = [
         window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
         document.getElementById('lessonModal').addEventListener('click', e => { if (e.target.id === 'lessonModal') closeModal(); });
         document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('homeCount6').innerText = aulas6AP3.length + aulas6AG3.length;
             document.getElementById('homeCount7').innerText = new Set([...aulas7AP3, ...aulas7AG3].map(a => a.aula_num)).size;
             document.getElementById('homeCount8').innerText = aulas8AP3.length + aulas8AG3.length;
         });
