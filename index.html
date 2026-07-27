@@ -87,7 +87,7 @@
                 </article>
             </div>
         </main>
-        <footer class="text-center py-5 text-xs text-slate-500 border-t border-slate-900">PlanejaEDU • Plataforma de Apoio Docente • Prof. Eudson Marques © 2026 • Dados multiséries restaurados</footer>
+        <footer class="text-center py-5 text-xs text-slate-500 border-t border-slate-900">PlanejaEDU • Plataforma de Apoio Docente • Prof. Eudson Marques © 2026 • Navegação simplificada por série</footer>
     </div>
 
     <!-- PAINEL POR SÉRIE -->
@@ -126,8 +126,7 @@
                         <div class="flex items-center gap-2"><span class="w-9 h-9 rounded-xl bg-emerald-500/15 text-emerald-300 flex items-center justify-center"><i class="fa-solid fa-calendar-week"></i></span><div><h2 class="text-lg sm:text-xl font-bold text-white">Minha semana</h2><p id="weekRangeLabel" class="text-xs text-slate-400 mt-0.5">Próximas aulas e preparações</p></div></div>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <button id="weekAllBtn" onclick="setAgendaScope('todas')" class="text-xs px-3 py-2 rounded-lg border transition">Todas as séries</button>
-                        <button id="weekSerieBtn" onclick="setAgendaScope('serie')" class="text-xs px-3 py-2 rounded-lg border transition">Série atual</button>
+                        <span id="weekSerieLabel" class="text-xs px-3 py-2 rounded-lg border bg-emerald-600/15 border-emerald-500/30 text-emerald-200">Série atual</span>
                         <button onclick="exportarNotionCSV()" class="text-xs px-3 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 border border-purple-500 text-white transition" title="Exportar todas as aulas para o Notion"><i class="fa-solid fa-file-csv mr-1"></i>Notion</button>
                         <button onclick="renderMinhaSemana()" class="text-xs px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 transition" title="Atualizar painel"><i class="fa-solid fa-rotate"></i></button>
                     </div>
@@ -143,7 +142,7 @@
                 <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium">Aulas Concluídas</p><p class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1" id="concluidasCount">0</p></div><div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-square-check"></i></div></div>
                 <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium">Foco Pedagógico</p><p class="text-lg sm:text-xl font-bold text-indigo-300 mt-1" id="focoStatText">Ciência da Aprendizagem</p></div><div class="bg-indigo-500/10 text-indigo-400 p-3 rounded-lg"><i class="fa-solid fa-brain"></i></div></div>
             </div>
-            <div id="aulasGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+            <div id="aulasGrid" class="space-y-3"></div>
         </main>
     </div>
 
@@ -5288,7 +5287,7 @@ const aulas8AG3 = [
         };
 
 
-        const PLANEJAEDU_VERSION = '2026.07.27-restauracao-multisseries-1';
+        const PLANEJAEDU_VERSION = '2026.07.27-navegacao-lista-1';
         const EXPECTED_SERIES_SIGNATURES = {
             '6': { ap3Min: 20, ag3Min: 14, terms: ['Química', 'célula', 'sistema nervoso'] },
             '7': { ap3Min: 20, ag3Min: 20, terms: ['Newton', 'atmosfera', 'combustíveis'] },
@@ -5330,7 +5329,8 @@ const aulas8AG3 = [
         let concluidasState = JSON.parse(localStorage.getItem('concluidas_eudson_multisseries') || '{}');
         let preparoState = JSON.parse(localStorage.getItem('planejaedu_preparo_aulas') || '{}');
         let ministradaState = JSON.parse(localStorage.getItem('planejaedu_aulas_ministradas') || '{}');
-        let agendaScope = localStorage.getItem('planejaedu_agenda_scope') || 'todas';
+        let agendaScope = 'serie';
+        let aulaResumoAberta = null;
 
         const MARCOS_2026 = [
             {data:'14/08/2026', titulo:'Dia do Estudante', tipo:'feriado', detalhe:'Sem aula.'},
@@ -5351,7 +5351,7 @@ const aulas8AG3 = [
         function stateKey(aulaId) { return `${serieAtual}-${cicloAtual}-${aulaId}`; }
 
         function selectSerie(serie) {
-            serieAtual = serie; cicloAtual = 'AP3'; turmaAtual = 'todas';
+            serieAtual = serie; cicloAtual = 'AP3'; turmaAtual = 'todas'; aulaResumoAberta = null;
             document.getElementById('homeView').classList.add('hidden');
             const app = document.getElementById('appView'); app.classList.remove('hidden'); app.classList.add('flex');
             document.getElementById('searchInput').value = '';
@@ -5401,7 +5401,7 @@ const aulas8AG3 = [
         }
 
         function switchCiclo(ciclo) {
-            cicloAtual = ciclo;
+            cicloAtual = ciclo; aulaResumoAberta = null;
             document.getElementById('tabAP3').className = ciclo === 'AP3' ? activeAP3 : inactiveTab;
             document.getElementById('tabAG3').className = ciclo === 'AG3' ? activeAG3 : inactiveTab;
             const badge = document.getElementById('cicloBadge'); badge.innerText = `Ciclo ${ciclo}`;
@@ -5410,7 +5410,7 @@ const aulas8AG3 = [
             turmaAtual = 'todas'; atualizarBotoesTurma(); atualizarSelectModulos(); renderAulas(); renderMinhaSemana();
         }
 
-        function setTurma(turma) { turmaAtual = turma; atualizarBotoesTurma(); renderAulas(); }
+        function setTurma(turma) { turmaAtual = turma; aulaResumoAberta = null; atualizarBotoesTurma(); renderAulas(); }
 
         function aulaLabel(aula) {
             if (turmaAtual !== 'todas' && aula.referencias && aula.referencias[turmaAtual]) return aula.referencias[turmaAtual];
@@ -5463,20 +5463,14 @@ const aulas8AG3 = [
             return limpo.length > limite ? limpo.slice(0,limite-1).trim() + '…' : limpo;
         }
 
-        function setAgendaScope(scope) {
-            agendaScope = scope;
-            localStorage.setItem('planejaedu_agenda_scope', scope);
+        function setAgendaScope() {
+            agendaScope = 'serie';
             renderMinhaSemana();
         }
 
         function updateAgendaScopeButtons() {
-            const all = document.getElementById('weekAllBtn'), serie = document.getElementById('weekSerieBtn');
-            if (!all || !serie) return;
-            const active = 'text-xs px-3 py-2 rounded-lg border transition bg-emerald-600 border-emerald-500 text-white shadow-lg';
-            const inactive = 'text-xs px-3 py-2 rounded-lg border transition bg-slate-900 border-slate-700 text-slate-400 hover:text-white hover:border-slate-600';
-            all.className = agendaScope === 'todas' ? active : inactive;
-            serie.className = agendaScope === 'serie' ? active : inactive;
-            serie.innerText = serieAtual ? SERIES[serieAtual].titulo.split('—')[0].trim() : 'Série atual';
+            const label = document.getElementById('weekSerieLabel');
+            if (label && serieAtual) label.innerText = SERIES[serieAtual].titulo.split('—')[0].trim();
         }
 
         function togglePreparo(key, checked) {
@@ -5596,6 +5590,14 @@ const aulas8AG3 = [
             box.innerHTML = marcos.length ? `<div class="border-t border-slate-800 pt-4"><h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-bell mr-1 text-amber-300"></i>Próximos marcos</h3><div class="flex gap-2 overflow-x-auto pb-1 custom-scrollbar">${marcos.map(m=>`<div class="shrink-0 min-w-56 bg-slate-950/50 border ${m.tipo==='prova'?'border-rose-500/35':m.tipo==='feriado'?'border-amber-500/30':'border-sky-500/30'} rounded-lg p-3"><span class="text-[10px] font-bold ${m.tipo==='prova'?'text-rose-300':m.tipo==='feriado'?'text-amber-300':'text-sky-300'} uppercase">${m.data}${m.fim?' a '+m.fim:''}</span><strong class="block text-xs text-white mt-1">${m.titulo}</strong><span class="text-[11px] text-slate-500">${m.detalhe}</span></div>`).join('')}</div></div>` : '';
         }
 
+        function toggleResumoAula(id) {
+            aulaResumoAberta = aulaResumoAberta === id ? null : id;
+            renderAulas();
+            if (aulaResumoAberta) {
+                requestAnimationFrame(() => document.getElementById(`resumo-${id}`)?.scrollIntoView({behavior:'smooth', block:'nearest'}));
+            }
+        }
+
         function renderAulas() {
             if (!serieAtual) return;
             const grid = document.getElementById('aulasGrid');
@@ -5603,7 +5605,7 @@ const aulas8AG3 = [
             const modulo = document.getElementById('moduloSelect').value;
             const source = dataAtual();
             const filtered = source.filter(a => {
-                const haystack = [a.titulo,a.modulo,a.foco_pedagogico,a.aula_num,a.excel_ref,...(a.objetivos||[])].join(' ').toLowerCase();
+                const haystack = [a.titulo,a.modulo,a.foco_pedagogico,a.aula_num,a.excel_ref,a.materiais,a.material_ph,a.tarefa_casa,...(a.objetivos||[])].join(' ').toLowerCase();
                 const turmaOk = turmaAtual === 'todas' || Boolean(a.datas && a.datas[turmaAtual]);
                 const moduloOk = modulo === 'todos' || a.modulo === modulo || a.modulo.includes(modulo);
                 return turmaOk && moduloOk && haystack.includes(search);
@@ -5614,23 +5616,43 @@ const aulas8AG3 = [
             document.getElementById('concluidasCount').innerText = doneCount;
 
             if (!filtered.length) {
-                grid.innerHTML = '<div class="col-span-full text-center py-16 bg-slate-900/50 border border-slate-800 rounded-2xl"><i class="fa-solid fa-magnifying-glass text-3xl text-slate-600 mb-3"></i><p class="text-slate-400">Nenhuma aula encontrada com os filtros atuais.</p></div>'; return;
+                grid.innerHTML = '<div class="text-center py-16 bg-slate-900/50 border border-slate-800 rounded-2xl"><i class="fa-solid fa-magnifying-glass text-3xl text-slate-600 mb-3"></i><p class="text-slate-400">Nenhuma aula encontrada com os filtros atuais.</p></div>'; return;
             }
 
-            filtered.forEach(aula => {
-                const checked = concluidasState[stateKey(aula.id)] ? 'checked' : '';
+            filtered.forEach((aula, index) => {
+                const checked = Boolean(concluidasState[stateKey(aula.id)]);
+                const aberta = aulaResumoAberta === aula.id;
                 const accent = cicloAtual === 'AP3' ? 'emerald' : 'indigo';
-                const card = document.createElement('article');
-                card.className = `bg-slate-900/80 border border-slate-800 hover:border-${accent}-500/60 rounded-xl overflow-hidden transition-all hover:shadow-xl flex flex-col`;
-                card.innerHTML = `
-                    <div class="p-4 sm:p-5 flex-1 cursor-pointer" onclick="openModal('${aula.id}')">
-                        <div class="flex items-start justify-between gap-3 mb-3"><div class="flex flex-wrap gap-2"><span class="bg-${accent}-500/20 text-${accent}-300 text-xs px-2.5 py-1 rounded-full border border-${accent}-500/30 font-bold">${aulaLabel(aula)}</span><span class="bg-slate-800 text-slate-400 text-xs px-2.5 py-1 rounded-full">${aula.modulo}</span></div><i class="fa-solid fa-arrow-up-right-from-square text-slate-600"></i></div>
-                        <h2 class="font-bold text-white text-base leading-snug mb-2">${aula.titulo}</h2>
-                        <p class="text-xs text-${accent}-300 font-semibold mb-3"><i class="fa-solid fa-brain mr-1"></i>${aula.foco_pedagogico}</p>
-                        <div class="flex flex-col gap-1.5 text-[11px] text-slate-400">${datasVisiveis(aula)}</div>
-                    </div>
-                    <div class="bg-slate-950/50 border-t border-slate-800 px-4 py-3 flex items-center justify-between gap-3"><button onclick="openModal('${aula.id}')" class="text-xs font-semibold text-${accent}-300 hover:text-white transition">Ver plano detalhado <i class="fa-solid fa-arrow-right ml-1"></i></button><label class="flex items-center gap-2 text-xs text-slate-400 cursor-pointer select-none"><input type="checkbox" ${checked} onchange="toggleConcluida('${aula.id}', this.checked)" class="w-4 h-4 rounded accent-emerald-500"> Concluída</label></div>`;
-                grid.appendChild(card);
+                const item = document.createElement('article');
+                item.className = `bg-slate-900/80 border ${aberta ? `border-${accent}-500/60 shadow-lg` : 'border-slate-800'} rounded-xl overflow-hidden transition-all`;
+                const datas = datasVisiveis(aula) || '<span class="text-slate-500">Data não registrada para o filtro atual.</span>';
+                item.innerHTML = `
+                    <button type="button" onclick="toggleResumoAula('${aula.id}')" class="w-full text-left p-4 sm:p-5 flex items-center gap-3 sm:gap-4 hover:bg-slate-800/60 transition" aria-expanded="${aberta}">
+                        <span class="shrink-0 w-9 h-9 rounded-full bg-${accent}-500/15 border border-${accent}-500/30 text-${accent}-300 flex items-center justify-center text-sm font-bold">${index + 1}</span>
+                        <div class="min-w-0 flex-1">
+                            <div class="flex flex-wrap items-center gap-2 mb-1"><span class="text-[10px] sm:text-xs font-bold text-${accent}-300 uppercase tracking-wide">${aulaLabel(aula)}</span><span class="text-[10px] sm:text-xs text-slate-500">${aula.modulo}</span></div>
+                            <h2 class="font-semibold text-white text-sm sm:text-base leading-snug">${aula.titulo}</h2>
+                        </div>
+                        <div class="shrink-0 flex items-center gap-2"><span class="hidden sm:inline text-xs ${checked?'text-emerald-300':'text-slate-500'}">${checked?'Concluída':'Ver resumo'}</span><i class="fa-solid fa-chevron-down text-slate-500 transition-transform ${aberta?'rotate-180':''}"></i></div>
+                    </button>
+                    <div id="resumo-${aula.id}" class="${aberta?'':'hidden'} border-t border-slate-800 bg-slate-950/40 p-4 sm:p-5">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div class="space-y-3">
+                                <div><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Foco pedagógico</p><p class="text-sm text-${accent}-200"><i class="fa-solid fa-brain mr-1.5"></i>${aula.foco_pedagogico || 'Consultar plano completo.'}</p></div>
+                                <div><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Datas e turmas</p><div class="flex flex-wrap gap-2 text-[11px] text-slate-300">${datas}</div></div>
+                                <div><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Objetivos principais</p><ul class="text-xs text-slate-300 space-y-1 list-disc pl-4">${(aula.objetivos||[]).slice(0,3).map(o=>`<li>${o}</li>`).join('') || '<li>Consultar plano completo.</li>'}</ul></div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-3"><p class="text-[10px] font-bold text-amber-300 uppercase tracking-wider mb-1"><i class="fa-solid fa-box-open mr-1"></i>Preparar</p><p class="text-xs text-slate-300">${resumoTexto(aula.materiais || 'Consultar o plano completo.', 220)}</p></div>
+                                <div class="bg-slate-900/70 border border-slate-800 rounded-lg p-3"><p class="text-[10px] font-bold text-sky-300 uppercase tracking-wider mb-1"><i class="fa-solid fa-book mr-1"></i>Material e tarefa</p><p class="text-xs text-slate-300"><strong>Obrigatório:</strong> ${resumoTexto(aula.material_ph || 'Sem registro específico.', 160)}</p><p class="text-xs text-slate-400 mt-1"><strong>Casa/correção:</strong> ${resumoTexto(aula.tarefa_casa || 'Sem registro específico.', 160)}</p></div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer select-none"><input type="checkbox" ${checked?'checked':''} onchange="toggleConcluida('${aula.id}', this.checked)" class="w-4 h-4 rounded accent-emerald-500"> Aula concluída</label>
+                            <button onclick="openModal('${aula.id}')" class="text-xs font-semibold px-4 py-2.5 rounded-lg bg-${accent}-600 hover:bg-${accent}-500 text-white transition"><i class="fa-solid fa-book-open mr-1.5"></i>Abrir plano de aula inteiro</button>
+                        </div>
+                    </div>`;
+                grid.appendChild(item);
             });
         }
 
