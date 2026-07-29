@@ -6229,5 +6229,26 @@ const aulas8AG3 = [
             document.getElementById('homeCount9').innerText = aulas9AP3.length + aulas9AG3.length;
         });
     </script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", async () => {
+      try {
+        const registration = await navigator.serviceWorker.register(
+          "./service-worker.js"
+        );
+
+        console.log(
+          "Service Worker registrado:",
+          registration.scope
+        );
+      } catch (error) {
+        console.error(
+          "Falha ao registrar Service Worker:",
+          error
+        );
+      }
+    });
+  }
+</script>
 </body>
 </html>
