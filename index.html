@@ -6221,33 +6221,46 @@ const aulas8AG3 = [
         function closeModal() { document.getElementById('lessonModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
         window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
         document.getElementById('lessonModal').addEventListener('click', e => { if (e.target.id === 'lessonModal') closeModal(); });
-        document.addEventListener('DOMContentLoaded', () => {
+               document.addEventListener('DOMContentLoaded', () => {
             validarIntegridadeMultisseries();
-            document.getElementById('homeCount6').innerText = aulas6AP3.length + aulas6AG3.length;
-            document.getElementById('homeCount7').innerText = new Set([...aulas7AP3, ...aulas7AG3].map(a => a.aula_num)).size;
-            document.getElementById('homeCount8').innerText = aulas8AP3.length + aulas8AG3.length;
-            document.getElementById('homeCount9').innerText = aulas9AP3.length + aulas9AG3.length;
-        });
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", async () => {
-      try {
-        const registration = await navigator.serviceWorker.register(
-          "./service-worker.js"
-        );
 
-        console.log(
-          "Service Worker registrado:",
-          registration.scope
-        );
-      } catch (error) {
-        console.error(
-          "Falha ao registrar Service Worker:",
-          error
-        );
-      }
-    });
-  }
-</script>
+            document.getElementById('homeCount6').innerText =
+                aulas6AP3.length + aulas6AG3.length;
+
+            document.getElementById('homeCount7').innerText =
+                new Set(
+                    [...aulas7AP3, ...aulas7AG3].map(a => a.aula_num)
+                ).size;
+
+            document.getElementById('homeCount8').innerText =
+                aulas8AP3.length + aulas8AG3.length;
+
+            document.getElementById('homeCount9').innerText =
+                aulas9AP3.length + aulas9AG3.length;
+        });
+    </script>
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", async () => {
+                try {
+                    const registration =
+                        await navigator.serviceWorker.register(
+                            "./service-worker.js"
+                        );
+
+                    console.log(
+                        "Service Worker registrado:",
+                        registration.scope
+                    );
+                } catch (error) {
+                    console.error(
+                        "Falha ao registrar Service Worker:",
+                        error
+                    );
+                }
+            });
+        }
+    </script>
 </body>
 </html>
