@@ -151,11 +151,84 @@
             #appView main { padding-left:1.5rem !important; }
             .editorial-tab { padding:.68rem .78rem; }
         }
+
+        /* === INTERFACE DEFINITIVA — fiel ao caderno espiral de referência === */
+        #homeView, #appView, #lessonModal { display:none !important; }
+        body { margin:0; background:#d9d7cf !important; }
+        .pe-app { min-height:100vh; color:#1d2722; font-family:'DM Sans',sans-serif; padding:14px 16px 18px 58px; }
+        .pe-book {
+            min-height:calc(100vh - 32px); max-width:1540px; margin:auto; position:relative; overflow:hidden;
+            background:#f8f4e9;
+            background-image:radial-gradient(rgba(80,67,43,.06) .65px,transparent .7px);
+            background-size:5px 5px; border:1px solid #aaa28f; border-radius:16px;
+            box-shadow:0 18px 55px rgba(42,39,31,.25), inset 0 0 80px rgba(147,116,63,.05);
+        }
+        .pe-book:before {
+            content:""; position:absolute; z-index:12; left:-45px; top:8px; bottom:8px; width:63px;
+            background:repeating-linear-gradient(to bottom,transparent 0 16px,#252720 17px 22px,#b6ad97 23px 25px,#2c2d27 26px 30px,transparent 31px 46px);
+            border-radius:20px; pointer-events:none;
+        }
+        .pe-header { min-height:118px; padding:20px 28px 0; display:grid; grid-template-columns:290px 1fr 150px; align-items:end; border-bottom:1px solid #bdb39e; position:relative; }
+        .pe-brand { align-self:center; padding-bottom:18px; }
+        .pe-brand-main { font:700 44px/1 'Libre Caslon Text',serif; color:#315b49; letter-spacing:-2px; }
+        .pe-brand-sub { margin-top:10px; font:700 9px/1 'DM Sans',sans-serif; letter-spacing:3px; color:#615b4f; }
+        .pe-brand:before { content:"❧"; display:inline-block; font-size:42px; color:#64724a; margin-right:10px; transform:rotate(-20deg); vertical-align:middle; }
+        .pe-tabs { display:flex; align-items:end; height:100%; overflow-x:auto; scrollbar-width:none; }
+        .pe-tab {
+            min-width:101px; height:76px; border:1px solid #d0c7b6; border-bottom:0; border-radius:13px 13px 0 0;
+            background:#f5f0e5; color:#1f2924; margin-left:-1px; padding:10px 12px 8px; box-shadow:0 -3px 12px rgba(75,63,42,.04);
+            display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; font:600 13px/1 'Libre Caslon Text',serif;
+        }
+        .pe-tab i { font-size:19px; font-family:"Font Awesome 6 Free"; }
+        .pe-tab.active { color:#24523f; background:#faf7ee; border-top:2px solid #24523f; height:84px; }
+        .pe-profile { align-self:center; justify-self:end; display:flex; align-items:center; gap:12px; padding-bottom:18px; }
+        .pe-avatar { width:50px;height:50px;border:1.5px solid #263a31;border-radius:50%;display:grid;place-items:center;font:24px 'Libre Caslon Text',serif; }
+        .pe-date { text-align:right; font-size:10px; color:#615b4f; }
+        .pe-date strong { display:block; font:16px 'Libre Caslon Text',serif; color:#26342e; margin-bottom:3px; }
+        .pe-page { margin:16px; border:1px solid #cbbfa9; border-radius:12px; min-height:calc(100vh - 175px); padding:14px; background:rgba(252,249,241,.82); box-shadow:inset 0 0 25px rgba(139,109,60,.04); }
+        .pe-panel { background:rgba(255,253,247,.68); border:1px solid #ded5c5; border-radius:10px; box-shadow:0 3px 10px rgba(73,60,39,.045); }
+        .pe-panel-pad { padding:16px 18px; }
+        .pe-title { font:28px/1.18 'Libre Caslon Text',serif; color:#294d3e; margin:0; }
+        .pe-title:before { content:"❧"; color:#667c50; margin-right:10px; }
+        .pe-section-title { font:20px/1.2 'Libre Caslon Text',serif; margin:0; color:#27352f; }
+        .pe-muted { color:#756f64; font-size:12px; }
+        .pe-rule { border:0;border-top:1px solid #ddd3c1;margin:13px 0; }
+        .pe-btn { border:1px solid #c9bfad;border-radius:7px;background:#faf7ef;padding:9px 13px;color:#234b3b;font-weight:600;font-size:12px; }
+        .pe-btn.primary { background:#38654f;color:#fff;border-color:#315843;box-shadow:inset 0 1px rgba(255,255,255,.2); }
+        .pe-home-grid { display:grid; grid-template-columns:minmax(0,1.8fr) minmax(310px,.95fr); gap:14px; }
+        .pe-week-head { display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:13px; }
+        .pe-week-controls { display:flex;align-items:center;gap:5px; }
+        .pe-week-controls span { border:1px solid #d3c9b8;border-radius:6px;padding:8px 17px;font:600 12px 'Libre Caslon Text',serif; }
+        .pe-calendar { display:grid; grid-template-columns:46px repeat(5,1fr); min-height:392px; border-top:1px solid #ddd3c3; }
+        .pe-cal-corner,.pe-cal-day { border-bottom:1px solid #e3dbcd;padding:9px 5px;text-align:center; }
+        .pe-cal-day strong { display:block;font:700 12px 'Libre Caslon Text',serif; }.pe-cal-day span{font-size:10px;color:#6d675d}
+        .pe-time { font:600 10px 'Libre Caslon Text',serif;color:#4b4a43;padding:14px 6px;border-bottom:1px solid #e7dfd1; }
+        .pe-cal-cell { min-height:73px;border-left:1px solid #e4dccf;border-bottom:1px solid #e7dfd1;padding:6px; }
+        .pe-event { width:100%;height:100%;min-height:60px;text-align:left;border:1px solid var(--ec,#9eb3a6);border-radius:8px;background:rgba(255,255,255,.44);padding:8px;font-size:10px;color:#26362e; }
+        .pe-event strong { display:block;margin:4px 0 2px;font-size:11px; }.pe-dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:var(--ec,#47755d);margin-right:4px}
+        .pe-side { display:flex;flex-direction:column;gap:12px; }
+        .pe-next { border:1px solid #779381;border-radius:8px;overflow:hidden;margin-top:12px; }
+        .pe-next-main { padding:13px 15px;min-height:105px;position:relative; }.pe-next-main:after{content:"❧";position:absolute;right:18px;bottom:5px;font-size:65px;color:#677958;opacity:.35}
+        .pe-next h3 { font:18px 'Libre Caslon Text',serif;margin:8px 0;max-width:78%; }.pe-next-foot{border-top:1px solid #ded5c6;padding:10px 15px;font:600 12px 'Libre Caslon Text',serif;color:#315b49}
+        .pe-check { display:flex;align-items:center;gap:9px;padding:7px 2px;border-bottom:1px solid #e6dfd2;font:12px 'Libre Caslon Text',serif; }
+        .pe-check input { accent-color:#3e7257; }
+        .pe-quick { display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}.pe-quick button{color:white;border:0;border-radius:7px;padding:7px 8px;text-align:left;font:18px 'Libre Caslon Text',serif}.pe-quick small{display:block;font:10px 'DM Sans',sans-serif}
+        .pe-series-section { margin-top:12px; }.pe-series-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:12px}
+        .pe-series-card{min-height:148px;border:1px solid var(--sc);border-radius:8px;background:#fdfaf2;position:relative;overflow:hidden;padding:15px 18px 40px 58px;text-align:left}
+        .pe-series-card:before{content:"❧";position:absolute;left:9px;bottom:12px;font-size:64px;color:var(--sc);opacity:.75}.pe-series-card h3{font:23px 'Libre Caslon Text',serif;color:var(--sc);margin:0 0 12px}.pe-series-card strong{font:14px 'Libre Caslon Text',serif;display:block;margin:5px 0}.pe-series-card footer{position:absolute;left:0;right:0;bottom:0;border-top:1px solid #e1d8ca;padding:9px 18px 9px 58px;color:var(--sc);font:600 12px 'Libre Caslon Text',serif}
+        .pe-feature { margin-top:12px;display:grid;grid-template-columns:95px 1fr auto;align-items:center;gap:18px;padding:12px 20px;min-height:78px }.pe-ribbon{background:#456b55;color:white;padding:8px;text-align:center;font:12px 'Libre Caslon Text',serif}.pe-ribbon strong{display:block;font-size:28px}
+        .pe-planning-grid { display:grid;grid-template-columns:250px 1fr 320px;gap:12px; }.pe-filters label{display:block;font:600 12px 'Libre Caslon Text',serif;margin:17px 0 7px}.pe-select,.pe-search{width:100%;border:1px solid #cec4b3;border-radius:7px;background:#fbf8f0;padding:10px;font-size:12px;color:#2f3934}.pe-plan-list{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:16px}.pe-plan-card{min-height:210px;border:1px solid var(--sc);border-radius:8px;background:#fdfaf3;position:relative;overflow:hidden;padding:18px 18px 42px 58px;text-align:left}.pe-plan-card:before{content:"❧";position:absolute;left:7px;bottom:23px;font-size:70px;color:var(--sc);opacity:.85}.pe-plan-card h3{font:21px 'Libre Caslon Text',serif;color:var(--sc);margin:0 0 14px}.pe-plan-card h4{font:16px 'Libre Caslon Text',serif;margin:7px 0}.pe-plan-card footer{position:absolute;bottom:0;left:0;right:0;border-top:1px solid #e2d9cb;padding:9px 16px 9px 58px;font-size:10px}
+        .pe-upcoming{padding:11px;border:1px solid #ded5c6;border-radius:7px;margin-top:9px;display:grid;grid-template-columns:45px 1fr;gap:10px}.pe-upcoming time{border:1px solid #d8cebd;border-radius:6px;text-align:center;padding:5px;font:12px 'Libre Caslon Text',serif}.pe-upcoming strong{font:13px 'Libre Caslon Text',serif}
+        .pe-class-layout{display:grid;grid-template-columns:330px 1fr;gap:14px}.pe-class-main{display:grid;grid-template-columns:1.15fr .95fr;gap:12px}.pe-class-head h1{font:34px 'Libre Caslon Text',serif;color:#294c3e;margin:14px 0 5px}.pe-summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.pe-stat{border:1px solid #ded5c6;border-radius:7px;padding:13px;font:12px 'Libre Caslon Text',serif}.pe-stat strong{display:block;font-size:22px;color:#2b5543}.pe-lesson-row{display:grid;grid-template-columns:50px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid #e1d9cc;align-items:center}.pe-datebox{border:1px solid #9daf9e;border-radius:6px;text-align:center;padding:6px;font:11px 'Libre Caslon Text',serif}.pe-datebox strong{display:block;font-size:20px}.pe-module{border:1px solid #ddd3c3;border-radius:8px;padding:14px;margin-top:9px;position:relative}.pe-module:after{content:"❧";position:absolute;right:18px;bottom:0;font-size:52px;color:var(--sc,#64775d);opacity:.35}
+        .pe-detail-grid{display:grid;grid-template-columns:1fr 380px;gap:13px}.pe-detail-title{font:30px 'Libre Caslon Text',serif;margin:0 0 14px;color:#263d33}.pe-meta{display:flex;flex-wrap:wrap;gap:18px;font-size:12px;color:#36423c}.pe-duo{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pe-block{padding:15px 18px}.pe-block h3{font:18px 'Libre Caslon Text',serif;margin:0 0 12px;color:#2d4639}.pe-block ul{padding-left:19px;margin:0}.pe-block li,.pe-block p{font:12px/1.65 'DM Sans',sans-serif}.pe-stage{display:grid;grid-template-columns:45px 1fr 110px;gap:12px;align-items:start;padding:15px;border:1px solid #ddd4c5;border-radius:8px;margin-top:9px}.pe-stage-icon{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:white;background:var(--st)}.pe-stage h3{font:18px 'Libre Caslon Text',serif;color:var(--st);margin:3px 0 8px}.pe-method{border:1px solid #d9d0c1;border-radius:7px;padding:9px;font:11px 'Libre Caslon Text',serif}.pe-chips{display:flex;flex-wrap:wrap;gap:9px}.pe-chip{border:1px solid #d8cebc;border-radius:20px;padding:9px 15px;font:12px 'Libre Caslon Text',serif}.pe-notes{width:100%;min-height:95px;border:1px solid #d5cbbb;border-radius:7px;padding:10px;background:#fffdf7}
+        @media(max-width:1100px){.pe-header{grid-template-columns:260px 1fr 70px}.pe-brand-main{font-size:34px}.pe-date{display:none}.pe-tab{min-width:94px}.pe-home-grid,.pe-planning-grid,.pe-detail-grid{grid-template-columns:1fr}.pe-side{display:grid;grid-template-columns:repeat(2,1fr)}.pe-series-row{grid-template-columns:repeat(2,1fr)}.pe-class-layout{grid-template-columns:1fr}.pe-class-main{grid-template-columns:1fr 1fr}}
+        @media(max-width:720px){.pe-app{padding:0}.pe-book{border-radius:0;min-height:100vh}.pe-book:before{display:none}.pe-header{display:block;padding:16px 14px 0}.pe-brand{padding-bottom:12px}.pe-brand-main{font-size:34px}.pe-profile{position:absolute;right:14px;top:18px}.pe-avatar{width:42px;height:42px;font-size:19px}.pe-tabs{height:70px}.pe-tab{min-width:91px;height:62px;font-size:11px}.pe-tab.active{height:67px}.pe-page{margin:8px;padding:8px}.pe-week-head{align-items:flex-start;flex-direction:column}.pe-calendar{grid-template-columns:repeat(5,minmax(115px,1fr));overflow-x:auto}.pe-cal-corner,.pe-time{display:none}.pe-side,.pe-series-row,.pe-plan-list,.pe-class-main,.pe-duo{grid-template-columns:1fr}.pe-planning-grid,.pe-class-layout,.pe-detail-grid{display:block}.pe-filters,.pe-planning-grid>aside,.pe-class-layout>aside{margin-bottom:10px}.pe-stage{grid-template-columns:38px 1fr}.pe-method{grid-column:2}.pe-detail-title{font-size:24px}}
     </style>
 </head>
 <body class="notebook-shell bg-slate-950 text-slate-100 min-h-screen custom-scrollbar text-sm sm:text-base">
     <!-- Safelist de cores usadas dinamicamente pelo Tailwind CDN -->
     <div class="hidden bg-amber-600 bg-teal-600 bg-indigo-600 bg-rose-600 border-amber-500 border-teal-500 border-indigo-500 border-rose-500 text-amber-300 text-teal-300 text-indigo-300 text-rose-300 bg-amber-500/20 bg-teal-500/20 bg-indigo-500/20 bg-rose-500/20 border-amber-500/30 border-teal-500/30 border-indigo-500/30 border-rose-500/30 shadow-amber-500/10 shadow-teal-500/10 shadow-indigo-500/10 shadow-rose-500/10"></div>
+    <div id="peApp" class="pe-app"></div>
 
     <!-- HOME -->
     <div id="homeView" class="min-h-screen flex flex-col max-w-7xl mx-auto w-full px-4 sm:px-8">
@@ -6703,6 +6776,157 @@ const aulas8AG3 = [
         function closeModal() { document.getElementById('lessonModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
         window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
         document.getElementById('lessonModal').addEventListener('click', e => { if (e.target.id === 'lessonModal') closeModal(); });
+
+        /* Aplicação editorial definitiva */
+        let peView = 'inicio';
+        let peSerie = '7';
+        let peTurma = '7A';
+        let peCiclo = 'AP3';
+        let peSearch = '';
+        let peModulo = 'todos';
+        const peColors = {'6':'#557458','7':'#bd6542','8':'#477493','9':'#bd8b29'};
+        const peIcons = {inicio:'fa-house',planejamentos:'fa-calendar-days',aulas:'fa-book-open',materiais:'fa-folder-open',avaliacoes:'fa-clipboard-list',turmas:'fa-users'};
+
+        function peHeader(active) {
+            const tabs = [['inicio','Início'],['planejamentos','Planejamentos'],['aulas','Aulas'],['materiais','Materiais'],['avaliacoes','Avaliações'],['turmas','Turmas']];
+            const hoje = new Date();
+            return `<header class="pe-header">
+                <div class="pe-brand"><div class="pe-brand-main">PlanejaEDU</div><div class="pe-brand-sub">PLANEJAR · ENSINAR · TRANSFORMAR</div></div>
+                <nav class="pe-tabs">${tabs.map(([id,label])=>`<button class="pe-tab ${active===id?'active':''}" onclick="peNavigate('${id}')"><i class="fa-solid ${peIcons[id]}"></i>${label}</button>`).join('')}</nav>
+                <div class="pe-profile"><div class="pe-date"><strong>Olá, Professor!</strong>${hoje.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}</div><div class="pe-avatar">PE</div></div>
+            </header>`;
+        }
+
+        function peShell(content, active=peView) {
+            document.getElementById('peApp').innerHTML = `<div class="pe-book">${peHeader(active)}<main class="pe-page">${content}</main></div>`;
+        }
+
+        function peNavigate(view) {
+            peView = view;
+            if (view==='inicio') peRenderHome();
+            else if (view==='planejamentos') peRenderPlanning();
+            else if (view==='aulas') peRenderLessons();
+            else if (view==='turmas') peRenderClass();
+            else if (view==='materiais') peRenderResources(false);
+            else if (view==='avaliacoes') peRenderResources(true);
+            window.scrollTo({top:0,behavior:'smooth'});
+        }
+
+        function peNextOccurrences(limit=20) {
+            const now = new Date();
+            return todasOcorrencias().filter(x=>x.data>=startOfDay(now)).slice(0,limit);
+        }
+
+        function peChecklist(item, compact=false) {
+            if (!item) return '';
+            const key = agendaOccurrenceKey(item);
+            const checks = [
+                ['Definir objetivos da aula',true],
+                ['Separar materiais e recursos',!!preparoState[key]],
+                ['Revisar atividades e exemplos',!!preparoState[key]],
+                ['Preparar avaliação rápida',false],
+                ['Registrar evidências da aula',!!ministradaState[key]]
+            ];
+            return `<div>${checks.map(([label,on],i)=>`<label class="pe-check"><input type="checkbox" ${on?'checked':''} onchange="${i===1||i===2?`togglePreparoHome('${key}',this.checked)`:(i===4?`toggleMinistradaHome('${key}',this.checked)`:'')}"><span>${label}</span></label>`).join('')}</div>`;
+        }
+
+        function peRenderHome() {
+            const next = peNextOccurrences(30);
+            const days = [...new Map(next.map(x=>[startOfDay(x.data).getTime(),startOfDay(x.data)])).values()].slice(0,5);
+            while(days.length<5) {
+                const d=days.length?addDays(days[days.length-1],1):startOfDay(new Date());
+                if(d.getDay()===0||d.getDay()===6){days.push(addDays(d,d.getDay()===6?2:1));} else days.push(d);
+            }
+            const slots=[0,1,2,3];
+            const calHead=`<div class="pe-cal-corner"></div>${days.map(d=>`<div class="pe-cal-day"><strong>${d.toLocaleDateString('pt-BR',{weekday:'short'}).toUpperCase()}</strong><span>${pad2(d.getDate())}/${pad2(d.getMonth()+1)}</span></div>`).join('')}`;
+            const calBody=slots.map((slot,i)=>`<div class="pe-time">${['08h','10h','13h','15h'][i]}</div>${days.map(d=>{const item=next.filter(x=>startOfDay(x.data).getTime()===d.getTime())[slot];return `<div class="pe-cal-cell">${item?`<button class="pe-event" style="--ec:${peColors[item.serie]}" onclick="peOpenLesson('${item.serie}','${item.ciclo}','${item.aula.id}','${item.turma.id}')"><span><i class="pe-dot"></i>${item.serie==='9'?'Biologia':'Ciências'}</span><strong>${item.turma.label}</strong><span>${formatHora(item.data)} · ${item.aula.modulo}</span></button>`:''}</div>`}).join('')}`).join('');
+            const nearest=next[0];
+            const seriesCards=Object.entries(SERIES).map(([serie,cfg])=>{const p=next.find(x=>x.serie===serie);return `<button class="pe-series-card" style="--sc:${peColors[serie]}" onclick="peSelectClass('${serie}','${cfg.turmas[0].id}')"><h3>${serie}º ano</h3><span class="pe-muted">Próxima aula</span><strong>${p?p.aula.titulo:'Sem data futura cadastrada'}</strong><span class="pe-muted">${p?`${formatDia(p.data)} · ${formatHora(p.data)} · ${p.turma.label}`:'Consulte os planejamentos'}</span><footer>Ver série &nbsp;→</footer></button>`}).join('');
+            peShell(`<div class="pe-home-grid">
+                <section class="pe-panel pe-panel-pad"><div class="pe-week-head"><h1 class="pe-title">Minha semana</h1><div class="pe-week-controls"><button class="pe-btn">‹</button><span>${days[0].toLocaleDateString('pt-BR',{day:'2-digit',month:'short'})} – ${days[4].toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'})}</span><button class="pe-btn">›</button><button class="pe-btn">Hoje</button></div></div><div class="pe-calendar">${calHead}${calBody}</div><div style="text-align:center;padding-top:10px"><button class="pe-btn" onclick="peNavigate('aulas')">Ver agenda completa &nbsp;→</button></div></section>
+                <aside class="pe-side">
+                    <section class="pe-panel pe-panel-pad"><h2 class="pe-section-title">❧ &nbsp; Próxima aula</h2>${nearest?`<div class="pe-next"><div class="pe-next-main"><span class="pe-muted">${formatDia(nearest.data).toUpperCase()} · ${formatHora(nearest.data)}</span><h3>${nearest.aula.titulo}</h3><span class="pe-muted">${nearest.aula.modulo} · ${nearest.turma.label}</span></div><button class="pe-next-foot" onclick="peOpenLesson('${nearest.serie}','${nearest.ciclo}','${nearest.aula.id}','${nearest.turma.id}')">Abrir aula &nbsp;→</button></div>`:'<p class="pe-muted">Nenhuma aula futura cadastrada.</p>'}</section>
+                    <section class="pe-panel pe-panel-pad"><h2 class="pe-section-title">▣ &nbsp; Checklist de aplicação</h2>${peChecklist(nearest)}</section>
+                    <section class="pe-panel pe-panel-pad"><h2 class="pe-section-title">❧ &nbsp; Acesso rápido às séries</h2><div class="pe-quick">${Object.keys(SERIES).map(s=>`<button style="background:${peColors[s]}" onclick="peSelectClass('${s}','${SERIES[s].turmas[0].id}')">${s}º<small>ano &nbsp;❧</small></button>`).join('')}</div></section>
+                </aside>
+            </div>
+            <section class="pe-panel pe-panel-pad pe-series-section"><h2 class="pe-section-title">❧ &nbsp; Minhas séries</h2><div class="pe-series-row">${seriesCards}</div></section>
+            ${nearest?`<section class="pe-panel pe-feature"><div class="pe-ribbon">AULA<strong>${String(nearest.aula.aula_num).replace(/\D/g,'')||'•'}</strong></div><div><h2 class="pe-section-title">${nearest.aula.aula_num} — ${nearest.aula.titulo}</h2><div class="pe-meta" style="margin-top:8px"><span>▣ ${nearest.serie==='9'?'Biologia':'Ciências'}</span><span>♙ ${nearest.turma.label}</span><span>◷ 50 min</span><span>▦ ${formatDia(nearest.data)} · ${formatHora(nearest.data)}</span></div></div><button class="pe-btn" onclick="peOpenLesson('${nearest.serie}','${nearest.ciclo}','${nearest.aula.id}','${nearest.turma.id}')">▣ &nbsp;Visualizar aula</button></section>`:''}`,'inicio');
+        }
+
+        function peFilterData() {
+            const all=[];
+            Object.entries(SERIES).forEach(([serie,cfg])=>['AP3','AG3'].forEach(ciclo=>(cfg[ciclo]||[]).forEach(aula=>all.push({serie,ciclo,cfg,aula,turma:cfg.turmas[0]}))));
+            return all.filter(x=>(peSerie==='todos'||x.serie===peSerie)&&(peCiclo==='todos'||x.ciclo===peCiclo)&&(peModulo==='todos'||x.aula.modulo===peModulo)&&(!peSearch||`${x.aula.titulo} ${x.aula.modulo} ${x.aula.foco_pedagogico}`.toLowerCase().includes(peSearch.toLowerCase())));
+        }
+
+        function peRenderPlanning() {
+            const data=peFilterData();
+            const upcoming=peNextOccurrences(3);
+            const mods=peSerie==='todos'?[]:[...new Set([...SERIES[peSerie].AP3,...SERIES[peSerie].AG3].map(a=>a.modulo))];
+            const cards=data.slice(0,8).map(x=>`<button class="pe-plan-card" style="--sc:${peColors[x.serie]}" onclick="peOpenLesson('${x.serie}','${x.ciclo}','${x.aula.id}','${x.turma.id}')"><span style="float:right;border:1px solid ${peColors[x.serie]};border-radius:7px;padding:5px 10px">${x.ciclo}</span><h3>${x.serie}º ano</h3><span>${x.aula.aula_num}</span><h4>${x.aula.titulo}</h4><div class="pe-muted">▣ ${x.serie==='9'?'Biologia':'Ciências'} &nbsp; ♙ ${x.turma.label}</div><div class="pe-muted" style="margin-top:8px">◷ 50 min &nbsp; ▦ ${x.aula.modulo}</div><footer>${concluidasState[`${x.serie}-${x.ciclo}-${x.turma.id}-${x.aula.id}`]?'Concluído':'Em andamento'} <span style="float:right">⋮</span></footer></button>`).join('');
+            peShell(`<div class="pe-planning-grid">
+                <aside class="pe-panel pe-panel-pad pe-filters"><h2 class="pe-section-title">❧ &nbsp; Filtros</h2><hr class="pe-rule"><label>Série</label><select class="pe-select" onchange="peSerie=this.value;peModulo='todos';peRenderPlanning()"><option value="todos">Todas as séries</option>${Object.keys(SERIES).map(s=>`<option value="${s}" ${peSerie===s?'selected':''}>${s}º ano</option>`).join('')}</select><label>Ciclo</label><select class="pe-select" onchange="peCiclo=this.value;peRenderPlanning()"><option value="todos">Todos</option><option ${peCiclo==='AP3'?'selected':''}>AP3</option><option ${peCiclo==='AG3'?'selected':''}>AG3</option></select><label>Módulo</label><select class="pe-select" onchange="peModulo=this.value;peRenderPlanning()"><option value="todos">Todos os módulos</option>${mods.map(m=>`<option ${peModulo===m?'selected':''}>${m}</option>`).join('')}</select><label>Status</label><select class="pe-select"><option>Todos os status</option><option>Em andamento</option><option>Concluído</option></select><button class="pe-btn primary" style="width:100%;margin-top:22px">⌁ &nbsp; Aplicar filtros</button></aside>
+                <section class="pe-panel pe-panel-pad"><div style="display:flex;gap:12px;align-items:center"><h1 class="pe-title" style="flex:1">Planejamentos</h1><input class="pe-search" style="max-width:270px" placeholder="Buscar planejamentos..." value="${peSearch}" oninput="peSearch=this.value;peRenderPlanning()"></div><hr class="pe-rule"><div class="pe-muted">${data.length} planejamentos encontrados</div><div class="pe-plan-list">${cards||'<p class="pe-muted">Nenhum planejamento encontrado.</p>'}</div></section>
+                <aside><section class="pe-panel pe-panel-pad"><h2 class="pe-section-title">❧ &nbsp; Próximos planejamentos</h2>${upcoming.map(x=>`<button class="pe-upcoming" onclick="peOpenLesson('${x.serie}','${x.ciclo}','${x.aula.id}','${x.turma.id}')"><time><strong>${pad2(x.data.getDate())}</strong>${x.data.toLocaleDateString('pt-BR',{month:'short'}).replace('.','').toUpperCase()}</time><span><strong>${x.aula.aula_num} · ${x.turma.label}</strong><br>${resumoTexto(x.aula.titulo,55)}<br><small>◷ 50 min &nbsp; ${formatHora(x.data)}</small></span></button>`).join('')}</section><section class="pe-panel pe-panel-pad" style="margin-top:12px"><h2 class="pe-section-title">▣ &nbsp; Checklist docente</h2>${peChecklist(upcoming[0])}</section></aside>
+            </div>`,'planejamentos');
+        }
+
+        function peRenderLessons() {
+            const old=peSearch; peRenderPlanning(); peView='aulas';
+            const tabs=document.querySelectorAll('.pe-tab'); tabs.forEach(b=>b.classList.remove('active')); if(tabs[2])tabs[2].classList.add('active');
+            const title=document.querySelector('.pe-title'); if(title)title.innerHTML='❧ Aulas';
+            peSearch=old;
+        }
+
+        function peSelectClass(serie,turma) {
+            peSerie=serie; peTurma=turma; peCiclo=preferenciasState[serie]?.ciclo||'AP3'; peView='turmas'; peRenderClass();
+        }
+
+        function peRenderClass() {
+            const cfg=SERIES[peSerie]; if(!cfg){peSerie='7';return peRenderClass();}
+            if(!cfg.turmas.some(t=>t.id===peTurma))peTurma=cfg.turmas[0].id;
+            const turma=cfg.turmas.find(t=>t.id===peTurma);
+            const occ=todasOcorrencias().filter(x=>x.serie===peSerie&&x.turma.id===peTurma&&x.ciclo===peCiclo);
+            const next=occ.filter(x=>x.data>=new Date()).slice(0,4);
+            const mods=[...new Set((cfg[peCiclo]||[]).map(a=>a.modulo))].slice(0,4);
+            const done=(cfg[peCiclo]||[]).filter(a=>concluidasState[`${peSerie}-${peCiclo}-${peTurma}-${a.id}`]).length;
+            peShell(`<div class="pe-class-layout">
+                <aside class="pe-class-head"><button class="pe-btn" onclick="peRenderHome()">← &nbsp;Turmas</button><h1>${peSerie}º ano · ${peSerie==='9'?'Biologia':'Ciências'}</h1><select class="pe-select" onchange="peTurma=this.value;peRenderClass()">${cfg.turmas.map(t=>`<option value="${t.id}" ${t.id===peTurma?'selected':''}>Turma ${t.label}</option>`).join('')}</select><p class="pe-muted" style="margin:12px 0">Ensino Fundamental — Anos Finais</p><section class="pe-panel pe-panel-pad"><h2 class="pe-section-title">♙ &nbsp; Resumo da turma</h2><hr class="pe-rule"><div style="display:flex;align-items:center;gap:12px"><div class="pe-avatar">PE</div><div><strong>Prof. Eudson Marques</strong><br><small>${peSerie==='9'?'Biologia':'Ciências'}</small></div></div><hr class="pe-rule"><div class="pe-meta"><span><b>Série</b><br>${peSerie}º ano</span><span><b>Turma</b><br>${turma.label}</span></div><div style="margin-top:15px;display:flex;gap:6px"><button class="pe-btn ${peCiclo==='AP3'?'primary':''}" onclick="peCiclo='AP3';peRenderClass()">AP3</button><button class="pe-btn ${peCiclo==='AG3'?'primary':''}" onclick="peCiclo='AG3';peRenderClass()" ${!cfg.AG3.length?'disabled':''}>AG3</button></div><hr class="pe-rule"><div class="pe-summary-grid"><div class="pe-stat"><strong>${(cfg[peCiclo]||[]).length}</strong>Aulas planejadas</div><div class="pe-stat"><strong>${done}</strong>Aulas realizadas</div></div></section></aside>
+                <section class="pe-class-main"><div><section class="pe-panel pe-panel-pad"><h2 class="pe-section-title">▦ &nbsp; Agenda da turma</h2><div class="pe-series-row" style="grid-template-columns:repeat(5,1fr);gap:8px">${next.slice(0,5).map(x=>`<button class="pe-event" style="--ec:${peColors[peSerie]}" onclick="peOpenLesson('${peSerie}','${peCiclo}','${x.aula.id}','${peTurma}')"><span>${formatDia(x.data)}</span><strong>${turma.label}</strong><span>${formatHora(x.data)} · ${x.aula.modulo}</span></button>`).join('')}</div></section><section class="pe-panel pe-panel-pad" style="margin-top:12px"><h2 class="pe-section-title">▦ &nbsp; Próximas aulas</h2>${next.map(x=>`<div class="pe-lesson-row"><div class="pe-datebox">${x.data.toLocaleDateString('pt-BR',{weekday:'short'}).toUpperCase()}<strong>${pad2(x.data.getDate())}</strong>${x.data.toLocaleDateString('pt-BR',{month:'short'}).toUpperCase()}</div><div><strong>${x.aula.titulo}</strong><div class="pe-muted">${formatHora(x.data)} · ${x.aula.modulo}</div></div><button class="pe-btn" onclick="peOpenLesson('${peSerie}','${peCiclo}','${x.aula.id}','${peTurma}')">Planejada</button></div>`).join('')||'<p class="pe-muted">Sem aulas futuras.</p>'}</section></div>
+                <div><section class="pe-panel pe-panel-pad"><h2 class="pe-section-title">▱ &nbsp; Módulos do ciclo ${peCiclo}</h2>${mods.map((m,i)=>`<div class="pe-module" style="--sc:${i%3===0?'#5d7659':i%3===1?'#bd8b29':'#477493'}"><span class="pe-muted">Módulo ${i+1}</span><strong style="display:block;font:16px 'Libre Caslon Text',serif;margin-top:4px">${m}</strong></div>`).join('')}</section><section class="pe-panel pe-panel-pad" style="margin-top:12px"><h2 class="pe-section-title">▣ &nbsp; Planejamentos da turma</h2>${(cfg[peCiclo]||[]).slice(0,3).map(a=>`<button class="pe-lesson-row" style="width:100%;text-align:left" onclick="peOpenLesson('${peSerie}','${peCiclo}','${a.id}','${peTurma}')"><span>▣</span><span><strong>${a.aula_num} — ${a.titulo}</strong><small class="pe-muted">${a.modulo}</small></span><span>›</span></button>`).join('')}</section></div></section>
+            </div>`,'turmas');
+        }
+
+        function peOpenLesson(serie,ciclo,id,turma) {
+            peSerie=serie;peCiclo=ciclo;peTurma=turma;peView='aulas';
+            const cfg=SERIES[serie], aula=(cfg[ciclo]||[]).find(a=>a.id===id); if(!aula)return;
+            const occ=todasOcorrencias().find(x=>x.serie===serie&&x.ciclo===ciclo&&x.aula.id===id&&x.turma.id===turma);
+            const noteKey=`${serie}-${ciclo}-${turma}-${id}`;
+            const perguntas=perguntasMediacao(aula);
+            peShell(`<div class="pe-detail-grid">
+                <section><div class="pe-panel pe-panel-pad"><div style="display:flex;align-items:start;gap:14px"><button class="pe-btn" onclick="peNavigate('aulas')">‹</button><div style="flex:1"><h1 class="pe-detail-title">${aula.aula_num} — ${aula.titulo}</h1><div class="pe-meta"><span>▣ ${serie==='9'?'Biologia':'Ciências'}</span><span>♙ ${serie}º ano</span><span>♙ ${cfg.turmas.find(t=>t.id===turma)?.label}</span><span>▦ ${occ?formatDia(occ.data):aula.modulo}</span><span>◷ 50 min</span></div></div></div></div>
+                <div class="pe-duo" style="margin-top:12px"><section class="pe-panel pe-block"><h3>❧ &nbsp; Objetivos de aprendizagem</h3><ul>${aula.objetivos.map(o=>`<li>${o}</li>`).join('')}</ul></section><section class="pe-panel pe-block"><h3>▣ &nbsp; Materiais</h3><p>${aula.materiais}</p>${aula.material_ph?`<p><strong>Material obrigatório:</strong> ${aula.material_ph}</p>`:''}</section></div>
+                <section class="pe-stage" style="--st:#3f7257"><div class="pe-stage-icon">❧</div><div><h3>${aula.abertura.titulo}</h3><p>${aula.abertura.detalhes}</p></div><div class="pe-method">Método<br><strong>Ativação e perguntas</strong></div></section>
+                <section class="pe-stage" style="--st:#477493"><div class="pe-stage-icon">❧</div><div><h3>${aula.desenvolvimento.titulo}</h3><p>${aula.desenvolvimento.detalhes}</p></div><div class="pe-method">Método<br><strong>${aula.foco_pedagogico}</strong></div></section>
+                <section class="pe-stage" style="--st:#bd8b29"><div class="pe-stage-icon">❧</div><div><h3>${aula.fechamento.titulo}</h3><p>${aula.fechamento.detalhes}</p></div><div class="pe-method">Método<br><strong>Síntese e metacognição</strong></div></section>
+                <div class="pe-duo" style="margin-top:12px"><section class="pe-panel pe-block"><h3>☑ &nbsp; Avaliação formativa</h3><p>${aula.avaliacao_formativa}</p></section><section class="pe-panel pe-block"><h3>⌂ &nbsp; Tarefa de casa</h3><p>${aula.tarefa_casa}</p></section></div>
+                <section class="pe-panel pe-block" style="margin-top:12px"><h3>❧ &nbsp; Estratégias cognitivas trabalhadas</h3><div class="pe-chips">${evidenciasDaAprendizagem(aula).map(x=>`<span class="pe-chip">${x.titulo}</span>`).join('')}</div></section></section>
+                <aside><section class="pe-panel pe-panel-pad"><h2 class="pe-section-title">▣ &nbsp; Checklist de aplicação</h2>${occ?peChecklist(occ):''}</section><section class="pe-panel pe-block" style="margin-top:12px"><h3>? &nbsp; Perguntas de mediação</h3><ul>${perguntas.map(p=>`<li>${p}</li>`).join('')}</ul></section><section class="pe-panel pe-block" style="margin-top:12px"><h3>▣ &nbsp; Evidências de aprendizagem</h3><p>${aula.avaliacao_formativa}</p><button class="pe-btn">＋ Adicionar evidência</button></section><section class="pe-panel pe-block" style="margin-top:12px"><h3>▤ &nbsp; Anotações da aula</h3><textarea class="pe-notes" placeholder="Adicione observações, reflexões ou ajustes..." oninput="anotacoesState['${noteKey}']=this.value;gravarStorage(STORAGE_KEYS.anotacoes,anotacoesState)">${anotacoesState[noteKey]||''}</textarea></section></aside>
+            </div>`,'aulas');
+            window.scrollTo({top:0,behavior:'auto'});
+        }
+
+        function peRenderResources(isAssessment) {
+            const all=peFilterData().slice(0,18);
+            peShell(`<section class="pe-panel pe-panel-pad"><div style="display:flex;align-items:center;gap:12px"><h1 class="pe-title" style="flex:1">${isAssessment?'Avaliações':'Materiais'}</h1><input class="pe-search" style="max-width:300px" placeholder="Buscar..." oninput="peSearch=this.value"></div><hr class="pe-rule"><div class="pe-plan-list">${all.map(x=>`<button class="pe-plan-card" style="--sc:${peColors[x.serie]}" onclick="peOpenLesson('${x.serie}','${x.ciclo}','${x.aula.id}','${x.turma.id}')"><h3>${x.serie}º ano · ${x.ciclo}</h3><h4>${x.aula.titulo}</h4><p class="pe-muted">${isAssessment?x.aula.avaliacao_formativa:x.aula.materiais}</p><footer>${x.aula.modulo}<span style="float:right">Abrir →</span></footer></button>`).join('')}</div></section>`,isAssessment?'avaliacoes':'materiais');
+        }
+
+        function peInit() {
+            const saved=preferenciasState['7']; if(saved){peCiclo=saved.ciclo||'AP3';peTurma=saved.turma||'7A';}
+            peRenderHome();
+        }
+
                document.addEventListener('DOMContentLoaded', () => {
             validarIntegridadeMultisseries();
 
@@ -6721,6 +6945,7 @@ const aulas8AG3 = [
                 aulas9AP3.length + aulas9AG3.length;
 
             renderHomeEditorial();
+            peInit();
         });
     </script>
 
