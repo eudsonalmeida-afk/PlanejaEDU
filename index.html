@@ -5917,12 +5917,52 @@ const aulas8AG3 = [
             return true;
         }
 
+        const STORAGE_KEYS = {
+            concluidas: 'concluidas_eudson_multisseries',
+            preparo: 'planejaedu_preparo_aulas',
+            ministradas: 'planejaedu_aulas_ministradas',
+            preferencias: 'planejaedu_ultimo_contexto'
+        };
+
+        function lerStorage(chave, fallback = {}) {
+            try {
+                const salvo = localStorage.getItem(chave);
+                return salvo ? JSON.parse(salvo) : fallback;
+            } catch (erro) {
+                console.warn(`PlanejaEDU não conseguiu ler ${chave}.`, erro);
+                return fallback;
+            }
+        }
+
+        function gravarStorage(chave, valor) {
+            try {
+                const serializado = JSON.stringify(valor);
+                localStorage.setItem(chave, serializado);
+                if (localStorage.getItem(chave) !== serializado) throw new Error('A conferência da gravação falhou.');
+                return true;
+            } catch (erro) {
+                console.error(`PlanejaEDU não conseguiu salvar ${chave}.`, erro);
+                mostrarAvisoPersistencia();
+                return false;
+            }
+        }
+
+        function mostrarAvisoPersistencia() {
+            if (document.getElementById('avisoPersistencia')) return;
+            const aviso = document.createElement('div');
+            aviso.id = 'avisoPersistencia';
+            aviso.className = 'fixed inset-x-3 bottom-3 z-[100] max-w-2xl mx-auto bg-rose-950 border border-rose-500 text-rose-100 rounded-xl p-4 shadow-2xl';
+            aviso.innerHTML = '<strong>Não foi possível salvar esta marcação.</strong><br><span class="text-sm">Abra o PlanejaEDU pelo mesmo endereço HTTPS ou pelo aplicativo instalado e verifique se o navegador permite armazenar dados do site.</span>';
+            document.body.appendChild(aviso);
+        }
+
         let serieAtual = null;
         let cicloAtual = 'AP3';
         let turmaAtual = null;
-        let concluidasState = JSON.parse(localStorage.getItem('concluidas_eudson_multisseries') || '{}');
-        let preparoState = JSON.parse(localStorage.getItem('planejaedu_preparo_aulas') || '{}');
-        let ministradaState = JSON.parse(localStorage.getItem('planejaedu_aulas_ministradas') || '{}');
+        let concluidasState = lerStorage(STORAGE_KEYS.concluidas);
+        let preparoState = lerStorage(STORAGE_KEYS.preparo);
+        let ministradaState = lerStorage(STORAGE_KEYS.ministradas);
+        let preferenciasState = lerStorage(STORAGE_KEYS.preferencias);
         let agendaScope = 'serie';
         let aulaResumoAberta = null;
 
@@ -5944,12 +5984,23 @@ const aulas8AG3 = [
         function dataAtual() { return configAtual()[cicloAtual]; }
         function stateKey(aulaId) { return `${serieAtual}-${cicloAtual}-${turmaAtual || 'sem-turma'}-${aulaId}`; }
 
+        function salvarContextoAtual() {
+            if (!serieAtual) return;
+            preferenciasState[serieAtual] = { ciclo: cicloAtual, turma: turmaAtual };
+            gravarStorage(STORAGE_KEYS.preferencias, preferenciasState);
+        }
+
         function selectSerie(serie) {
-            serieAtual = serie; cicloAtual = 'AP3'; turmaAtual = SERIES[serie].turmas[0]?.id || null; aulaResumoAberta = null;
+            const anterior = preferenciasState[serie] || {};
+            const cicloSalvo = anterior.ciclo === 'AG3' && SERIES[serie].AG3?.length ? 'AG3' : 'AP3';
+            const turmaSalva = SERIES[serie].turmas.some(t => t.id === anterior.turma)
+                ? anterior.turma
+                : SERIES[serie].turmas[0]?.id || null;
+            serieAtual = serie; cicloAtual = cicloSalvo; turmaAtual = turmaSalva; aulaResumoAberta = null;
             document.getElementById('homeView').classList.add('hidden');
             const app = document.getElementById('appView'); app.classList.remove('hidden'); app.classList.add('flex');
             document.getElementById('searchInput').value = '';
-            atualizarIdentidade(); renderTurmas(); switchCiclo('AP3'); renderMinhaSemana();
+            atualizarIdentidade(); renderTurmas(); switchCiclo(cicloSalvo); renderMinhaSemana();
             window.scrollTo({top:0,behavior:'smooth'});
         }
 
@@ -6008,10 +6059,11 @@ const aulas8AG3 = [
             const badge = document.getElementById('cicloBadge'); badge.innerText = `Ciclo ${ciclo}`;
             badge.className = ciclo === 'AP3' ? 'bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-medium' : 'bg-indigo-500/20 text-indigo-300 text-xs px-2.5 py-0.5 rounded-full border border-indigo-500/30 font-medium';
             document.getElementById('statLabelAulas').innerText = `Aulas no Ciclo ${ciclo}`;
-            if (!configAtual().turmas.some(t => t.id === turmaAtual)) turmaAtual = configAtual().turmas[0]?.id || null; atualizarBotoesTurma(); atualizarSelectModulos(); renderAulas(); renderMinhaSemana();
+            if (!configAtual().turmas.some(t => t.id === turmaAtual)) turmaAtual = configAtual().turmas[0]?.id || null;
+            salvarContextoAtual(); atualizarBotoesTurma(); atualizarSelectModulos(); renderAulas(); renderMinhaSemana();
         }
 
-        function setTurma(turma) { turmaAtual = turma; aulaResumoAberta = null; atualizarBotoesTurma(); renderAulas(); renderMinhaSemana(); }
+        function setTurma(turma) { turmaAtual = turma; aulaResumoAberta = null; salvarContextoAtual(); atualizarBotoesTurma(); renderAulas(); renderMinhaSemana(); }
 
         function aulaLabel(aula) {
             if (aula.referencias && aula.referencias[turmaAtual]) return aula.referencias[turmaAtual];
@@ -6078,13 +6130,13 @@ const aulas8AG3 = [
 
         function togglePreparo(key, checked) {
             preparoState[key] = checked;
-            localStorage.setItem('planejaedu_preparo_aulas', JSON.stringify(preparoState));
+            gravarStorage(STORAGE_KEYS.preparo, preparoState);
             renderMinhaSemana();
         }
 
         function toggleMinistradaAgenda(key, checked) {
             ministradaState[key] = checked;
-            localStorage.setItem('planejaedu_aulas_ministradas', JSON.stringify(ministradaState));
+            gravarStorage(STORAGE_KEYS.ministradas, ministradaState);
             renderMinhaSemana();
         }
 
@@ -6260,7 +6312,9 @@ const aulas8AG3 = [
         }
 
         function toggleConcluida(id, checked) {
-            concluidasState[stateKey(id)] = checked; localStorage.setItem('concluidas_eudson_multisseries', JSON.stringify(concluidasState)); renderAulas();
+            concluidasState[stateKey(id)] = checked;
+            gravarStorage(STORAGE_KEYS.concluidas, concluidasState);
+            renderAulas();
         }
 
         function toggleAccordion(id) {
