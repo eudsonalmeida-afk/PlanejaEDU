@@ -3,23 +3,23 @@
 <head>
     <link rel="manifest" href="./manifest.webmanifest">
 
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#315f52">
 
 <meta name="application-name" content="PlanejaEDU">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="PlanejaEDU">
 
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
-    <meta name="planejaedu-version" content="2026-07-27-revisao-completa-8ano">
+    <meta name="theme-color" content="#315f52">
+    <meta name="planejaedu-version" content="2026-07-29-caderno-editorial">
     <title>PlanejaEDU — Planejamento Pedagógico | Prof. Eudson Marques</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Libre+Caslon+Text:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
         h1, h2, h3, .brand-font { font-family: 'Sora', sans-serif; }
@@ -39,9 +39,121 @@
                 content: ""; position: absolute; top: 25px; right: -13px; width: 26px; height: 2px; background: #334155;
             }
         }
+
+        /* PlanejaEDU 2026 — Caderno de Campo Docente */
+        :root {
+            --paper: #f3efe5;
+            --paper-2: #fbf8f0;
+            --ink: #27332e;
+            --muted: #6e766f;
+            --line: #d8d2c4;
+            --green: #315f52;
+            --green-soft: #dbe6df;
+            --rust: #a5563d;
+            --mustard: #bf8b35;
+            --blue: #527487;
+            --rose: #945969;
+        }
+        html { background: var(--paper); }
+        body {
+            font-family: 'DM Sans', sans-serif !important;
+            color: var(--ink) !important;
+            background:
+                linear-gradient(90deg, transparent 0 47px, rgba(165,86,61,.16) 48px, transparent 49px),
+                repeating-linear-gradient(0deg, transparent 0 31px, rgba(82,116,135,.055) 32px),
+                var(--paper) !important;
+        }
+        h1, h2, h3, .brand-font { font-family: 'Libre Caslon Text', serif !important; letter-spacing: -.025em; }
+        button, input, select, a { font-family: 'DM Sans', sans-serif; }
+        .notebook-shell { position: relative; }
+        .notebook-shell::before {
+            content: ""; position: fixed; left: 16px; top: 0; bottom: 0; width: 18px; z-index: 40;
+            background: repeating-linear-gradient(to bottom, transparent 0 18px, #7b807b 19px 22px, transparent 23px 36px);
+            opacity: .55; pointer-events: none;
+        }
+        .editorial-nav {
+            display:flex; align-items:center; gap:.25rem; overflow-x:auto; scrollbar-width:none;
+            border-bottom:1px solid var(--line); background:rgba(251,248,240,.94); padding:.5rem .75rem 0;
+        }
+        .editorial-nav::-webkit-scrollbar { display:none; }
+        .editorial-tab {
+            border:1px solid transparent; border-bottom:0; color:var(--muted); padding:.72rem 1rem;
+            border-radius:9px 9px 0 0; font-size:.78rem; font-weight:700; white-space:nowrap;
+        }
+        .editorial-tab:hover { color:var(--green); background:#f1eee5; }
+        .editorial-tab.is-active { color:var(--green); background:var(--paper); border-color:var(--line); transform:translateY(1px); }
+        .paper-panel {
+            background:rgba(251,248,240,.94); border:1px solid var(--line); border-radius:10px;
+            box-shadow:0 8px 30px rgba(48,52,47,.06);
+        }
+        .paper-kicker { color:var(--rust); text-transform:uppercase; letter-spacing:.14em; font-size:.68rem; font-weight:800; }
+        .botanical-mark { color:var(--green); opacity:.78; }
+        .flat-card { background:var(--paper-2); border:1px solid var(--line); border-radius:8px; box-shadow:none; }
+        .series-rule-6 { --series:#bf8b35; } .series-rule-7 { --series:#315f52; }
+        .series-rule-8 { --series:#527487; } .series-rule-9 { --series:#945969; }
+        .series-strip { border-left:5px solid var(--series); }
+        .editorial-section.hidden { display:none !important; }
+
+        /* neutraliza o antigo painel escuro sem tocar nos dados ou no comportamento */
+        #homeView, #appView { max-width:1440px !important; color:var(--ink) !important; }
+        #homeView > header { text-align:left !important; padding:2rem 0 1rem !important; border-bottom:1px solid var(--line); }
+        #homeView > header > div:first-child { display:none !important; }
+        #homeView > header h1 { color:var(--ink) !important; font-size:clamp(2.25rem,5vw,4.5rem) !important; }
+        #homeView > header h1 span { color:var(--green) !important; }
+        #homeView > header p { color:var(--muted) !important; margin-left:0 !important; }
+        #homeView > header p:nth-of-type(1) { color:var(--rust) !important; letter-spacing:.08em; text-transform:uppercase; font-family:'DM Sans',sans-serif !important; font-size:.7rem !important; }
+        #homeView > main { align-items:stretch !important; padding:1.25rem 0 2rem !important; }
+        #homeView > main > div { gap:.9rem !important; }
+        #homeView article {
+            background:var(--paper-2) !important; border:1px solid var(--line) !important; border-radius:8px !important;
+            box-shadow:none !important; transform:none !important; color:var(--ink) !important; padding:1.25rem !important;
+        }
+        #homeView article:nth-child(1){border-left:6px solid var(--mustard)!important}
+        #homeView article:nth-child(2){border-left:6px solid var(--green)!important}
+        #homeView article:nth-child(3){border-left:6px solid var(--blue)!important}
+        #homeView article:nth-child(4){border-left:6px solid var(--rose)!important}
+        #homeView article h2, #homeView article .text-white { color:var(--ink) !important; }
+        #homeView article p, #homeView footer { color:var(--muted) !important; }
+        #homeView article [class*="bg-"] { background:#ece8dc !important; box-shadow:none !important; }
+        #homeView footer { border-color:var(--line) !important; }
+
+        #appView > header { background:rgba(251,248,240,.96) !important; border-color:var(--line) !important; backdrop-filter:blur(12px); }
+        #appView > header h1, #appView > header .text-white { color:var(--ink) !important; }
+        #appView > header .text-slate-400, #appView > header .text-slate-300 { color:var(--muted) !important; }
+        #appView > header button { box-shadow:none !important; border-color:var(--line) !important; }
+        #appView > section { background:rgba(243,239,229,.92) !important; border-color:var(--line) !important; }
+        #appView input, #appView select {
+            background:var(--paper-2) !important; color:var(--ink) !important; border-color:var(--line) !important;
+        }
+        #appView main { padding-top:1.25rem !important; }
+        #appView main section, #appView main > div > div, #aulasGrid > article {
+            background:rgba(251,248,240,.94) !important; border-color:var(--line) !important; box-shadow:none !important;
+        }
+        #appView main .text-white, #appView main .text-slate-200, #appView main .text-slate-300 { color:var(--ink) !important; }
+        #appView main .text-slate-400, #appView main .text-slate-500 { color:var(--muted) !important; }
+        #appView main [class*="rounded-2xl"] { border-radius:10px !important; }
+        #appView main [class*="rounded-xl"] { border-radius:8px !important; }
+        #aulasGrid > article, #aulasGrid > div { border-left:4px solid var(--green) !important; }
+        #lessonModal { background:rgba(39,51,46,.68) !important; }
+        #lessonModal > div { background:var(--paper-2) !important; border-color:var(--line) !important; border-radius:10px !important; }
+        #lessonModal > div > div:first-child, #lessonModal > div > div:last-child { background:#ebe6da !important; border-color:var(--line) !important; }
+        #modalContent { color:var(--ink) !important; }
+        #modalContent section, #modalContent article, #modalContent [class*="bg-slate"] { background:#f8f4ea !important; border-color:var(--line) !important; }
+        #modalContent .text-white, #modalContent .text-slate-200, #modalContent .text-slate-300 { color:var(--ink) !important; }
+        #modalContent .text-slate-400, #modalContent .text-slate-500 { color:var(--muted) !important; }
+        #modalContent h2 { font-size:1.65rem !important; }
+        .custom-scrollbar::-webkit-scrollbar-track { background:#ece7da; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background:#a9aa9f; }
+        @media (max-width: 767px) {
+            body { background:var(--paper) !important; }
+            .notebook-shell::before { left:4px; opacity:.28; }
+            #homeView { padding-left:1.5rem !important; padding-right:1rem !important; }
+            #appView main { padding-left:1.5rem !important; }
+            .editorial-tab { padding:.68rem .78rem; }
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen custom-scrollbar text-sm sm:text-base">
+<body class="notebook-shell bg-slate-950 text-slate-100 min-h-screen custom-scrollbar text-sm sm:text-base">
     <!-- Safelist de cores usadas dinamicamente pelo Tailwind CDN -->
     <div class="hidden bg-amber-600 bg-teal-600 bg-indigo-600 bg-rose-600 border-amber-500 border-teal-500 border-indigo-500 border-rose-500 text-amber-300 text-teal-300 text-indigo-300 text-rose-300 bg-amber-500/20 bg-teal-500/20 bg-indigo-500/20 bg-rose-500/20 border-amber-500/30 border-teal-500/30 border-indigo-500/30 border-rose-500/30 shadow-amber-500/10 shadow-teal-500/10 shadow-indigo-500/10 shadow-rose-500/10"></div>
 
@@ -56,8 +168,41 @@
             <p class="text-slate-400 text-sm sm:text-base max-w-3xl mx-auto">Prof. Eudson Marques • Planejamento fundamentado em Ciência da Aprendizagem, Neurociência Cognitiva e Metodologias Ativas</p>
         </header>
 
+        <nav class="editorial-nav mt-3" aria-label="Navegação principal">
+            <button class="editorial-tab is-active"><i class="fa-solid fa-calendar-days mr-2"></i>Agenda</button>
+            <button class="editorial-tab" onclick="document.getElementById('homeSeries').scrollIntoView({behavior:'smooth'})"><i class="fa-solid fa-users mr-2"></i>Turmas</button>
+            <button class="editorial-tab" onclick="document.getElementById('homeSeries').scrollIntoView({behavior:'smooth'})"><i class="fa-solid fa-book-open mr-2"></i>Planejamentos</button>
+        </nav>
+
+        <section id="homeOverview" class="grid grid-cols-1 lg:grid-cols-[1.55fr_.85fr] gap-4 py-5" aria-label="Agenda docente">
+            <div class="paper-panel p-4 sm:p-6">
+                <div class="flex items-start justify-between gap-4 mb-5">
+                    <div>
+                        <p class="paper-kicker">Agenda semanal</p>
+                        <h2 class="text-2xl sm:text-3xl mt-1">Aulas dos próximos dias</h2>
+                        <p id="homeWeekRange" class="text-sm mt-1" style="color:var(--muted)">Datas derivadas dos planos cadastrados</p>
+                    </div>
+                    <i class="fa-solid fa-leaf text-3xl botanical-mark" aria-hidden="true"></i>
+                </div>
+                <div id="homeWeekLessons" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            </div>
+            <aside class="space-y-4">
+                <section class="paper-panel p-4 sm:p-5">
+                    <p class="paper-kicker">Próxima aula</p>
+                    <div id="homeNextLesson" class="mt-3"></div>
+                </section>
+                <section class="paper-panel p-4 sm:p-5">
+                    <div class="flex items-center justify-between gap-3">
+                        <div><p class="paper-kicker">Checklist docente</p><h2 class="text-xl mt-1">Aplicação</h2></div>
+                        <i class="fa-solid fa-list-check botanical-mark text-xl"></i>
+                    </div>
+                    <div id="homeChecklist" class="mt-3 space-y-2"></div>
+                </section>
+            </aside>
+        </section>
+
         <main class="flex-1 flex items-center py-5 sm:py-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 w-full">
+            <div id="homeSeries" class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 w-full">
                 <article onclick="selectSerie('6')" class="group relative bg-gradient-to-br from-slate-900 via-slate-900 to-amber-950/50 border border-amber-500/30 hover:border-amber-500 rounded-2xl p-6 sm:p-7 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-amber-500/10">
                     <div class="flex justify-between gap-4">
                         <div><span class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-3 py-1 rounded-full">EFAF • 6ºA</span>
@@ -119,9 +264,15 @@
                     <button onclick="switchCiclo('AG3')" id="tabAG3" class="flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition"><i class="fa-solid fa-microscope mr-1.5"></i> Ciclo AG3</button>
                 </div>
             </div>
+            <nav class="editorial-nav max-w-7xl mx-auto mt-3 -mb-4" aria-label="Seções da série">
+                <button id="navAgenda" class="editorial-tab is-active" onclick="setAppSection('agenda')"><i class="fa-solid fa-calendar-days mr-2"></i>Agenda</button>
+                <button id="navTurmas" class="editorial-tab" onclick="setAppSection('turmas')"><i class="fa-solid fa-users mr-2"></i>Turmas</button>
+                <button id="navPlanejamentos" class="editorial-tab" onclick="setAppSection('planejamentos')"><i class="fa-solid fa-folder-open mr-2"></i>Planejamentos</button>
+                <button id="navAulas" class="editorial-tab" onclick="setAppSection('aulas')"><i class="fa-solid fa-book-open mr-2"></i>Aulas</button>
+            </nav>
         </header>
 
-        <section class="bg-slate-950/60 border-b border-slate-800/80 px-4 sm:px-6 py-4">
+        <section id="toolSection" class="bg-slate-950/60 border-b border-slate-800/80 px-4 sm:px-6 py-4 hidden">
             <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
                 <div id="turmasContainer" class="flex items-center gap-2 w-full lg:w-auto overflow-x-auto pb-2 lg:pb-0 custom-scrollbar"></div>
                 <div class="flex items-center gap-3 w-full lg:w-auto">
@@ -132,6 +283,8 @@
         </section>
 
         <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6">
+            <section id="turmasEditorialSection" class="editorial-section hidden mb-6"></section>
+            <section id="planejamentosEditorialSection" class="editorial-section hidden mb-6"></section>
             <section id="minhaSemanaSection" class="mb-6 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/30 border border-emerald-500/25 rounded-2xl overflow-hidden shadow-xl shadow-emerald-950/10">
                 <div class="p-4 sm:p-5 border-b border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     <div>
@@ -149,12 +302,12 @@
                     <div id="weekMilestones" class="mt-4"></div>
                 </div>
             </section>
-            <div class="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div id="planningOverview" class="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4 hidden">
                 <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium" id="statLabelAulas">Aulas no Ciclo</p><p class="text-xl sm:text-2xl font-bold text-white mt-1" id="totalAulasCount">0</p></div><div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-book-open"></i></div></div>
                 <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium">Aulas Concluídas</p><p class="text-xl sm:text-2xl font-bold text-emerald-400 mt-1" id="concluidasCount">0</p></div><div class="bg-emerald-500/10 text-emerald-400 p-3 rounded-lg"><i class="fa-solid fa-square-check"></i></div></div>
                 <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center justify-between"><div><p class="text-xs sm:text-sm text-slate-400 font-medium">Foco Pedagógico</p><p class="text-lg sm:text-xl font-bold text-indigo-300 mt-1" id="focoStatText">Ciência da Aprendizagem</p></div><div class="bg-indigo-500/10 text-indigo-400 p-3 rounded-lg"><i class="fa-solid fa-brain"></i></div></div>
             </div>
-            <div id="aulasGrid" class="space-y-3"></div>
+            <div id="aulasGrid" class="space-y-3 hidden"></div>
         </main>
     </div>
 
@@ -5921,7 +6074,8 @@ const aulas8AG3 = [
             concluidas: 'concluidas_eudson_multisseries',
             preparo: 'planejaedu_preparo_aulas',
             ministradas: 'planejaedu_aulas_ministradas',
-            preferencias: 'planejaedu_ultimo_contexto'
+            preferencias: 'planejaedu_ultimo_contexto',
+            anotacoes: 'planejaedu_anotacoes_docente'
         };
 
         function lerStorage(chave, fallback = {}) {
@@ -5963,6 +6117,7 @@ const aulas8AG3 = [
         let preparoState = lerStorage(STORAGE_KEYS.preparo);
         let ministradaState = lerStorage(STORAGE_KEYS.ministradas);
         let preferenciasState = lerStorage(STORAGE_KEYS.preferencias);
+        let anotacoesState = lerStorage(STORAGE_KEYS.anotacoes);
         let agendaScope = 'serie';
         let aulaResumoAberta = null;
 
@@ -6001,6 +6156,7 @@ const aulas8AG3 = [
             const app = document.getElementById('appView'); app.classList.remove('hidden'); app.classList.add('flex');
             document.getElementById('searchInput').value = '';
             atualizarIdentidade(); renderTurmas(); switchCiclo(cicloSalvo); renderMinhaSemana();
+            setAppSection('agenda');
             window.scrollTo({top:0,behavior:'smooth'});
         }
 
@@ -6009,7 +6165,7 @@ const aulas8AG3 = [
             document.getElementById('appView').classList.add('hidden');
             document.getElementById('appView').classList.remove('flex');
             document.getElementById('homeView').classList.remove('hidden');
-            serieAtual = null; window.scrollTo({top:0,behavior:'smooth'});
+            serieAtual = null; renderHomeEditorial(); window.scrollTo({top:0,behavior:'smooth'});
         }
 
         function atualizarIdentidade() {
@@ -6063,7 +6219,7 @@ const aulas8AG3 = [
             salvarContextoAtual(); atualizarBotoesTurma(); atualizarSelectModulos(); renderAulas(); renderMinhaSemana();
         }
 
-        function setTurma(turma) { turmaAtual = turma; aulaResumoAberta = null; salvarContextoAtual(); atualizarBotoesTurma(); renderAulas(); renderMinhaSemana(); }
+        function setTurma(turma) { turmaAtual = turma; aulaResumoAberta = null; salvarContextoAtual(); atualizarBotoesTurma(); renderAulas(); renderMinhaSemana(); if (!document.getElementById('turmasEditorialSection').classList.contains('hidden')) renderTurmasEditorial(); }
 
         function aulaLabel(aula) {
             if (aula.referencias && aula.referencias[turmaAtual]) return aula.referencias[turmaAtual];
@@ -6116,6 +6272,106 @@ const aulas8AG3 = [
         function resumoTexto(texto, limite=110) {
             const limpo = String(texto || '').replace(/\s+/g,' ').trim();
             return limpo.length > limite ? limpo.slice(0,limite-1).trim() + '…' : limpo;
+        }
+
+        function renderHomeEditorial() {
+            const lista = document.getElementById('homeWeekLessons');
+            if (!lista) return;
+            const agora = new Date();
+            const inicio = startOfDay(agora);
+            const fim = addDays(inicio, 7); fim.setHours(23,59,59,999);
+            const futuras = todasOcorrencias().filter(x => x.data >= inicio);
+            const semana = futuras.filter(x => x.data <= fim).slice(0, 8);
+            const proxima = futuras[0] || todasOcorrencias().find(x => x.data >= inicio);
+            document.getElementById('homeWeekRange').innerText =
+                `${inicio.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})} a ${fim.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})} • dados dos planos`;
+
+            lista.innerHTML = semana.length ? semana.map(item => {
+                const key = agendaOccurrenceKey(item);
+                return `<button onclick="abrirPlanoDaAgenda('${item.serie}','${item.ciclo}','${item.aula.id}','${item.turma.id}')" class="flat-card series-strip series-rule-${item.serie} p-3.5 text-left hover:-translate-y-0.5 transition">
+                    <span class="paper-kicker">${formatDia(item.data)} • ${formatHora(item.data)}</span>
+                    <strong class="block text-sm mt-1.5 leading-snug">${item.aula.titulo}</strong>
+                    <span class="block text-xs mt-2" style="color:var(--muted)">${item.turma.label} · ${item.ciclo} · ${item.aula.modulo}</span>
+                    <span class="inline-flex items-center gap-1 text-[11px] mt-2 ${preparoState[key]?'text-emerald-700':'text-amber-700'}"><i class="fa-solid ${preparoState[key]?'fa-circle-check':'fa-clock'}"></i>${preparoState[key]?'Material preparado':'A preparar'}</span>
+                </button>`;
+            }).join('') : '<div class="sm:col-span-2 flat-card p-6 text-center"><strong>Nenhuma aula nos próximos sete dias.</strong><p class="text-xs mt-1" style="color:var(--muted)">A agenda usa somente datas presentes nos planos.</p></div>';
+
+            const nextBox = document.getElementById('homeNextLesson');
+            const checklist = document.getElementById('homeChecklist');
+            if (!proxima) {
+                nextBox.innerHTML = '<p class="text-sm" style="color:var(--muted)">Não há próxima aula cadastrada.</p>';
+                checklist.innerHTML = '<p class="text-sm" style="color:var(--muted)">Sem pendências derivadas da agenda.</p>';
+                return;
+            }
+            const key = agendaOccurrenceKey(proxima);
+            nextBox.innerHTML = `<div class="series-strip series-rule-${proxima.serie} pl-4">
+                <span class="paper-kicker">${formatDia(proxima.data)} • ${formatHora(proxima.data)}</span>
+                <h3 class="text-xl mt-2 leading-snug">${proxima.aula.titulo}</h3>
+                <p class="text-xs mt-2" style="color:var(--muted)">${proxima.turma.label} · ${proxima.aula.modulo}</p>
+                <button onclick="abrirPlanoDaAgenda('${proxima.serie}','${proxima.ciclo}','${proxima.aula.id}','${proxima.turma.id}')" class="mt-4 text-xs font-bold px-3 py-2 rounded-md text-white" style="background:var(--green)">Abrir plano <i class="fa-solid fa-arrow-right ml-1"></i></button>
+            </div>`;
+            checklist.innerHTML = `
+                <label class="flat-card flex items-center gap-3 p-3 cursor-pointer"><input type="checkbox" class="status-check" ${preparoState[key]?'checked':''} onchange="togglePreparoHome('${key}',this.checked)"><span><strong class="block text-sm">Materiais preparados</strong><small style="color:var(--muted)">${resumoTexto(proxima.aula.materiais,92)}</small></span></label>
+                <label class="flat-card flex items-center gap-3 p-3 cursor-pointer"><input type="checkbox" class="status-check" ${ministradaState[key]?'checked':''} onchange="toggleMinistradaHome('${key}',this.checked)"><span><strong class="block text-sm">Aula ministrada</strong><small style="color:var(--muted)">Marcação salva neste dispositivo</small></span></label>`;
+        }
+
+        function togglePreparoHome(key, checked) {
+            preparoState[key] = checked;
+            gravarStorage(STORAGE_KEYS.preparo, preparoState);
+            renderHomeEditorial();
+        }
+
+        function toggleMinistradaHome(key, checked) {
+            ministradaState[key] = checked;
+            gravarStorage(STORAGE_KEYS.ministradas, ministradaState);
+            renderHomeEditorial();
+        }
+
+        function setAppSection(secao) {
+            const ids = ['agenda','turmas','planejamentos','aulas'];
+            ids.forEach(id => document.getElementById(`nav${id.charAt(0).toUpperCase()+id.slice(1)}`)?.classList.toggle('is-active', id === secao));
+            document.getElementById('minhaSemanaSection').classList.toggle('hidden', secao !== 'agenda');
+            document.getElementById('turmasEditorialSection').classList.toggle('hidden', secao !== 'turmas');
+            document.getElementById('planejamentosEditorialSection').classList.toggle('hidden', secao !== 'planejamentos');
+            document.getElementById('planningOverview').classList.toggle('hidden', secao !== 'planejamentos');
+            document.getElementById('aulasGrid').classList.toggle('hidden', secao !== 'aulas');
+            document.getElementById('toolSection').classList.toggle('hidden', !['planejamentos','aulas'].includes(secao));
+            if (secao === 'turmas') renderTurmasEditorial();
+            if (secao === 'planejamentos') renderPlanejamentosEditorial();
+            if (secao === 'aulas') renderAulas();
+        }
+
+        function renderTurmasEditorial() {
+            const cfg = configAtual();
+            const box = document.getElementById('turmasEditorialSection');
+            const agora = new Date();
+            box.innerHTML = `<div class="mb-5"><p class="paper-kicker">Turmas</p><h2 class="text-3xl mt-1">${cfg.titulo}</h2><p class="text-sm mt-1" style="color:var(--muted)">Escolha a turma para consultar sua agenda e os planos correspondentes.</p></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">${cfg.turmas.map(t => {
+                    const ocorrencias = todasOcorrencias().filter(x => x.serie===serieAtual && x.turma.id===t.id);
+                    const proxima = ocorrencias.find(x => x.data >= agora);
+                    const feitas = [...cfg.AP3,...cfg.AG3].filter(a => concluidasState[`${serieAtual}-${cicloAtual}-${t.id}-${a.id}`]).length;
+                    return `<article class="paper-panel series-strip series-rule-${serieAtual} p-5">
+                        <div class="flex items-start justify-between gap-3"><div><p class="paper-kicker">${serieAtual}º ano</p><h3 class="text-2xl mt-1">${t.label}</h3></div><span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background:var(--green-soft);color:var(--green)">${feitas} concluída(s)</span></div>
+                        <div class="flat-card p-3 mt-4"><span class="paper-kicker">Próxima aula</span>${proxima?`<strong class="block text-sm mt-1">${proxima.aula.titulo}</strong><span class="text-xs" style="color:var(--muted)">${formatDia(proxima.data)} · ${formatHora(proxima.data)}</span>`:'<p class="text-sm mt-1" style="color:var(--muted)">Sem data futura cadastrada.</p>'}</div>
+                        <button onclick="setTurma('${t.id}');setAppSection('agenda')" class="mt-4 text-xs font-bold" style="color:var(--green)">Abrir agenda da turma <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                    </article>`;
+                }).join('')}</div>`;
+        }
+
+        function renderPlanejamentosEditorial() {
+            const cfg = configAtual();
+            const planos = dataAtual();
+            const modulos = [...new Set(planos.map(a => a.modulo).filter(Boolean))];
+            const turma = cfg.turmas.find(t => t.id === turmaAtual);
+            const preparados = todasOcorrencias().filter(x => x.serie===serieAtual && x.ciclo===cicloAtual && x.turma.id===turmaAtual && preparoState[agendaOccurrenceKey(x)]).length;
+            document.getElementById('planejamentosEditorialSection').innerHTML = `
+                <div class="paper-panel p-5 sm:p-6">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                        <div><p class="paper-kicker">Planejamentos</p><h2 class="text-3xl mt-1">Ciclo ${cicloAtual}</h2><p class="text-sm mt-1" style="color:var(--muted)">${turma?.label || ''} · conteúdo derivado dos planos cadastrados</p></div>
+                        <div class="flex gap-2"><span class="flat-card px-3 py-2 text-xs"><strong>${planos.length}</strong> planos</span><span class="flat-card px-3 py-2 text-xs"><strong>${preparados}</strong> materiais preparados</span></div>
+                    </div>
+                    <div class="mt-5"><p class="paper-kicker mb-3">Módulos do ciclo</p><div class="flex flex-wrap gap-2">${modulos.map((m,i)=>`<button onclick="document.getElementById('moduloSelect').value='${m.replace(/'/g,"&#39;")}';setAppSection('aulas')" class="flat-card px-3 py-2 text-xs font-semibold"><span style="color:var(--rust)">${String(i+1).padStart(2,'0')}</span> · ${m}</button>`).join('')}</div></div>
+                </div>`;
         }
 
         function setAgendaScope() {
@@ -6376,6 +6632,19 @@ const aulas8AG3 = [
             ).join('');
         }
 
+        function perguntasMediacao(aula) {
+            const objetivos = (aula.objetivos || []).slice(0,3);
+            if (!objetivos.length) return ['O que os estudantes conseguem explicar sem consultar o material?'];
+            return objetivos.map(obj => `Que evidência ou exemplo permitiria demonstrar que a turma consegue ${obj.charAt(0).toLowerCase()+obj.slice(1).replace(/[.]$/,'')}?`);
+        }
+
+        function salvarAnotacao(aulaId, valor) {
+            anotacoesState[stateKey(aulaId)] = valor;
+            gravarStorage(STORAGE_KEYS.anotacoes, anotacoesState);
+            const status = document.getElementById('annotationStatus');
+            if (status) { status.innerText = 'Salvo neste dispositivo'; setTimeout(()=>status.innerText='',1800); }
+        }
+
         function openModal(id) {
             const aula = dataAtual().find(a => a.id === id); if (!aula) return;
             const cfg = configAtual();
@@ -6422,6 +6691,11 @@ const aulas8AG3 = [
                 ${['6','7','8','9'].includes(serieAtual) ? `<section class="bg-slate-950/50 border border-slate-800 rounded-2xl p-4 sm:p-5"><div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-4"><div><h3 class="text-xs sm:text-sm font-bold text-teal-300 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-book-open-reader"></i> Fundamentação Metodológica</h3><p class="text-xs text-slate-500 mt-1">Como as decisões da aula se conectam à Ciência da Aprendizagem</p></div><span class="text-[10px] text-slate-500">Base de estudo: Make It Stick • Retrieval Practice Guide • Spacing Guide</span></div><div class="grid grid-cols-1 md:grid-cols-2 gap-3">${cardsFundamentacao(aula)}</div></section>` : ''}
 
                 <section class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl"><h4 class="text-xs sm:text-sm font-bold ${cfg.accentText} uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-brain"></i> Ciência da Aprendizagem</h4><p class="text-xs sm:text-sm">${aula.estrategias_cognitivas}</p></div><div class="bg-slate-800/60 border border-slate-700 p-4 rounded-xl"><h4 class="text-xs sm:text-sm font-bold text-rose-300 uppercase tracking-wider mb-2 flex items-center gap-1.5"><i class="fa-solid fa-check-double"></i> Avaliação Formativa</h4><p class="text-xs sm:text-sm">${aula.avaliacao_formativa}</p></div></section>
+                <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <article class="p-4 rounded-xl border"><p class="paper-kicker"><i class="fa-solid fa-comments mr-1"></i>Perguntas de mediação</p><ul class="mt-3 list-disc pl-5 space-y-2 text-sm">${perguntasMediacao(aula).map(p=>`<li>${p}</li>`).join('')}</ul></article>
+                    <article class="p-4 rounded-xl border"><p class="paper-kicker"><i class="fa-solid fa-eye mr-1"></i>Evidência de aprendizagem</p><p class="mt-3 text-sm">${aula.avaliacao_formativa || 'Observar a produção dos estudantes durante o fechamento e registrar as lacunas que exigem retomada.'}</p><p class="mt-3 text-xs" style="color:var(--muted)">Estratégia observável: ${aula.estrategias_cognitivas || aula.foco_pedagogico}</p></article>
+                </section>
+                <section class="p-4 sm:p-5 rounded-xl border"><div class="flex items-center justify-between gap-3"><div><p class="paper-kicker"><i class="fa-solid fa-pen-nib mr-1"></i>Anotações docentes</p><p class="text-xs mt-1" style="color:var(--muted)">Registro local desta aula e turma.</p></div><span id="annotationStatus" class="text-xs" style="color:var(--green)"></span></div><textarea oninput="salvarAnotacao('${aula.id}',this.value)" class="mt-3 w-full min-h-28 p-3 rounded-md border outline-none" style="background:#fffdf7;border-color:var(--line);color:var(--ink)" placeholder="O que funcionou? O que precisa ser retomado?">${anotacoesState[stateKey(aula.id)] || ''}</textarea></section>
                 <section class="bg-slate-800/80 p-4 rounded-xl border border-slate-700 flex items-center gap-3"><div class="bg-sky-500/20 text-sky-300 p-2.5 rounded-lg text-xl"><i class="fa-solid fa-house-chimney"></i></div><div><span class="text-xs font-bold text-slate-400 uppercase block">Atividade de Casa / Tarefa</span><span class="text-xs sm:text-sm font-medium text-slate-200">${aula.tarefa_casa}</span></div></section>`;
             document.getElementById('lessonModal').classList.remove('hidden'); document.body.style.overflow = 'hidden';
         }
@@ -6445,6 +6719,8 @@ const aulas8AG3 = [
 
             document.getElementById('homeCount9').innerText =
                 aulas9AP3.length + aulas9AG3.length;
+
+            renderHomeEditorial();
         });
     </script>
 
