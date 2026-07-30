@@ -5695,6 +5695,160 @@ const aulas8AG3 = [
 
         const aulas9AG3 = [];
 
+        /*
+         * PADRÃO METODOLÓGICO MULTISSÉRIES
+         * Mantém intactos IDs, datas, módulos, páginas e referências. Os complementos
+         * abaixo tornam explícitas a condução, as perguntas, o tempo, as evidências e
+         * o uso dos materiais quando o registro original estava excessivamente breve.
+         */
+        function perfilMetodologico(aula, serie) {
+            const texto = `${aula.titulo} ${aula.modulo} ${aula.foco_pedagogico || ''}`.toLowerCase();
+            const perfis = [
+                {
+                    teste: /reprodu|gamet|fecunda|gesta|embri|genital|ist|contracep/,
+                    perguntas: [
+                        'Que estrutura ou processo está envolvido e qual é sua função?',
+                        'Como essa explicação evita confundir reprodução, desenvolvimento, prevenção e cuidado em saúde?'
+                    ],
+                    cuidado: 'Use linguagem científica, acolhedora e não constrangedora; diferencie fatos biológicos, prevenção e decisões responsáveis sem expor experiências pessoais.'
+                },
+                {
+                    teste: /horm|endócr|hipóf|tireo|nervoso|homeosta|regula/,
+                    perguntas: [
+                        'Qual variável do organismo está sendo regulada?',
+                        'Que receptor, centro de controle e resposta explicam a manutenção do equilíbrio?'
+                    ],
+                    cuidado: 'Construa setas de causa e efeito aos poucos e peça que os estudantes expliquem o sentido de cada conexão antes de acrescentar outra.'
+                },
+                {
+                    teste: /planta|botân|brió|pterid|gimnos|angios|flor|fruto/,
+                    perguntas: [
+                        'Que característica observável sustenta a classificação proposta?',
+                        'Que inovação ajuda esse grupo a sobreviver ou se reproduzir no ambiente terrestre?'
+                    ],
+                    cuidado: 'Alterne espécimes, fotografias e esquemas simples; a imagem deve apoiar a comparação, e não substituir a explicação do estudante.'
+                },
+                {
+                    teste: /força|newton|inércia|máquina simples|alavanca|roldana|polia/,
+                    perguntas: [
+                        'Que forças atuam na situação e qual evidência permite identificá-las?',
+                        'O que mudaria se a massa, o atrito, o ponto de apoio ou a força aplicada fosse alterado?'
+                    ],
+                    cuidado: 'Comece pelo fenômeno concreto, represente-o com poucas setas e só depois formalize o conceito ou a relação matemática.'
+                },
+                {
+                    teste: /calor|temperatura|térmic|condução|convecção|irradiação|dilata/,
+                    perguntas: [
+                        'Em que direção ocorre a transferência de energia e por quê?',
+                        'Que observação permite distinguir temperatura, calor e sensação térmica nesta situação?'
+                    ],
+                    cuidado: 'Mantenha separados os níveis macroscópico e microscópico: primeiro descreva o que se observa; depois explique pelo movimento e pelas interações das partículas.'
+                },
+                {
+                    teste: /atmosfera|ar |clima|efeito estufa|ozônio|polui/,
+                    perguntas: [
+                        'Que processo natural está sendo descrito e como a ação humana pode intensificá-lo?',
+                        'Qual relação causal é sustentada pelos dados ou pelo modelo apresentado?'
+                    ],
+                    cuidado: 'Diferencie fenômeno, causa, consequência e proposta de intervenção; evite que opiniões substituam evidências.'
+                },
+                {
+                    teste: /combust|energia|tecnolog|inteligência artificial|desenvolvimento tecnológico/,
+                    perguntas: [
+                        'Que benefício, custo e impacto precisam ser considerados nesta escolha tecnológica?',
+                        'A solução apenas desloca o problema ou reduz efetivamente seu impacto ao longo do ciclo de vida?'
+                    ],
+                    cuidado: 'Compare alternativas com os mesmos critérios e peça que toda decisão venha acompanhada de evidência, limite e possível consequência.'
+                },
+                {
+                    teste: /química|substância|mistura|transformação|reação|ph\b/,
+                    perguntas: [
+                        'Que evidência permite distinguir material, propriedade e transformação?',
+                        'Como a explicação microscópica se relaciona ao fenômeno observado?'
+                    ],
+                    cuidado: 'Apresente uma variável de cada vez, mantenha o vocabulário estável e use exemplos contrastantes antes de pedir generalizações.'
+                },
+                {
+                    teste: /célula|núcleo|cromoss|mitose|meiose|genét|dna|muta/,
+                    perguntas: [
+                        'O que existe antes, o que se modifica ou se separa e qual é o resultado?',
+                        'Estamos falando de quantidade de DNA, número de cromossomos, ploidia ou expressão de uma característica?'
+                    ],
+                    cuidado: 'Use um código visual fixo para estruturas equivalentes e revele o processo em etapas, evitando diagramas completos antes de firmar os pré-requisitos.'
+                },
+                {
+                    teste: /vírus|bactér|archaea|protozo|fung|microorgan/,
+                    perguntas: [
+                        'Que característica sustenta a classificação deste organismo ou entidade biológica?',
+                        'Como estrutura, modo de vida, transmissão e impacto ecológico ou sanitário se relacionam?'
+                    ],
+                    cuidado: 'Compare poucos critérios por vez e separe classificação, ciclo de vida, prevenção e importância ecológica para reduzir associações indevidas.'
+                },
+                {
+                    teste: /revis|retom|recompos|simulado|recuperação|visto|fechamento/,
+                    perguntas: [
+                        'O que consigo recuperar sem consulta e em que ponto preciso de uma pista?',
+                        'Qual erro apareceu com maior frequência e que ação concreta ajudará a corrigi-lo?'
+                    ],
+                    cuidado: 'Não transforme a retomada em nova exposição longa. Priorize tentativa, diagnóstico, agrupamento dos erros, feedback e uma segunda recuperação.'
+                }
+            ];
+            const escolhido = perfis.find(perfil => perfil.teste.test(texto));
+            if (escolhido) return escolhido;
+            const faixa = serie === '6'
+                ? 'Use exemplos concretos, instruções curtas e uma verificação após cada passo.'
+                : serie === '7'
+                    ? 'Comece por uma situação observável e conduza a turma da hipótese à justificativa.'
+                    : serie === '8'
+                        ? 'Exija explicações causais curtas, vocabulário preciso e comparação entre processos próximos.'
+                        : 'Peça argumento, evidência e limite da explicação, preservando tempo individual antes da discussão.';
+            return {
+                perguntas: [
+                    'Que conhecimento anterior ajuda a compreender o tema desta aula?',
+                    'Que evidência ou exemplo sustenta a explicação construída pela turma?'
+                ],
+                cuidado: faixa
+            };
+        }
+
+        function complementarEtapa(aula, serie, etapa) {
+            const bloco = aula[etapa];
+            if (!bloco || typeof bloco.detalhes !== 'string' || bloco.detalhes.includes('Orientação ao professor:')) return;
+            const perfil = perfilMetodologico(aula, serie);
+            const orientacoes = {
+                abertura: `\n\n<strong>Orientação ao professor:</strong> apresente o desafio sem antecipar a resposta, dê de 1 a 2 minutos de pensamento individual e recolha duas ou três hipóteses. Pergunte: <em>“${perfil.perguntas[0]}”</em> Registre previsões ou conhecimentos prévios para retomá-los no fechamento.\n\n<strong>Gestão da etapa:</strong> preserve o tempo previsto no título; se a participação se alongar, sintetize as hipóteses no quadro em vez de iniciar uma explicação paralela.`,
+                desenvolvimento: `\n\n<strong>Orientação ao professor:</strong> segmente o conteúdo em blocos curtos. Após cada bloco, interrompa a exposição com uma tentativa, comparação, desenho, classificação ou justificativa sem consulta. Use a pergunta: <em>“${perfil.perguntas[1]}”</em>\n\n<strong>Cuidado metodológico:</strong> ${perfil.cuidado} Circule durante a prática, selecione um acerto e um erro produtivo para discutir e ofereça feedback que explique o raciocínio, não apenas o gabarito.`,
+                fechamento: `\n\n<strong>Orientação ao professor:</strong> peça uma produção final breve e sem consulta — resposta, esquema, comparação ou explicação causal — antes da conferência. Retome uma hipótese da abertura e solicite que a turma a mantenha, refine ou substitua com base no que aprendeu.\n\n<strong>Critério de saída:</strong> considere a etapa concluída quando o estudante consegue expressar a ideia central com vocabulário adequado e justificar ao menos uma relação. Registre o erro predominante para a próxima recuperação espaçada.`
+            };
+            bloco.detalhes += orientacoes[etapa] || '';
+        }
+
+        function complementarPlano(aula, serie) {
+            ['abertura', 'desenvolvimento', 'fechamento'].forEach(etapa => complementarEtapa(aula, serie, etapa));
+            const perfil = perfilMetodologico(aula, serie);
+
+            if (typeof aula.materiais === 'string' && !aula.materiais.includes('Função pedagógica:')) {
+                aula.materiais += `\n\n<strong>Função pedagógica:</strong> organize os recursos antes da aula e revele apenas o que será usado em cada etapa. Quadro ou projeção estruturam relações; material do estudante sustenta a tentativa e a conferência; itens manipuláveis, imagens ou recursos digitais servem para observar, comparar ou testar — não apenas para ilustrar.`;
+            }
+
+            if (typeof aula.avaliacao_formativa === 'string' && !aula.avaliacao_formativa.includes('Evidências a observar:')) {
+                aula.avaliacao_formativa += `\n\n<strong>Evidências a observar:</strong> precisão do conceito central, qualidade da justificativa, uso de evidências e correção realizada após o feedback. Compare a resposta inicial com a produção final. Se o erro predominante permanecer, retome-o no início da próxima aula com uma pergunta curta, sem nota.`;
+            }
+
+            if (typeof aula.estrategias_cognitivas === 'string' && !aula.estrategias_cognitivas.includes('Aplicação na aula:')) {
+                aula.estrategias_cognitivas += `\n\n<strong>Aplicação na aula:</strong> a estratégia aparece como tentativa antes da consulta, explicação ou decisão justificada e nova recuperação após o feedback. ${perfil.cuidado}`;
+            }
+
+            return aula;
+        }
+
+        [
+            ['6', aulas6AP3], ['6', aulas6AG3],
+            ['7', aulas7AP3], ['7', aulas7AG3],
+            ['8', aulas8AP3], ['8', aulas8AG3],
+            ['9', aulas9AP3], ['9', aulas9AG3]
+        ].forEach(([serie, base]) => base.forEach(aula => complementarPlano(aula, serie)));
+
         const SERIES = {
             '6': {
                 titulo: 'Ciências — 6º Ano (EFAF)', subtitulo: 'Aprender a Aprender, Investigação & Alfabetização Científica',
