@@ -5927,6 +5927,410 @@ const aulas8AG3 = [
         const aulas9AG3 = [];
 
         /*
+         * AJUSTES PEDAGÓGICOS — versão 02/08/2026
+         * Fonte exclusiva: conteúdos, resumos e datas já presentes neste arquivo
+         * e correções fornecidas pelo professor.
+         */
+        function localizarPlano(base, id) {
+            const plano = base.find(aula => aula.id === id);
+            if (!plano) throw new Error(`Plano não localizado: ${id}`);
+            return plano;
+        }
+
+        // O Módulo 14 do 6º ano fica restrito às aulas de 30/07 e 03/08.
+        // Os dois tempos de 06/08 passam a abrir o conteúdo seguinte, sem criar
+        // tópicos fora do resumo do Módulo 15 já incorporado ao planejamento.
+        Object.assign(localizarPlano(aulas6AP3, '6-ap3-57'), {
+            excel_ref: 'Cad. 3 / Mód. 15',
+            modulo: 'Cad. 3 / Mód. 15',
+            titulo: 'Entrada no Módulo 15: endereço cósmico e forma da Terra',
+            foco_pedagogico: 'Ativação, evidências, modelos e argumentação',
+            objetivos: [
+                'Localizar a Terra no Universo, na Via Láctea e no Sistema Solar.',
+                'Distinguir opinião, afirmação e evidência.',
+                'Reconhecer evidências apresentadas no material para a forma aproximadamente esférica da Terra.'
+            ],
+            materiais: 'Material pH, imagens do Módulo 15, cartões Universo–Via Láctea–Sistema Solar–Terra, quadro e caderno.',
+            abertura: {
+                titulo: '1. Sondagem e endereço cósmico (12 min)',
+                detalhes: 'Sem consulta, os alunos ordenam Universo, Via Láctea, Sistema Solar e Terra. Registre hipóteses e peça que indiquem o que consideram evidência sobre a forma da Terra.'
+            },
+            desenvolvimento: {
+                titulo: '2. Para começar e leitura orientada (28 min)',
+                detalhes: 'Trabalhe a abertura do Módulo 15 e a p. 301. Organize afirmações, observações e evidências; introduza a sombra circular da Terra em eclipses lunares, as constelações observadas nos hemisférios e o experimento de Eratóstenes somente nos limites apresentados no resumo do livro.'
+            },
+            fechamento: {
+                titulo: '3. Classificação e pergunta de saída (10 min)',
+                detalhes: 'Classifique cartões em opinião, afirmação ou evidência. Finalize com: “Onde está a Terra?” e “Que evidência do material ajuda a compreender seu formato?”.'
+            },
+            estrategias_cognitivas: 'Ativação de conhecimentos prévios, geração, classificação, recuperação e feedback explicativo.',
+            avaliacao_formativa: 'Ordenação do endereço cósmico, justificativas da classificação e resposta de saída.',
+            tarefa_casa: 'Ler Para aprender, p. 302–305, e registrar uma evidência e uma dúvida.',
+            material_ph: 'Para começar p. 301; leitura de Para aprender p. 302–305. Resumo do Volume 3, Módulo 15: Terra no Universo, eclipses, constelações, Eratóstenes, gravidade e modelos científicos.',
+            aplicacao: 'Sondagem, classificação de evidências e registro de dúvida.'
+        });
+
+        Object.assign(localizarPlano(aulas6AP3, '6-ap3-58'), {
+            excel_ref: 'Cad. 3 / Mód. 15 — Sala Google',
+            modulo: 'Cad. 3 / Mód. 15',
+            titulo: 'SALA GOOGLE • Evidências da forma da Terra',
+            foco_pedagogico: 'Recuperação de baixo risco, correspondência e correção comentada',
+            objetivos: [
+                'Recuperar o endereço cósmico sem consulta.',
+                'Relacionar cada evidência à conclusão que ela sustenta.',
+                'Usar o feedback para corrigir respostas e registrar dúvidas.'
+            ],
+            materiais: 'Sala Google, Chromebooks, atividade digital preparada com os exemplos do Módulo 15, caderno e quadro.',
+            abertura: {
+                titulo: '1. Recuperação individual (8 min)',
+                detalhes: 'Na Sala Google, os alunos respondem sem consulta a quatro itens sobre Universo, Via Láctea, Sistema Solar, Terra e evidências. A atividade não vale nota.'
+            },
+            desenvolvimento: {
+                titulo: '2. Correspondência e classificação (30 min)',
+                detalhes: 'Os alunos relacionam eclipse lunar, constelações nos hemisférios e experimento de Eratóstenes às explicações apresentadas no material. Depois classificam respostas como observação, evidência ou conclusão. O sistema mostra feedback após a tentativa; o professor comenta os distratores mais escolhidos.'
+            },
+            fechamento: {
+                titulo: '3. Nova tentativa e registro (12 min)',
+                detalhes: 'Refaça dois itens alterando a ordem das alternativas. Cada estudante registra no caderno um acerto consolidado e uma relação que ainda precisa retomar.'
+            },
+            estrategias_cognitivas: 'Recuperação de baixo risco, correspondência, classificação, feedback imediato e nova tentativa.',
+            avaliacao_formativa: 'Comparação entre primeira e segunda tentativa e registro individual de lacuna.',
+            tarefa_casa: 'Revisar apenas os itens errados e explicar oralmente uma evidência sem consultar.',
+            material_ph: 'Módulo 15, p. 301–305; somente conceitos e exemplos do resumo do livro.',
+            aplicacao: 'Atividade individual na Sala Google, seguida de correção comentada e nova tentativa.'
+        });
+
+        function definirSalaGoogle(base, id, sessao) {
+            const aula = localizarPlano(base, id);
+            aula.local = 'Sala Google';
+            aula.sala_google = Object.freeze({
+                objetivo: sessao.objetivo,
+                atividade: sessao.atividade,
+                aplicacao: sessao.aplicacao,
+                tempo: sessao.tempo,
+                evidencia: sessao.evidencia,
+                feedback: sessao.feedback,
+                registro: sessao.registro
+            });
+            if (!/Sala Google/i.test(aula.materiais)) aula.materiais = `Sala Google, Chromebooks. ${aula.materiais}`;
+        }
+
+        definirSalaGoogle(aulas6AP3, '6-ap3-58', {
+            objetivo: 'Consolidar o endereço cósmico e a relação entre evidência e conclusão no Módulo 15.',
+            atividade: 'Quiz de baixo risco, classificação e correspondência com os exemplos do material.',
+            aplicacao: 'Tentativa individual sem consulta; feedback automático; correção comentada; segunda tentativa em itens equivalentes.',
+            tempo: '50 min — 8 min de recuperação, 30 min de prática e 12 min de nova tentativa e registro.',
+            evidencia: 'Maior precisão na segunda tentativa e justificativa correta para ao menos uma evidência.',
+            feedback: 'Feedback imediato por item e comentário coletivo dos distratores mais frequentes, sem atribuição de nota.',
+            registro: 'Salvar o relatório da atividade e anotar por estudante: consolidado, em desenvolvimento ou requer retomada.'
+        });
+        definirSalaGoogle(aulas6AP3, '6-ap3-64', {
+            objetivo: 'Distinguir rotação, translação, inclinação do eixo e os fenômenos associados.',
+            atividade: 'Classificação de exemplos, itens de previsão e quiz curto sobre movimentos da Terra.',
+            aplicacao: 'Após o modelo físico, responder individualmente, comparar em dupla e refazer os itens errados.',
+            tempo: '24 min dentro da aula — 10 min de quiz, 8 min de correção comentada e 6 min de nova tentativa.',
+            evidencia: 'Classificação correta dos fenômenos e explicação que não atribua as estações à distância ao Sol.',
+            feedback: 'Exibir explicação após cada bloco e discutir o erro conceitual predominante antes da nova tentativa.',
+            registro: 'Exportar o resumo de respostas e registrar o tipo de confusão predominante de cada aluno.'
+        });
+        definirSalaGoogle(aulas6AP3, '6-ap3-71', {
+            objetivo: 'Recompor relações entre biosfera, célula, fotossíntese e atmosfera.',
+            atividade: 'Correspondência de conceitos, classificação de exemplos e correção comentada de respostas.',
+            aplicacao: 'Rodízio digital individual com tentativa antes da consulta e clínica breve com o professor.',
+            tempo: '30 min dentro da aula — três blocos de 8 min e 6 min de síntese.',
+            evidencia: 'Conexões causais corretas e redução dos erros entre o diagnóstico e o item de saída.',
+            feedback: 'Pista graduada na primeira tentativa, explicação completa na correção e solicitação de justificativa na retomada.',
+            registro: 'Marcar por eixo: biosfera, célula, fotossíntese e atmosfera; conservar o relatório para formar grupos de retomada.'
+        });
+        definirSalaGoogle(aulas6AP3, '6-ap3-review', {
+            objetivo: 'Realizar revisão cumulativa dos módulos previstos no ciclo AP3 e localizar lacunas antes da retomada final.',
+            atividade: 'Quiz intercalado, questões de correspondência, classificação e correção comentada.',
+            aplicacao: 'Responder sem consulta, indicar confiança, receber feedback e refazer os dois itens de maior dificuldade.',
+            tempo: '28 min dentro da retomada — 15 min de quiz, 8 min de correção e 5 min de nova tentativa.',
+            evidencia: 'Coerência entre confiança e desempenho e melhora nos itens refeitos.',
+            feedback: 'Correção explicativa por categoria de erro, sem nota, com indicação do trecho do próprio material a revisar.',
+            registro: 'Salvar pontuação inicial/final e registrar dois focos individuais para a revisão anterior à AP3.'
+        });
+        definirSalaGoogle(aulas6AG3, '6-ag3-78', {
+            objetivo: 'Consolidar tipos celulares, componentes, organelas e caminhos do metabolismo energético.',
+            atividade: 'Correspondência componente–função, comparação de células e quiz de baixo risco.',
+            aplicacao: 'Resposta individual após o bloco conceitual, discussão em dupla e nova tentativa dos itens errados.',
+            tempo: '20 min dentro da aula — 10 min de prática, 6 min de feedback e 4 min de registro.',
+            evidencia: 'Associações corretas e distinção entre respiração celular, fermentação e fotossíntese.',
+            feedback: 'Explicação curta após cada conjunto e comparação comentada dos pares de conceitos confundidos.',
+            registro: 'Relatório por habilidade e anotação do conceito que cada aluno deve recuperar na aula seguinte.'
+        });
+        definirSalaGoogle(aulas6AG3, '6-ag3-82', {
+            objetivo: 'Integrar digestão, respiração, circulação e excreção usando relações de entrada, transporte e saída.',
+            atividade: 'Classificação de exemplos e montagem interativa de fluxos entre sistemas.',
+            aplicacao: 'Montagem individual, conferência em pares e correção coletiva dos elos mais frágeis.',
+            tempo: '25 min dentro da aula — 14 min de montagem, 7 min de correção e 4 min de síntese.',
+            evidencia: 'Fluxo coerente entre nutrientes, oxigênio, transporte e excreção, com justificativa curta.',
+            feedback: 'Pistas sobre a função do sistema antes de mostrar a resposta e comentário dos erros de sequência.',
+            registro: 'Salvar o fluxo final e classificar o desempenho em integração, sequência e vocabulário.'
+        });
+        definirSalaGoogle(aulas6AG3, '6-ag3-86', {
+            objetivo: 'Recompor os conceitos do sistema nervoso trabalhados no Módulo 22.',
+            atividade: 'Recuperação sem consulta, correspondência estrutura–função e correção comentada.',
+            aplicacao: 'Diagnóstico digital, agrupamento por necessidade, intervenção curta e nova tentativa.',
+            tempo: '30 min dentro da aula — 8 min de diagnóstico, 14 min de prática guiada e 8 min de nova tentativa.',
+            evidencia: 'Melhora entre tentativas e explicação adequada da comunicação e do comando no organismo.',
+            feedback: 'Feedback imediato nos itens objetivos e explicação oral direcionada ao grupo formado pelo diagnóstico.',
+            registro: 'Guardar resultado inicial/final e marcar se a habilidade está consolidada, em desenvolvimento ou requer retomada.'
+        });
+        definirSalaGoogle(aulas6AG3, '6-ag3-90', {
+            objetivo: 'Realizar revisão cumulativa dos conteúdos já estudados no ciclo AG3.',
+            atividade: 'Quiz intercalado, mapa de correspondências e pequena tarefa interativa de revisão.',
+            aplicacao: 'Recuperação individual, comparação com o mapa coletivo e correção comentada antes do registro final.',
+            tempo: '25 min dentro da aula — 12 min de quiz, 8 min de mapa e 5 min de registro.',
+            evidencia: 'Conexões corretas entre conceitos de diferentes módulos e identificação precisa da própria lacuna.',
+            feedback: 'Comentário por padrão de erro e indicação de uma questão curta para nova prática em outro momento.',
+            registro: 'Salvar relatório cumulativo e atualizar a ficha individual com conteúdo dominado e próximo foco de estudo.'
+        });
+
+        // 7º ano: somente duas aulas do Módulo 14, concluídas até 03/08
+        // em ambas as turmas. O conteúdo sequencial do Caderno 3 começa no
+        // primeiro horário seguinte e mantém os módulos 15 a 19 dentro da AP3.
+        const setimo54 = localizarPlano(aulas7AP3, '7-ap3-54');
+        const setimo55 = localizarPlano(aulas7AP3, '7-ap3-55');
+        setimo54.datas = {
+            '7A': '30/07/2026 (Qui - 07:10)',
+            '7B': '30/07/2026 (Qui - 11:10)'
+        };
+        setimo55.datas = {
+            '7A': '03/08/2026 (Seg - 07:10)',
+            '7B': '03/08/2026 (Seg - 08:50)'
+        };
+        Object.assign(setimo54, {
+            aula_num: 'Aula 54 — Módulo 14 (1/2)',
+            titulo: 'Força, interações, efeitos e inércia',
+            foco_pedagogico: 'Investigação breve, classificação, representação e prática guiada',
+            objetivos: [
+                'Compreender força como interação capaz de alterar o movimento ou provocar deformação.',
+                'Diferenciar forças de contato e forças de campo.',
+                'Representar forças por módulo, direção e sentido e reconhecer a força resultante.',
+                'Relacionar inércia à manutenção do estado de movimento.'
+            ],
+            materiais: 'Estojo, elástico, folha de papel, ímã opcional, moeda, papel-cartão, copo plástico, quadro e Livro Caderno 2, p. 481–488.',
+            abertura: {
+                titulo: '1. Recuperação e previsão (8 min)',
+                detalhes: 'Recupere a diferença entre reconhecer e explicar. Em seguida, apresente empurrar o estojo, esticar o elástico, aproximar o ímã e a situação de um ônibus freando. Cada aluno prevê o efeito e identifica os corpos envolvidos antes da demonstração.'
+            },
+            desenvolvimento: {
+                titulo: '2. Força, resultante e 1ª Lei (30 min)',
+                detalhes: 'Trabalhe as p. 481–488 em blocos curtos. Sistematize força como interação, contato e campo, mudança de velocidade ou direção e deformação; represente módulo, direção e sentido. Use sofá, cabo de guerra, curling, cinto de segurança, moeda e cartolina para introduzir força resultante e inércia. Realize as atividades do material com tentativa individual, comparação em dupla e correção imediata dos itens essenciais.'
+            },
+            fechamento: {
+                titulo: '3. Classificar, justificar e corrigir (12 min)',
+                detalhes: 'Classifique situações por tipo e efeito da força, explique a inércia no trânsito e finalize a correção das atividades das p. 481–488 que sustentam os conceitos desta aula. Registre apenas pendências específicas para conferência no início de 03/08.'
+            },
+            estrategias_cognitivas: 'Previsão, recuperação, classificação, representação visual, prática guiada e feedback imediato.',
+            avaliacao_formativa: 'Justificativas nas atividades, representação das forças e explicação final sobre inércia.',
+            tarefa_casa: 'Concluir somente eventual item indicado pelo professor e criar um exemplo de força de contato e um de campo.',
+            material_ph: 'Caderno 2, p. 481–488. Resumo do Volume 3: forças, efeitos, resultante, representação, inércia, massa e peso.',
+            aplicacao: 'Atividades do material com tentativa, correção comentada e registro de pendências.'
+        });
+        Object.assign(setimo55, {
+            aula_num: 'Aula 55 — Módulo 14 (2/2)',
+            titulo: 'Leis de Newton, massa e peso: atividades e fechamento',
+            foco_pedagogico: 'Recuperação, contraste conceitual, resolução e correção comentada',
+            objetivos: [
+                'Relacionar força, massa e aceleração qualitativamente.',
+                'Diferenciar massa e peso.',
+                'Compreender que ação e reação atuam em corpos diferentes.',
+                'Distinguir pares de ação–reação de forças equilibradas no mesmo corpo.',
+                'Concluir e corrigir as atividades obrigatórias do Módulo 14.'
+            ],
+            materiais: 'Livro Caderno 2, p. 484–489, carrinho ou objetos de massas diferentes, balão, cartões, caderno e quadro.',
+            abertura: {
+                titulo: '1. Correção das pendências e recuperação (10 min)',
+                detalhes: 'Corrija rapidamente os itens indicados na aula anterior. Sem consulta, peça conceito de força, um exemplo de inércia, a diferença entre massa e peso e uma previsão sobre empurrar objetos de massas diferentes.'
+            },
+            desenvolvimento: {
+                titulo: '2. 2ª e 3ª Leis + atividades do material (30 min)',
+                detalhes: 'Construa qualitativamente F = m · a comparando a mesma massa com forças diferentes e a mesma força em massas diferentes. Use caminhada, balão, patins e mão na parede para nomear os dois corpos de cada par de ação e reação. Contraste ação–reação, que atua em corpos diferentes, com forças equilibradas no mesmo corpo. Resolva e corrija as atividades restantes das p. 484–489, incluindo resultante, aceleração, três leis de Newton, massa e peso; priorize tentativa individual e justificativa antes do gabarito.'
+            },
+            fechamento: {
+                titulo: '3. Miniquiz, correção e visto final (10 min)',
+                detalhes: 'Aplique quatro itens curtos: inércia, relação força–massa–aceleração, ação e reação e massa × peso. Faça feedback explicativo, permita correção em outra cor e confira o registro das atividades essenciais. O Módulo 14 termina nesta aula para as duas turmas.'
+            },
+            estrategias_cognitivas: 'Recuperação cumulativa, comparação, contraste, resolução com justificativa, feedback e nova tentativa.',
+            avaliacao_formativa: 'Atividades corrigidas, miniquiz e explicação do erro após o feedback.',
+            tarefa_casa: 'Revisar apenas os itens corrigidos e preparar a leitura inicial do Módulo 15.',
+            material_ph: 'Caderno 2, p. 484–489. Resumo do Volume 3: força resultante, aceleração, leis de Newton, massa e peso.',
+            aplicacao: 'Fechamento das atividades obrigatórias, miniquiz e visto orientado do Módulo 14.'
+        });
+
+        const agenda7A_AP3 = {
+            '7-ap3-59':'04/08/2026 (Ter - 11:10)','7-ap3-60':'06/08/2026 (Qui - 07:10)',
+            '7-ap3-61':'10/08/2026 (Seg - 07:10)','7-ap3-62':'11/08/2026 (Ter - 11:10)',
+            '7-ap3-63':'13/08/2026 (Qui - 07:10)','7-ap3-64':'17/08/2026 (Seg - 07:10)',
+            '7-ap3-65':'18/08/2026 (Ter - 11:10)','7-ap3-66':'20/08/2026 (Qui - 07:10)',
+            '7-ap3-67':'24/08/2026 (Seg - 07:10)','7-ap3-68':'25/08/2026 (Ter - 11:10)',
+            '7-ap3-69':'27/08/2026 (Qui - 07:10)','7-ap3-70':'31/08/2026 (Seg - 07:10)',
+            '7-ap3-71':'01/09/2026 (Ter - 11:10)','7-ap3-72':'03/09/2026 (Qui - 07:10)',
+            '7-ap3-73a':'14/09/2026 (Seg - 07:10)','7-ap3-74a':'15/09/2026 (Ter - 11:10)',
+            '7-ap3-75':'17/09/2026 (Qui - 07:10)'
+        };
+        const agenda7B_AP3 = {
+            '7-ap3-59':'06/08/2026 (Qui - 08:00)','7-ap3-60':'06/08/2026 (Qui - 11:10)',
+            '7-ap3-61':'10/08/2026 (Seg - 08:50)','7-ap3-62':'13/08/2026 (Qui - 08:00)',
+            '7-ap3-63':'13/08/2026 (Qui - 11:10)','7-ap3-64':'17/08/2026 (Seg - 08:50)',
+            '7-ap3-65':'20/08/2026 (Qui - 08:00)','7-ap3-66':'20/08/2026 (Qui - 11:10)',
+            '7-ap3-67':'24/08/2026 (Seg - 08:50)','7-ap3-68':'27/08/2026 (Qui - 08:00)',
+            '7-ap3-69':'27/08/2026 (Qui - 11:10)','7-ap3-70':'31/08/2026 (Seg - 08:50)',
+            '7-ap3-71':'03/09/2026 (Qui - 08:00)','7-ap3-72':'03/09/2026 (Qui - 11:10)',
+            '7-ap3-73b':'14/09/2026 (Seg - 08:50)','7-ap3-74b':'17/09/2026 (Qui - 08:00)',
+            '7-ap3-75':'17/09/2026 (Qui - 11:10)'
+        };
+        aulas7AP3.forEach(aula => {
+            if (agenda7A_AP3[aula.id]) aula.datas['7A'] = agenda7A_AP3[aula.id];
+            if (agenda7B_AP3[aula.id]) aula.datas['7B'] = agenda7B_AP3[aula.id];
+        });
+
+        const setimo56 = localizarPlano(aulas7AP3, '7-ap3-56');
+        Object.assign(setimo56, {
+            aula_num: 'Retomada final 1',
+            excel_ref: 'Módulos 15–19 — Sala Google',
+            modulo: 'Retomada AP3',
+            titulo: 'SALA GOOGLE • Recuperação cumulativa dos Módulos 15 a 19',
+            foco_pedagogico: 'Recuperação cumulativa, intercalação, classificação e feedback',
+            datas: {'7A':'21/09/2026 (Seg - 07:10)','7B':'21/09/2026 (Seg - 08:50)'},
+            objetivos: ['Recuperar os conceitos centrais dos módulos 15 a 19 sem consulta.','Intercalar força e máquinas simples, calor e atmosfera.','Identificar lacunas antes da correção final da AP3.'],
+            materiais: 'Sala Google, Chromebooks, quiz elaborado somente com os conteúdos e atividades já previstos nos módulos 15 a 19, caderno e quadro.',
+            abertura: {titulo:'1. Brain Dump e confiança (10 min)',detalhes:'Sem consulta, registrar palavras, relações e exemplos dos módulos 15 a 19 e indicar o grau de confiança em cada bloco.'},
+            desenvolvimento: {titulo:'2. Quiz intercalado e classificação (28 min)',detalhes:'Na Sala Google, responder itens de baixo risco sobre tipos de força, máquinas simples, calor, propagação, máquinas térmicas e atmosfera. Classificar exemplos e realizar correspondências antes de receber o feedback.'},
+            fechamento: {titulo:'3. Nova tentativa e foco de estudo (12 min)',detalhes:'Refazer os itens de maior dificuldade e registrar dois conteúdos consolidados e um conteúdo que precisa de retomada.'},
+            estrategias_cognitivas: 'Recuperação cumulativa, intercalação, correspondência, classificação, feedback e calibração da confiança.',
+            avaliacao_formativa: 'Comparação entre a primeira tentativa e a nova tentativa, sem atribuição de nota.',
+            tarefa_casa: 'Revisar somente os itens errados e explicar duas respostas sem consulta.',
+            material_ph: 'Retomada dos conteúdos e atividades já previstos nos resumos dos módulos 15 a 19.',
+            aplicacao: 'Quiz individual na Sala Google, correção comentada e nova tentativa.',
+            link: ''
+        });
+        definirSalaGoogle(aulas7AP3, '7-ap3-56', {
+            objetivo: 'Diagnosticar e fortalecer a recuperação dos conteúdos sequenciais dos módulos 15 a 19 antes da AP3.',
+            atividade: 'Quiz de baixo risco com classificação de exemplos, correspondências e revisão cumulativa.',
+            aplicacao: 'Tentativa individual sem consulta, marcação de confiança, feedback por bloco e nova tentativa dos itens errados.',
+            tempo: '50 min — 10 min de Brain Dump, 28 min de prática e 12 min de correção e registro.',
+            evidencia: 'Melhora entre tentativas e justificativas que relacionem conceito e exemplo.',
+            feedback: 'Comentário dos distratores mais escolhidos e explicação do raciocínio antes da segunda tentativa.',
+            registro: 'Salvar o relatório e marcar, por módulo, consolidado, em desenvolvimento ou requer retomada.'
+        });
+
+        const setimo57 = localizarPlano(aulas7AP3, '7-ap3-57');
+        Object.assign(setimo57, {
+            aula_num: 'Retomada final 2',
+            excel_ref: 'Correção dos Módulos 15–19',
+            modulo: 'Retomada AP3',
+            titulo: 'Clínica de erros e correção comentada da AP3',
+            foco_pedagogico: 'Correção explicativa, análise de erros e prática de recuperação',
+            datas: {'7A':'22/09/2026 (Ter - 11:10)','7B':'24/09/2026 (Qui - 08:00)'},
+            objetivos: ['Corrigir as atividades pendentes dos módulos 15 a 19.','Explicar por que uma alternativa ou solução está incorreta.','Transformar erros frequentes em perguntas de estudo.'],
+            materiais: 'Material pH, atividades já previstas nos planos, relatório da sessão anterior, quadro e ficha de correção.',
+            abertura: {titulo:'1. Recuperação dos erros (8 min)',detalhes:'Sem abrir o material, cada estudante tenta explicar novamente dois itens que errou na sessão anterior.'},
+            desenvolvimento: {titulo:'2. Correção comentada por categorias (32 min)',detalhes:'Organize os erros em força e máquinas simples, calor e propagação, máquinas térmicas e atmosfera. Faça a correção com justificativa, comparação de respostas e nova tentativa curta após cada bloco.'},
+            fechamento: {titulo:'3. Perguntas de estudo (10 min)',detalhes:'Cada estudante transforma três erros em perguntas e registra a resposta correta com uma justificativa curta.'},
+            estrategias_cognitivas: 'Recuperação, análise de erros, feedback explicativo, elaboração e nova tentativa.',
+            avaliacao_formativa: 'Ficha de correção e qualidade das justificativas produzidas após o feedback.',
+            tarefa_casa: 'Responder sem consulta às três perguntas de estudo e conferir em seguida.',
+            material_ph: 'Correção das atividades e conteúdos já previstos nos módulos 15 a 19.',
+            aplicacao: 'Correção comentada, agrupamento dos erros e prática de nova tentativa.',
+            link: ''
+        });
+
+        const setimo58 = localizarPlano(aulas7AP3, '7-ap3-58');
+        Object.assign(setimo58, {
+            aula_num: 'Retomada final 3',
+            excel_ref: 'Fechamento AP3 — Módulos 15–19',
+            modulo: 'Retomada AP3',
+            titulo: 'Mapa conceitual e fechamento do ciclo AP3',
+            foco_pedagogico: 'Organização visual, síntese, recuperação e planejamento de estudo',
+            datas: {'7A':'24/09/2026 (Qui - 07:10)','7B':'24/09/2026 (Qui - 11:10)'},
+            objetivos: ['Organizar relações entre os conteúdos dos módulos 15 a 19.','Recuperar conceitos sem consulta antes de construir o mapa.','Definir o foco individual de revisão para a AP3.'],
+            materiais: 'Folha A3, post-its, cartões com conceitos já presentes nos módulos 15 a 19, caderno e ficha de estudo.',
+            abertura: {titulo:'1. Recuperação intercalada (10 min)',detalhes:'Recupere sem consulta um conceito e um exemplo de cada módulo; depois confira e complete em outra cor.'},
+            desenvolvimento: {titulo:'2. Mapa conceitual integrado (30 min)',detalhes:'Organize força e máquinas simples, calor e propagação, máquinas térmicas e atmosfera com setas e palavras de ligação. Exija que toda conexão seja explicada oralmente por um integrante.'},
+            fechamento: {titulo:'3. Galeria e plano final (10 min)',detalhes:'Realize uma galeria rápida, corrija uma conexão imprecisa e registre o que revisar, como recuperar e quando fazer uma nova tentativa.'},
+            estrategias_cognitivas: 'Recuperação cumulativa, codificação dupla, elaboração, feedback entre pares e metacognição.',
+            avaliacao_formativa: 'Precisão das conexões do mapa e plano individual de estudo.',
+            tarefa_casa: 'Usar o mapa apenas para conferir depois de explicar o ciclo sem consulta.',
+            material_ph: 'Síntese dos conteúdos e atividades já previstos nos módulos 15 a 19.',
+            aplicacao: 'Mapa conceitual, explicação oral e plano individual de revisão.',
+            link: ''
+        });
+
+        // Mantém a ordem de exibição coerente com a nova cronologia.
+        const retomadasFinais7 = [setimo56, setimo57, setimo58];
+        retomadasFinais7.forEach(plano => aulas7AP3.splice(aulas7AP3.indexOf(plano), 1));
+        aulas7AP3.push(...retomadasFinais7);
+
+        // Retomadas do 9º ano antes da prova de 13/08.
+        const retomada9Evolucao = {
+            id: '9-ap3-retomada-cap4', aula_num: 'Retomada 1', excel_ref: 'Capítulo 4 — Evolução',
+            modulo: 'Retomada — Capítulo 4', titulo: 'Retomada para a prova: Evolução',
+            foco_pedagogico: 'Recuperação, comparação de teorias, classificação de evidências e correção conceitual',
+            datas: {'9A':'11/08/2026 (Ter - 10:20)','9B':'07/08/2026 (Sex - 07:10)'},
+            objetivos: ['Diferenciar fixismo e evolucionismo.','Comparar Lamarckismo e Darwinismo.','Explicar seleção natural, adaptação e ancestralidade comum.','Classificar evidências da evolução e retomar evolução humana.'],
+            materiais: 'Capítulo 4, quadro comparativo, cartões de evidências e folha de Exit Ticket.',
+            abertura: {titulo:'1. Recuperação inicial (8 min)',detalhes:'Sem consulta, responder sobre fixismo, evolucionismo, Lamarck, Darwin, seleção natural e duas evidências da evolução.'},
+            desenvolvimento: {titulo:'2. Teorias, evidências e evolução humana (34 min)',detalhes:'Construir quadro Lamarck–Darwin; classificar fósseis, estruturas homólogas e análogas, órgãos vestigiais, embriologia e evidências moleculares. Reforçar que humanos e outros primatas possuem ancestrais comuns e que a evolução humana não ocorreu em linha reta.'},
+            fechamento: {titulo:'3. Correção e Exit Ticket (8 min)',detalhes:'Corrigir em outra cor e explicar por que, segundo Darwin, uma girafa não alonga o pescoço porque precisa alcançar folhas.'},
+            estrategias_cognitivas: 'Recuperação sem consulta, comparação, classificação, intercalação e feedback explicativo.',
+            avaliacao_formativa: 'Quadro comparativo, classificação das evidências e Exit Ticket.',
+            tarefa_casa: 'Revisar os erros identificados e refazer o Exit Ticket sem consulta.',
+            material_ph: 'Capítulo 4: evolução, teorias evolutivas, evidências da evolução e evolução humana.', link: ''
+        };
+        const retomada9Biotecnologia = {
+            id: '9-ap3-retomada-cap5', aula_num: 'Retomada 2', excel_ref: 'Capítulo 5 — Biotecnologia',
+            modulo: 'Retomada — Capítulo 5', titulo: 'Retomada para a prova: Biotecnologia',
+            foco_pedagogico: 'Recuperação, sequenciamento de técnicas, situações-problema e feedback',
+            datas: {'9A':'11/08/2026 (Ter - 12:00)','9B':'11/08/2026 (Ter - 08:50)'},
+            objetivos: ['Diferenciar biotecnologia tradicional e moderna.','Relacionar as técnicas mais comuns às suas funções.','Sequenciar as etapas gerais do DNA recombinante.','Aplicar PCR, eletroforese, transgenia, clonagem, terapia gênica e testes de DNA a situações-problema.'],
+            materiais: 'Capítulo 5, cartões de técnicas, sequência do DNA recombinante e folha de Exit Ticket.',
+            abertura: {titulo:'1. Recuperação inicial (8 min)',detalhes:'Sem consulta, responder o que é biotecnologia e as funções de enzima de restrição, plasmídeo, PCR e organismo transgênico.'},
+            desenvolvimento: {titulo:'2. Sequência e comparação das técnicas (34 min)',detalhes:'Ordenar localização do gene, cortes do DNA e plasmídeo, união, inserção em bactéria e produção. Comparar PCR, eletroforese, DNA recombinante, transgenia, clonagem, terapia gênica e teste de DNA; aplicar cada técnica a situações do capítulo.'},
+            fechamento: {titulo:'3. Correção e Exit Ticket (8 min)',detalhes:'Corrigir as situações-problema e explicar a diferença entre PCR, que amplifica trechos de DNA, e eletroforese, que separa fragmentos.'},
+            estrategias_cognitivas: 'Recuperação sem consulta, sequenciamento, correspondência, aplicação e feedback explicativo.',
+            avaliacao_formativa: 'Sequência, escolha justificada das técnicas e Exit Ticket.',
+            tarefa_casa: 'Revisar os itens errados e produzir uma tabela técnica–função sem consultar.',
+            material_ph: 'Capítulo 5: técnicas de biotecnologia e suas aplicações.', link: ''
+        };
+        aulas9AP3.splice(4, 0, retomada9Evolucao, retomada9Biotecnologia);
+
+        // As aulas deslocadas são mantidas depois da prova; as consolidações finais
+        // são integradas aos últimos encontros para conservar a AP3 em 08/10.
+        const agenda9A = {
+            '9-ap3-04':'04/08/2026 (Ter - 12:00)','9-ap3-05':'18/08/2026 (Ter - 10:20)',
+            '9-ap3-06':'18/08/2026 (Ter - 12:00)','9-ap3-07':'25/08/2026 (Ter - 10:20)',
+            '9-ap3-08':'25/08/2026 (Ter - 12:00)','9-ap3-09':'01/09/2026 (Ter - 10:20)',
+            '9-ap3-10':'01/09/2026 (Ter - 12:00)','9-ap3-11':'15/09/2026 (Ter - 10:20)',
+            '9-ap3-12':'15/09/2026 (Ter - 12:00)','9-ap3-13':'22/09/2026 (Ter - 10:20)',
+            '9-ap3-14':'22/09/2026 (Ter - 12:00)','9-ap3-15':'29/09/2026 (Ter - 10:20)',
+            '9-ap3-16':'29/09/2026 (Ter - 12:00)','9-ap3-17':'06/10/2026 (Ter - 10:20)',
+            '9-ap3-18':'06/10/2026 (Ter - 12:00)'
+        };
+        const agenda9B = {
+            '9-ap3-04':'18/08/2026 (Ter - 08:50)','9-ap3-05':'21/08/2026 (Sex - 07:10)',
+            '9-ap3-06':'25/08/2026 (Ter - 08:50)','9-ap3-07':'28/08/2026 (Sex - 07:10)',
+            '9-ap3-08':'01/09/2026 (Ter - 08:50)','9-ap3-09':'04/09/2026 (Sex - 07:10)',
+            '9-ap3-10':'15/09/2026 (Ter - 08:50)','9-ap3-11':'18/09/2026 (Sex - 07:10)',
+            '9-ap3-12':'22/09/2026 (Ter - 08:50)','9-ap3-13':'25/09/2026 (Sex - 07:10)',
+            '9-ap3-14':'29/09/2026 (Ter - 08:50)','9-ap3-15':'02/10/2026 (Sex - 07:10)',
+            '9-ap3-16':'06/10/2026 (Ter - 08:50)'
+        };
+        aulas9AP3.forEach(aula => {
+            if (agenda9A[aula.id]) aula.datas['9A'] = agenda9A[aula.id];
+            else if (/^9-ap3-(19|20)$/.test(aula.id)) delete aula.datas['9A'];
+            if (agenda9B[aula.id]) aula.datas['9B'] = agenda9B[aula.id];
+            else if (/^9-ap3-(17|18|19|20)$/.test(aula.id)) delete aula.datas['9B'];
+        });
+        const fechamento9 = localizarPlano(aulas9AP3, '9-ap3-16');
+        fechamento9.titulo = 'Exercitando 17–19 e consolidação final da AP3';
+        fechamento9.desenvolvimento.detalhes += ' Integre também questões-modelo de aplicação, justificativa dos distratores e revisão cumulativa prevista nos planos finais do ciclo, sem acrescentar conteúdo novo.';
+        fechamento9.fechamento.detalhes += ' Cada estudante registra os erros de alta confiança, transforma-os em perguntas e agenda uma nova tentativa antes da AP3 de 08/10.';
+
+        /*
          * PADRÃO METODOLÓGICO MULTISSÉRIES
          * Mantém intactos IDs, datas, módulos, páginas e referências. Os complementos
          * abaixo tornam explícitas a condução, as perguntas, o tempo, as evidências e
@@ -6085,7 +6489,7 @@ const aulas8AG3 = [
                 titulo: 'Ciências — 6º Ano (EFAF)', subtitulo: 'Aprender a Aprender, Investigação & Alfabetização Científica',
                 icone: 'fa-seedling', headerClasses: 'bg-amber-500/20 text-amber-300 border-amber-500/30', accentText: 'text-amber-300', accentBorder: 'border-amber-500/40',
                 foco: 'Alfabetização Científica', turmas: [{id:'6A',label:'6ºA'}], AP3: Object.freeze([...aulas6AP3]), AG3: Object.freeze([...aulas6AG3]),
-                modulosAP3: ['Introdução','Cad. 2 / Mód. 14','Mapas e retomada','Recomposição','Cad. 3 / Mód. 15','Cad. 3 / Mód. 16','Cad. 3 / Mód. 17','Cad. 3 / Mód. 18','Cad. 3 / Mód. 19','Retomada AP3'],
+                modulosAP3: ['Introdução','Cad. 2 / Mód. 14','Recomposição','Cad. 3 / Mód. 15','Cad. 3 / Mód. 16','Cad. 3 / Mód. 17','Cad. 3 / Mód. 18','Cad. 3 / Mód. 19','Retomada AP3'],
                 modulosAG3: ['Cad. 4 / Mód. 20','Cad. 4 / Mód. 21','Cad. 4 / Mód. 22','Cad. 4 / Mód. 23','Recomposição','Mapas e retomada']
             },
             '7': {
@@ -6106,18 +6510,18 @@ const aulas8AG3 = [
                 titulo: 'Biologia — 9º Ano (EFAF)', subtitulo: 'Ciência da Aprendizagem, Investigação & Argumentação Científica',
                 icone: 'fa-microscope', headerClasses: 'bg-rose-500/20 text-rose-300 border-rose-500/30', accentText: 'text-rose-300', accentBorder: 'border-rose-500/40',
                 foco: 'Argumentação Científica', turmas: [{id:'9A',label:'9ºA'},{id:'9B',label:'9ºB'}], AP3: Object.freeze([...aulas9AP3]), AG3: Object.freeze([...aulas9AG3]),
-                modulosAP3: ['Introdução','A6 — Vírus','A6 — Archaea e Bacteria','A6 — Protozoários','A6 — Fungos','A6 — Consolidação'],
+                modulosAP3: ['Introdução','Retomada — Capítulo 4','Retomada — Capítulo 5','A6 — Vírus','A6 — Archaea e Bacteria','A6 — Protozoários','A6 — Fungos','A6 — Consolidação'],
                 modulosAG3: []
             }
         };
 
 
-        const PLANEJAEDU_VERSION = '2026.07.27-8ano-revisado-disciplinas-1';
+        const PLANEJAEDU_VERSION = '2026.08.02-sala-google-calendario-7e9ano-2';
         const EXPECTED_SERIES_SIGNATURES = {
             '6': { ap3Min: 20, ag3Min: 14, terms: ['Química', 'célula', 'sistema nervoso'] },
             '7': { ap3Min: 20, ag3Min: 20, terms: ['Newton', 'atmosfera', 'combustíveis'] },
             '8': { ap3Min: 20, ag3Min: 15, terms: ['reprodução', 'endócrino', 'IST'] },
-            '9': { ap3Min: 20, ag3Min: 0, terms: ['vírus', 'protozoários', 'fungos'] }
+            '9': { ap3Min: 22, ag3Min: 0, terms: ['vírus', 'protozoários', 'fungos'] }
         };
 
         function validarIntegridadeMultisseries() {
@@ -6153,7 +6557,8 @@ const aulas8AG3 = [
             preparo: 'planejaedu_preparo_aulas',
             ministradas: 'planejaedu_aulas_ministradas',
             preferencias: 'planejaedu_ultimo_contexto',
-            anotacoes: 'planejaedu_anotacoes_docente'
+            anotacoes: 'planejaedu_anotacoes_docente',
+            salaGoogle: 'planejaedu_sala_google_desempenho'
         };
 
         function lerStorage(chave, fallback = {}) {
@@ -6196,6 +6601,7 @@ const aulas8AG3 = [
         let ministradaState = lerStorage(STORAGE_KEYS.ministradas);
         let preferenciasState = lerStorage(STORAGE_KEYS.preferencias);
         let anotacoesState = lerStorage(STORAGE_KEYS.anotacoes);
+        let salaGoogleState = lerStorage(STORAGE_KEYS.salaGoogle);
         let agendaScope = 'serie';
         let aulaResumoAberta = null;
 
@@ -6326,6 +6732,14 @@ const aulas8AG3 = [
 
         function startOfDay(d) { const x = new Date(d); x.setHours(0,0,0,0); return x; }
         function addDays(d,n) { const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+        function inicioSemanaPedagogica(referencia = new Date()) {
+            const dia = startOfDay(referencia);
+            // Depois da sexta-feira, sábado e domingo já apresentam a semana
+            // seguinte. De segunda a sexta, permanece a semana em andamento.
+            if (dia.getDay() === 6) return addDays(dia, 2);
+            if (dia.getDay() === 0) return addDays(dia, 1);
+            return addDays(dia, -((dia.getDay() + 6) % 7));
+        }
         function pad2(n) { return String(n).padStart(2,'0'); }
         function formatDia(d) { return d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'}).replace('.',''); }
         function formatHora(d) { return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`; }
@@ -6356,13 +6770,14 @@ const aulas8AG3 = [
             const lista = document.getElementById('homeWeekLessons');
             if (!lista) return;
             const agora = new Date();
-            const inicio = startOfDay(agora);
-            const fim = addDays(inicio, 7); fim.setHours(23,59,59,999);
-            const futuras = todasOcorrencias().filter(x => x.data >= inicio);
-            const semana = futuras.filter(x => x.data <= fim).slice(0, 8);
-            const proxima = futuras[0] || todasOcorrencias().find(x => x.data >= inicio);
+            const hoje = startOfDay(agora);
+            const inicio = inicioSemanaPedagogica(agora);
+            const fim = addDays(inicio, 4); fim.setHours(23,59,59,999);
+            const futuras = todasOcorrencias().filter(x => x.data >= hoje);
+            const semana = todasOcorrencias().filter(x => x.data >= inicio && x.data <= fim).slice(0, 12);
+            const proxima = futuras[0];
             document.getElementById('homeWeekRange').innerText =
-                `${inicio.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})} a ${fim.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})} • dados dos planos`;
+                `${inicio.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})} a ${fim.toLocaleDateString('pt-BR',{day:'2-digit',month:'long'})} • semana pedagógica`;
 
             lista.innerHTML = semana.length ? semana.map(item => {
                 const key = agendaOccurrenceKey(item);
@@ -6852,6 +7267,26 @@ const aulas8AG3 = [
             return `<p class="pe-method-copy">${transformed}</p>`.replace('<p class="pe-method-copy"></p>','');
         }
 
+        function peSalaGoogleBadge(aula) {
+            return aula?.sala_google
+                ? '<span style="display:inline-flex;align-items:center;gap:6px;margin-left:8px;padding:5px 9px;border-radius:999px;background:#e8f0ff;color:#315b95;border:1px solid #b7cae5;font:700 11px/1 system-ui;vertical-align:middle">▣ SALA GOOGLE</span>'
+                : '';
+        }
+
+        function peSalaGooglePanel(aula, noteKey) {
+            if (!aula?.sala_google) return '';
+            const s = aula.sala_google;
+            const registroKey = `sala-google-${noteKey}`;
+            return `<section class="pe-panel pe-block" style="margin-top:12px;border-left:5px solid #477493">
+                <h3 style="display:flex;align-items:center;justify-content:space-between;gap:10px">▣ &nbsp; Sessão na Sala Google ${peSalaGoogleBadge(aula)}</h3>
+                <div class="pe-duo" style="margin-top:12px">
+                    <div><p><strong>Objetivo</strong><br>${s.objetivo}</p><p><strong>Atividade</strong><br>${s.atividade}</p><p><strong>Aplicação</strong><br>${s.aplicacao}</p><p><strong>Tempo</strong><br>${s.tempo}</p></div>
+                    <div><p><strong>Evidência esperada</strong><br>${s.evidencia}</p><p><strong>Feedback</strong><br>${s.feedback}</p><p><strong>Registro de desempenho</strong><br>${s.registro}</p></div>
+                </div>
+                <label style="display:block;margin-top:12px"><strong>Registro docente desta sessão</strong><textarea class="pe-notes" style="margin-top:7px" placeholder="Registre desempenho, dificuldades recorrentes e alunos que precisam de retomada..." oninput="salaGoogleState['${registroKey}']=this.value;gravarStorage(STORAGE_KEYS.salaGoogle,salaGoogleState)">${salaGoogleState[registroKey]||''}</textarea></label>
+            </section>`;
+        }
+
         function peExplainStrategy(index) {
             if(!peCurrentLesson)return;
             const notes=evidenciasDaAprendizagem(peCurrentLesson);
@@ -6908,14 +7343,14 @@ const aulas8AG3 = [
         function peRenderHome() {
             const allOccurrences = todasOcorrencias();
             const now = startOfDay(new Date());
-            const monday = addDays(now, -((now.getDay()+6)%7) + peWeekOffset*7);
+            const monday = addDays(inicioSemanaPedagogica(now), peWeekOffset*7);
             const days = Array.from({length:5},(_,i)=>addDays(monday,i));
             const weekEnd = addDays(days[4],1);
             const next = allOccurrences.filter(x=>x.data>=days[0]&&x.data<weekEnd);
             const future = allOccurrences.filter(x=>x.data>=now);
             const slots=[...new Set(next.map(x=>formatHora(x.data)))].sort();
             const calHead=`<div class="pe-cal-corner"></div>${days.map(d=>`<div class="pe-cal-day"><strong>${d.toLocaleDateString('pt-BR',{weekday:'short'}).toUpperCase()}</strong><span>${pad2(d.getDate())}/${pad2(d.getMonth()+1)}</span></div>`).join('')}`;
-            const calBody=(slots.length?slots:['—']).map(slot=>`<div class="pe-time">${slot}</div>${days.map(d=>{const item=next.find(x=>startOfDay(x.data).getTime()===d.getTime()&&formatHora(x.data)===slot);return `<div class="pe-cal-cell">${item?`<button class="pe-event" style="--ec:${peColors[item.serie]}" onclick="peOpenLesson('${item.serie}','${item.ciclo}','${item.aula.id}','${item.turma.id}')"><span><i class="pe-dot"></i>${item.serie==='9'?'Biologia':'Ciências'}</span><strong>${item.turma.label}</strong><span>${formatHora(item.data)} · ${item.aula.modulo}</span></button>`:''}</div>`}).join('')}`).join('');
+            const calBody=(slots.length?slots:['—']).map(slot=>`<div class="pe-time">${slot}</div>${days.map(d=>{const item=next.find(x=>startOfDay(x.data).getTime()===d.getTime()&&formatHora(x.data)===slot);return `<div class="pe-cal-cell">${item?`<button class="pe-event" style="--ec:${peColors[item.serie]}" onclick="peOpenLesson('${item.serie}','${item.ciclo}','${item.aula.id}','${item.turma.id}')"><span><i class="pe-dot"></i>${item.serie==='9'?'Biologia':'Ciências'}</span><strong>${item.turma.label}</strong><span>${formatHora(item.data)} · ${item.aula.modulo}${item.aula.sala_google?' · Sala Google':''}</span></button>`:''}</div>`}).join('')}`).join('');
             const nearest=future[0];
             const seriesCards=Object.entries(SERIES).map(([serie,cfg])=>{const p=future.find(x=>x.serie===serie);return `<button class="pe-series-card" style="--sc:${peColors[serie]}" onclick="peSelectClass('${serie}','${cfg.turmas[0].id}')"><h3>${serie}º ano</h3><span class="pe-muted">Próxima aula</span><strong>${p?p.aula.titulo:'Sem data futura cadastrada'}</strong><span class="pe-muted">${p?`${formatDia(p.data)} · ${formatHora(p.data)} · ${p.turma.label}`:'Consulte os planejamentos'}</span><footer>Ver série &nbsp;→</footer></button>`}).join('');
             peShell(`<div class="pe-home-grid">
@@ -6954,7 +7389,7 @@ const aulas8AG3 = [
             const data=peFilterData();
             const upcoming=peNextOccurrences(3);
             const mods=peSerie==='todos'?[]:[...new Set([...SERIES[peSerie].AP3,...SERIES[peSerie].AG3].map(a=>a.modulo))];
-            const cards=data.slice(0,8).map(x=>`<button class="pe-plan-card" style="--sc:${peColors[x.serie]}" onclick="peOpenLesson('${x.serie}','${x.ciclo}','${x.aula.id}','${x.turma.id}')"><span style="float:right;border:1px solid ${peColors[x.serie]};border-radius:7px;padding:5px 10px">${x.ciclo}</span><h3>${x.serie}º ano</h3><span>${x.aula.aula_num}</span><h4>${x.aula.titulo}</h4><div class="pe-muted">▣ ${x.serie==='9'?'Biologia':'Ciências'} &nbsp; ♙ ${x.turma.label}</div><div class="pe-muted" style="margin-top:8px">◷ 50 min &nbsp; ▦ ${x.aula.modulo}</div><footer>${concluidasState[`${x.serie}-${x.ciclo}-${x.turma.id}-${x.aula.id}`]?'Concluído':'Em andamento'} <span style="float:right">⋮</span></footer></button>`).join('');
+            const cards=data.slice(0,8).map(x=>`<button class="pe-plan-card" style="--sc:${peColors[x.serie]}" onclick="peOpenLesson('${x.serie}','${x.ciclo}','${x.aula.id}','${x.turma.id}')"><span style="float:right;border:1px solid ${peColors[x.serie]};border-radius:7px;padding:5px 10px">${x.ciclo}</span><h3>${x.serie}º ano</h3><span>${x.aula.aula_num}</span><h4>${x.aula.titulo}${peSalaGoogleBadge(x.aula)}</h4><div class="pe-muted">▣ ${x.serie==='9'?'Biologia':'Ciências'} &nbsp; ♙ ${x.turma.label}</div><div class="pe-muted" style="margin-top:8px">◷ 50 min &nbsp; ▦ ${x.aula.modulo}${x.aula.sala_google?' &nbsp; ▣ Sala Google':''}</div><footer>${concluidasState[`${x.serie}-${x.ciclo}-${x.turma.id}-${x.aula.id}`]?'Concluído':'Em andamento'} <span style="float:right">⋮</span></footer></button>`).join('');
             peShell(`<div class="pe-planning-grid">
                 <aside class="pe-panel pe-panel-pad pe-filters"><h2 class="pe-section-title">❧ &nbsp; Filtros</h2><hr class="pe-rule"><label>Série</label><select class="pe-select" onchange="peSerie=this.value;peTurmaFilter='todos';peModulo='todos';peRenderPlanning()"><option value="todos">Todas as séries</option>${Object.keys(SERIES).map(s=>`<option value="${s}" ${peSerie===s?'selected':''}>${s}º ano</option>`).join('')}</select><label>Turma</label>${peTurmaSelect('peRenderPlanning()')}<label>Ciclo</label><select class="pe-select" onchange="peCiclo=this.value;peRenderPlanning()"><option value="todos">Todos</option><option ${peCiclo==='AP3'?'selected':''}>AP3</option><option ${peCiclo==='AG3'?'selected':''}>AG3</option></select><label>Módulo</label><select class="pe-select" onchange="peModulo=this.value;peRenderPlanning()"><option value="todos">Todos os módulos</option>${mods.map(m=>`<option ${peModulo===m?'selected':''}>${m}</option>`).join('')}</select><label>Status</label><select class="pe-select"><option>Todos os status</option><option>Em andamento</option><option>Concluído</option></select><button class="pe-btn primary" style="width:100%;margin-top:22px">⌁ &nbsp; Aplicar filtros</button></aside>
                 <section class="pe-panel pe-panel-pad"><div style="display:flex;gap:12px;align-items:center"><h1 class="pe-title" style="flex:1">Planejamentos</h1><input class="pe-search" style="max-width:270px" placeholder="Buscar planejamentos..." value="${peSearch}" oninput="peSearch=this.value;peRenderPlanning()"></div><hr class="pe-rule"><div class="pe-muted">${data.length} planejamentos encontrados</div><div class="pe-plan-list">${cards||'<p class="pe-muted">Nenhum planejamento encontrado.</p>'}</div></section>
@@ -6974,7 +7409,7 @@ const aulas8AG3 = [
             const groups=new Map();
             occurrences.forEach(x=>{const key=startOfDay(x.data).getTime();if(!groups.has(key))groups.set(key,[]);groups.get(key).push(x)});
             const days=[...groups.entries()].slice(0,20);
-            const agenda=days.map(([stamp,items])=>`<section class="pe-agenda-day"><h2>${new Date(Number(stamp)).toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}</h2>${items.map(x=>{const key=agendaOccurrenceKey(x);const status=ministradaState[key]?'Ministrada':preparoState[key]?'Preparada':'Planejada';return `<article class="pe-agenda-item" style="--sc:${peColors[x.serie]}"><time class="pe-agenda-time">${formatHora(x.data)}</time><i class="pe-agenda-dot"></i><div><h3>${x.aula.titulo}</h3><div class="pe-muted">${x.turma.label} · ${x.ciclo} · ${x.aula.modulo}</div></div><div style="display:flex;align-items:center;gap:7px"><span class="pe-agenda-status">${status}</span><button class="pe-btn" onclick="peOpenLesson('${x.serie}','${x.ciclo}','${x.aula.id}','${x.turma.id}')">Abrir aula</button></div></article>`}).join('')}</section>`).join('');
+            const agenda=days.map(([stamp,items])=>`<section class="pe-agenda-day"><h2>${new Date(Number(stamp)).toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}</h2>${items.map(x=>{const key=agendaOccurrenceKey(x);const status=ministradaState[key]?'Ministrada':preparoState[key]?'Preparada':'Planejada';return `<article class="pe-agenda-item" style="--sc:${peColors[x.serie]}"><time class="pe-agenda-time">${formatHora(x.data)}</time><i class="pe-agenda-dot"></i><div><h3>${x.aula.titulo}${peSalaGoogleBadge(x.aula)}</h3><div class="pe-muted">${x.turma.label} · ${x.ciclo} · ${x.aula.modulo}${x.aula.sala_google?' · Sala Google':''}</div></div><div style="display:flex;align-items:center;gap:7px"><span class="pe-agenda-status">${status}</span><button class="pe-btn" onclick="peOpenLesson('${x.serie}','${x.ciclo}','${x.aula.id}','${x.turma.id}')">Abrir aula</button></div></article>`}).join('')}</section>`).join('');
             peShell(`<div class="pe-lessons-layout">
                 <aside class="pe-panel pe-panel-pad pe-filters"><h2 class="pe-section-title">▦ &nbsp; Agenda de aulas</h2><hr class="pe-rule"><label>Série</label><select class="pe-select" onchange="peSerie=this.value;peTurmaFilter='todos';peModulo='todos';peRenderLessons()"><option value="todos">Todas as séries</option>${Object.keys(SERIES).map(s=>`<option value="${s}" ${peSerie===s?'selected':''}>${s}º ano</option>`).join('')}</select><label>Turma</label>${peTurmaSelect('peRenderLessons()')}<label>Ciclo</label><select class="pe-select" onchange="peCiclo=this.value;peRenderLessons()"><option value="todos">Todos os ciclos</option><option ${peCiclo==='AP3'?'selected':''}>AP3</option><option ${peCiclo==='AG3'?'selected':''}>AG3</option></select><label>Módulo</label><select class="pe-select" onchange="peModulo=this.value;peRenderLessons()"><option value="todos">Todos os módulos</option>${modules.map(m=>`<option ${peModulo===m?'selected':''}>${m}</option>`).join('')}</select><hr class="pe-rule"><div class="pe-metric-row" style="grid-template-columns:1fr"><div class="pe-metric"><strong>${occurrences.length}</strong>Aulas no calendário</div></div></aside>
                 <section class="pe-panel pe-panel-pad"><div class="pe-agenda-toolbar"><h1 class="pe-title" style="flex:1">Aulas</h1><input class="pe-search" style="max-width:300px" placeholder="Buscar aula, turma ou módulo..." value="${peSearch}" onchange="peSearch=this.value;peRenderLessons()"><button class="pe-btn" onclick="peSearch='';peSerie='todos';peTurmaFilter='todos';peCiclo='todos';peModulo='todos';peRenderLessons()">Limpar</button></div><hr class="pe-rule"><p class="pe-muted">Agenda cronológica das ocorrências cadastradas. Aqui o foco é quando a aula acontece — não a edição do planejamento.</p>${agenda||'<div class="pe-panel-pad pe-muted">Nenhuma aula encontrada com esses filtros.</div>'}</section>
@@ -7008,8 +7443,8 @@ const aulas8AG3 = [
             const noteKey=`${serie}-${ciclo}-${turma}-${id}`;
             const perguntas=perguntasMediacao(aula);
             peShell(`<div class="pe-detail-grid">
-                <section><div class="pe-panel pe-panel-pad"><div style="display:flex;align-items:start;gap:14px"><button class="pe-btn" onclick="peNavigate('aulas')">‹</button><div style="flex:1"><h1 class="pe-detail-title">${aula.aula_num} — ${aula.titulo}</h1><div class="pe-meta"><span>▣ ${serie==='9'?'Biologia':'Ciências'}</span><span>♙ ${serie}º ano</span><span>♙ ${cfg.turmas.find(t=>t.id===turma)?.label}</span><span>▦ ${occ?formatDia(occ.data):aula.modulo}</span><span>◷ 50 min</span></div></div></div></div>
-                <div class="pe-duo" style="margin-top:12px"><section class="pe-panel pe-block"><h3>❧ &nbsp; Objetivos de aprendizagem</h3><ul>${aula.objetivos.map(o=>`<li>${o}</li>`).join('')}</ul></section><section class="pe-panel pe-block"><h3>▣ &nbsp; Materiais</h3><p>${aula.materiais}</p>${aula.material_ph?`<p><strong>Material obrigatório:</strong> ${aula.material_ph}</p>`:''}</section></div>
+                <section><div class="pe-panel pe-panel-pad"><div style="display:flex;align-items:start;gap:14px"><button class="pe-btn" onclick="peNavigate('aulas')">‹</button><div style="flex:1"><h1 class="pe-detail-title">${aula.aula_num} — ${aula.titulo}${peSalaGoogleBadge(aula)}</h1><div class="pe-meta"><span>▣ ${serie==='9'?'Biologia':'Ciências'}</span><span>♙ ${serie}º ano</span><span>♙ ${cfg.turmas.find(t=>t.id===turma)?.label}</span><span>▦ ${occ?formatDia(occ.data):aula.modulo}</span><span>◷ 50 min</span>${aula.sala_google?'<span>▣ Sala Google</span>':''}</div></div></div></div>
+                <div class="pe-duo" style="margin-top:12px"><section class="pe-panel pe-block"><h3>❧ &nbsp; Objetivos de aprendizagem</h3><ul>${aula.objetivos.map(o=>`<li>${o}</li>`).join('')}</ul></section><section class="pe-panel pe-block"><h3>▣ &nbsp; Materiais</h3><p>${aula.materiais}</p>${aula.material_ph?`<p><strong>Material obrigatório:</strong> ${aula.material_ph}</p>`:''}</section></div>${peSalaGooglePanel(aula,noteKey)}
                 <section class="pe-stage" style="--st:#3f7257"><div class="pe-stage-icon">❧</div><div><h3>${aula.abertura.titulo}</h3>${formatMethodText(aula.abertura.detalhes)}</div><div class="pe-method">Método<br><strong>Ativação e perguntas</strong></div></section>
                 <section class="pe-stage" style="--st:#477493"><div class="pe-stage-icon">❧</div><div><h3>${aula.desenvolvimento.titulo}</h3>${formatMethodText(aula.desenvolvimento.detalhes)}</div><div class="pe-method">Método<br><strong>${aula.foco_pedagogico}</strong></div></section>
                 <section class="pe-stage" style="--st:#bd8b29"><div class="pe-stage-icon">❧</div><div><h3>${aula.fechamento.titulo}</h3>${formatMethodText(aula.fechamento.detalhes)}</div><div class="pe-method">Método<br><strong>Síntese e metacognição</strong></div></section>
@@ -7051,6 +7486,19 @@ const aulas8AG3 = [
             peRenderHome();
         }
 
+        function agendarViradaAutomaticaDaSemana() {
+            const agora = new Date();
+            const proximaMeiaNoite = new Date(agora);
+            proximaMeiaNoite.setHours(24, 0, 1, 0);
+            const espera = Math.max(1000, proximaMeiaNoite.getTime() - agora.getTime());
+            window.setTimeout(() => {
+                peWeekOffset = 0;
+                if (peView === 'inicio') peRenderHome();
+                renderHomeEditorial();
+                agendarViradaAutomaticaDaSemana();
+            }, espera);
+        }
+
                document.addEventListener('DOMContentLoaded', () => {
             validarIntegridadeMultisseries();
 
@@ -7070,6 +7518,7 @@ const aulas8AG3 = [
 
             renderHomeEditorial();
             peInit();
+            agendarViradaAutomaticaDaSemana();
         });
     </script>
 
