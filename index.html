@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#315f52">
-    <meta name="planejaedu-version" content="2026-07-29-caderno-editorial">
+    <meta name="planejaedu-version" content="2026.08.02-clt-operacional-quadros-3">
     <title>PlanejaEDU — Planejamento Pedagógico | Prof. Eudson Marques</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -6458,22 +6458,331 @@ const aulas8AG3 = [
             bloco.detalhes += orientacoes[etapa] || '';
         }
 
+        function textoPlanoLimpo(valor) {
+            return String(valor || '')
+                .replace(/<br\s*\/?>/gi, ' ')
+                .replace(/<[^>]+>/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function topicosDoMaterial(aula) {
+            const fonte = textoPlanoLimpo(aula.material_ph || '');
+            const resumo = fonte.match(/Resumo[^:]*:\s*(.+)$/i)?.[1] || '';
+            const base = resumo || (aula.objetivos || []).join('; ');
+            return base.split(/[;,]/)
+                .map(item => item.replace(/^(compreender|identificar|reconhecer|relacionar|explicar|diferenciar|comparar|analisar|aplicar)\s+/i, '').trim())
+                .filter(Boolean)
+                .slice(0, 7);
+        }
+
+        const PERFIS_OPERACIONAIS = [
+            {
+                teste: /química verde|bioplást|bioacumula|microplást/,
+                definicao: 'Química Verde planeja produtos e processos para prevenir resíduos, reduzir riscos e usar recursos com maior eficiência.',
+                esquema: ['PREVENIR resíduos → REDUZIR riscos', 'Matéria-prima + energia → processo → produto → descarte', 'Renovável ≠ inesgotável | reciclável ≠ baixo impacto'],
+                exemplo: 'Compare duas alternativas usando os mesmos critérios: resíduos, toxicidade, energia e ciclo de vida.',
+                imagem: 'uma embalagem ou processo produtivo com setas do ciclo de vida'
+            },
+            {
+                teste: /força|newton|inércia|acelera|massa e peso/,
+                definicao: 'Força é uma interação entre corpos capaz de alterar o movimento ou provocar deformação.',
+                esquema: ['Corpo A → força → Corpo B', 'Força resultante → alteração da velocidade', 'F = m · a | ação e reação atuam em corpos diferentes'],
+                exemplo: 'Modele uma situação do livro, identifique os corpos e só depois desenhe as setas.',
+                imagem: 'um único diagrama de forças com setas já integradas ao corpo analisado'
+            },
+            {
+                teste: /máquina simples|alavanca|roldana|polia|plano inclinado/,
+                definicao: 'Máquinas simples modificam a intensidade ou a direção da força e facilitam a realização de uma tarefa.',
+                esquema: ['TAREFA → máquina escolhida → força aplicada', 'Alavanca: apoio | potência | resistência', 'Plano inclinado / roldana: ganho e limite'],
+                exemplo: 'Resolva primeiro um caso com as partes nomeadas; depois apresente outro objeto para classificação.',
+                imagem: 'esquema simples de alavanca ou roldana com rótulos junto às partes'
+            },
+            {
+                teste: /calor|temperatura|equilíbrio térmico|dilatação|condução|convecção|irradiação/,
+                definicao: 'Calor é energia transferida por diferença de temperatura; temperatura descreve o estado térmico de um corpo.',
+                esquema: ['Maior temperatura → transferência de energia → menor temperatura', 'Condução | convecção | irradiação', 'Aquecer → dilatar | resfriar → contrair (quando aplicável)'],
+                exemplo: 'Mostre um fenômeno, peça a previsão e complete apenas o mecanismo que o explica.',
+                imagem: 'dois corpos ou um sistema com setas indicando a direção da transferência de energia'
+            },
+            {
+                teste: /máquina térmica|motor a vapor|combustão interna|rendimento/,
+                definicao: 'Máquinas térmicas transformam parte da energia térmica em trabalho e liberam parte para o ambiente.',
+                esquema: ['Fonte quente → máquina → trabalho', 'Energia recebida = trabalho + energia dissipada', 'Funcionamento → rendimento → impacto'],
+                exemplo: 'Construa o fluxo de energia antes de comparar os motores apresentados no material.',
+                imagem: 'fluxograma de entrada de energia, trabalho produzido e dissipação'
+            },
+            {
+                teste: /atmosfera|composição do ar|efeito estufa|camada de ozônio|poluição atmosférica|climát/,
+                definicao: 'A atmosfera é uma mistura de gases cujas propriedades e transformações influenciam a vida e o clima.',
+                esquema: ['Composição do ar', 'Fenômeno natural → intensificação → consequência', 'Causa ≠ evidência ≠ consequência'],
+                exemplo: 'Separe no quadro o processo natural da alteração causada pela ação humana antes de discutir impactos.',
+                imagem: 'diagrama de camadas ou fluxo de radiação com rótulos integrados'
+            },
+            {
+                teste: /combustível|veículo elétrico|transição energética|sustentabilidade energética/,
+                definicao: 'A escolha de um combustível exige comparar fonte, transformação de energia, eficiência e impactos.',
+                esquema: ['Fonte → transformação → uso', 'Benefício | limite | impacto', 'Combustível fóssil | biocombustível | eletricidade'],
+                exemplo: 'Modele a comparação de duas fontes com os mesmos critérios e peça uma terceira decisão justificada.',
+                imagem: 'tabela visual ou cadeia energética com poucos rótulos'
+            },
+            {
+                teste: /desenvolvimento tecnológico|automação|inteligência artificial|tecnologia/,
+                definicao: 'Tecnologias resolvem problemas por meio de conhecimentos e técnicas, mas produzem benefícios, limites e impactos.',
+                esquema: ['Problema → solução tecnológica', 'Benefício | custo | impacto', 'Evidência para decidir'],
+                exemplo: 'Apresente um caso do material e modele uma decisão que inclua benefício e limite.',
+                imagem: 'um processo tecnológico com entradas, função e consequências'
+            },
+            {
+                teste: /universo|forma da terra|eratóstenes|eclipse|constelaç/,
+                definicao: 'A Terra integra o Sistema Solar, na Via Láctea, e seu formato é sustentado por diferentes evidências.',
+                esquema: ['Universo → Via Láctea → Sistema Solar → Terra', 'Observação → evidência → conclusão', 'Eclipse | constelações | Eratóstenes'],
+                exemplo: 'Modele uma evidência ligando explicitamente o que se observa à conclusão possível.',
+                imagem: 'endereço cósmico ou evidência da forma da Terra com rótulos junto ao desenho'
+            },
+            {
+                teste: /rotação|translação|inclinação do eixo|estaç|fuso|sombra/,
+                definicao: 'Rotação, translação e inclinação do eixo terrestre explicam fenômenos diferentes e não devem ser confundidos.',
+                esquema: ['Rotação → dia/noite e movimento aparente', 'Translação + inclinação → ano e estações', 'Fenômeno → movimento → evidência'],
+                exemplo: 'Use globo e lanterna; mantenha no quadro apenas o fenômeno que está sendo modelado naquele momento.',
+                imagem: 'modelo Terra-Sol com setas e legenda integrada ao próprio desenho'
+            },
+            {
+                teste: /camadas da terra|interior do planeta|núcleo da terra|crosta|manto/,
+                definicao: 'O interior da Terra é organizado em camadas com composição, estado físico e propriedades diferentes.',
+                esquema: ['Crosta → manto → núcleo', 'Camada | composição | estado/propriedade', 'Evidência indireta → modelo do interior'],
+                exemplo: 'Construa o corte da Terra uma camada por vez e só acrescente o rótulo quando a função for explicada.',
+                imagem: 'corte esquemático da Terra com rótulos diretamente sobre as camadas'
+            },
+            {
+                teste: /biosfera|fotossíntese|atmosfera.*vida/,
+                definicao: 'A biosfera reúne os seres vivos e suas relações com os componentes do ambiente.',
+                esquema: ['Fatores bióticos ↔ fatores abióticos', 'Luz + água + gás carbônico → matéria orgânica + oxigênio', 'Seres vivos ↔ atmosfera'],
+                exemplo: 'Monte a relação com cartões e transforme-a em uma única cadeia causal no quadro.',
+                imagem: 'rede simples ligando seres vivos, luz, água, ar e solo'
+            },
+            {
+                teste: /célula|organela|procarió|eucarió|metabolismo celular|respiração celular|fermentação/,
+                definicao: 'A célula é a unidade estrutural e funcional dos seres vivos e realiza transformações para manter a vida.',
+                esquema: ['Membrana | citoplasma | material genético', 'Componente → função', 'Respiração | fermentação | fotossíntese'],
+                exemplo: 'Mostre uma célula sem excesso de rótulos, modele duas relações componente-função e entregue a terceira aos alunos.',
+                imagem: 'uma célula simplificada com rótulos colocados junto às estruturas'
+            },
+            {
+                teste: /tecido|órgão|sistema e organismo|níveis de organização/,
+                definicao: 'Células organizam-se em tecidos, tecidos formam órgãos e órgãos atuam em sistemas integrados.',
+                esquema: ['Célula → tecido → órgão → sistema → organismo', 'Estrutura → função', 'Um órgão reúne diferentes tecidos'],
+                exemplo: 'Modele a cadeia com um órgão conhecido e peça que a turma construa outra cadeia.',
+                imagem: 'zoom progressivo de organismo a célula com setas e nomes integrados'
+            },
+            {
+                teste: /digest|respirat|circulat|urinário|excreç|integração dos sistemas/,
+                definicao: 'Os sistemas do organismo atuam de forma integrada para obter, transportar, utilizar e eliminar substâncias.',
+                esquema: ['Entrada → transformação → transporte → uso/eliminação', 'Sistema → função → substância', 'Relação entre dois sistemas'],
+                exemplo: 'Complete um fluxo com a turma e deixe um segundo fluxo parcialmente preenchido para tentativa.',
+                imagem: 'fluxograma entre sistemas com setas de substâncias, sem parágrafos laterais'
+            },
+            {
+                teste: /sistema nervoso|rede de comunicação|central de comando|psicoativ/,
+                definicao: 'O sistema nervoso recebe estímulos, processa informações e coordena respostas do organismo.',
+                esquema: ['Estímulo → receptor → SNC → resposta', 'Estrutura → função', 'Substância/alteração → efeito no sistema'],
+                exemplo: 'Modele uma rota estímulo-resposta e peça a transferência para uma situação diferente.',
+                imagem: 'rota nervosa simplificada com setas e rótulos no percurso'
+            },
+            {
+                teste: /visão|audição|olfato|gustação|tato|sentido|percebemos o mundo/,
+                definicao: 'Receptores sensoriais transformam estímulos em impulsos que são interpretados pelo sistema nervoso.',
+                esquema: ['Estímulo → receptor → impulso → interpretação', 'Sentido | estímulo | receptor', 'Captação ≠ interpretação'],
+                exemplo: 'Modele um sentido por completo e use correspondência para os demais.',
+                imagem: 'rota do estímulo ao sistema nervoso com estruturas essenciais apenas'
+            },
+            {
+                teste: /reprodução|gamet|fecunda|gesta|embri|sistema reprodutor/,
+                definicao: 'A reprodução humana envolve estruturas, células e processos coordenados ao longo do desenvolvimento.',
+                esquema: ['Estrutura → função', 'Gameta → fecundação → desenvolvimento', 'Processo biológico | cuidado em saúde'],
+                exemplo: 'Apresente primeiro o percurso geral e depois aproxime a etapa específica da aula.',
+                imagem: 'esquema anatômico ou sequência do processo com rótulos essenciais integrados'
+            },
+            {
+                teste: /hormônio|endócr|feedback|homeosta|glândula/,
+                definicao: 'Hormônios são mensageiros químicos produzidos por glândulas e atuam em células-alvo na regulação do organismo.',
+                esquema: ['Glândula → hormônio → célula-alvo → resposta', 'Estímulo → controle → resposta', 'Feedback: resposta modifica o estímulo'],
+                exemplo: 'Modele um eixo hormonal com setas e use um segundo caso como problema semelhante.',
+                imagem: 'eixo hormonal com setas e nomes junto a cada etapa'
+            },
+            {
+                teste: /ist|contracep|puberdade|saúde sexual/,
+                definicao: 'Prevenção em saúde exige relacionar mecanismo, forma de uso, proteção oferecida e limites.',
+                esquema: ['Situação → risco → prevenção', 'Método | mecanismo | proteção | limite', 'Informação científica → decisão responsável'],
+                exemplo: 'Modele uma classificação sem expor experiências pessoais e peça justificativas científicas.',
+                imagem: 'quadro comparativo ou fluxograma de prevenção com linguagem científica'
+            },
+            {
+                teste: /vírus|replicação viral|ciclo lítico|lisogênico|doença viral/,
+                definicao: 'Vírus possuem material genético e capsídeo e dependem de células hospedeiras para se replicar.',
+                esquema: ['Estrutura viral', 'Entrada → replicação → montagem → saída', 'Transmissão → prevenção'],
+                exemplo: 'Modele um ciclo com quatro etapas e peça que os alunos ordenem um segundo conjunto.',
+                imagem: 'vírus ou ciclo replicativo simplificado com rótulos integrados'
+            },
+            {
+                teste: /bactér|archaea|antibiótico|resistência bacteriana/,
+                definicao: 'Bactérias são organismos procariontes diversos, com diferentes formas de nutrição, reprodução e importância.',
+                esquema: ['Estrutura procariótica', 'Reprodução → variabilidade', 'Uso de antibiótico → seleção → resistência'],
+                exemplo: 'Modele uma classificação por um critério e peça nova classificação com outro critério.',
+                imagem: 'célula bacteriana ou sequência de seleção com rótulos essenciais'
+            },
+            {
+                teste: /protozo|protista|protozoose/,
+                definicao: 'Protozoários são organismos eucariontes diversos, classificados por características e modos de vida.',
+                esquema: ['Característica → grupo/exemplo', 'Agente | vetor | transmissão | prevenção', 'Endemia | saneamento | cuidado'],
+                exemplo: 'Preencha um caso de doença por completo e deixe o segundo para correspondência pelos alunos.',
+                imagem: 'tabela integrada de agente, transmissão e prevenção ou desenho simplificado'
+            },
+            {
+                teste: /fungo|hifa|micélio|micose/,
+                definicao: 'Fungos são eucariontes heterótrofos por absorção e apresentam diversidade de formas e funções.',
+                esquema: ['Hifa → micélio', 'Estrutura → reprodução', 'Importância ecológica | uso | doença'],
+                exemplo: 'Modele a relação hifa-micélio e use imagens para classificar outros exemplos.',
+                imagem: 'estrutura de um fungo com rótulos diretamente sobre o desenho'
+            },
+            {
+                teste: /evolução|lamarck|darwin|seleção natural|evidência evolutiva/,
+                definicao: 'Evolução é a mudança das populações ao longo das gerações, sustentada por mecanismos e evidências.',
+                esquema: ['Fixismo × evolucionismo', 'Lamarck × Darwin', 'Evidência → inferência sobre ancestralidade'],
+                exemplo: 'Modele uma comparação por mecanismo, não apenas pelo nome da teoria.',
+                imagem: 'tabela comparativa ou evidência evolutiva com a inferência ao lado'
+            },
+            {
+                teste: /biotecnologia|pcr|eletroforese|dna recombinante|transgen/,
+                definicao: 'Biotecnologia utiliza organismos, células ou moléculas em técnicas com finalidades específicas.',
+                esquema: ['Técnica → o que faz → aplicação', 'DNA recombinante: cortar → unir → inserir → produzir', 'PCR amplifica | eletroforese separa'],
+                exemplo: 'Modele uma situação-problema e explicite a pista que leva à escolha da técnica.',
+                imagem: 'sequência da técnica com setas e verbos diretamente em cada etapa'
+            },
+            {
+                teste: /mitose|meiose|cromoss|mutaç|genét|dna/,
+                definicao: 'A informação genética é organizada no DNA e sua distribuição depende de processos celulares específicos.',
+                esquema: ['DNA → cromatina → cromossomo', 'Duplicar ≠ separar', 'Mitose | meiose I | meiose II'],
+                exemplo: 'Use um código visual fixo e revele uma etapa por vez antes de comparar processos.',
+                imagem: 'sequência celular com o mesmo código de cores em todas as etapas'
+            }
+        ];
+
+        function perfilOperacional(aula) {
+            const texto = `${aula.titulo} ${aula.modulo} ${(aula.objetivos || []).join(' ')} ${aula.material_ph || ''}`.toLowerCase();
+            return PERFIS_OPERACIONAIS.find(perfil => perfil.teste.test(texto)) || {
+                definicao: textoPlanoLimpo(aula.objetivos?.[0] || aula.titulo),
+                esquema: topicosDoMaterial(aula).slice(0, 3),
+                exemplo: 'Modele uma resposta usando um exemplo do próprio material e entregue um exemplo semelhante para tentativa individual.',
+                imagem: 'uma imagem ou esquema diretamente ligado ao objetivo central, sem elementos decorativos'
+            };
+        }
+
+        function construirOperacionalizacao(aula, serie) {
+            const perfil = perfilOperacional(aula);
+            const corpus = `${aula.titulo} ${aula.modulo} ${aula.materiais || ''} ${aula.foco_pedagogico || ''}`.toLowerCase();
+            const digital = Boolean(aula.sala_google) || /sala google|chromebook|phet|kahoot|laboratório digital/.test(corpus);
+            const pratica = /prática|experimento|laboratório|demonstra|modelo|simula|circuito|estações/.test(corpus);
+            const revisao = /retom|revis|recompos|simulado|correção|fechamento|mapa conceitual/.test(corpus);
+            const usaSlides = !digital && /imagem|esquema|diagrama|mapa|microsc|vídeo|globo|lanterna|modelo|estrutura|ciclo|camada|gráfico|visual|anatom|sistema|célula|tecido|vírus|bactér|protozo|fung|planta|terra|universo|atmosfera/.test(corpus);
+            const usaQuadro = !digital && !/avaliação oficial|prova oficial|kahoot/.test(corpus);
+            const topicos = topicosDoMaterial(aula);
+            const fonteLivro = textoPlanoLimpo(aula.material_ph) || 'Use apenas as páginas e atividades indicadas no campo Materiais deste plano.';
+            const termos = topicos.slice(0, 4);
+            const construcaoQuadro = [...new Set([
+                ...(perfil.esquema || []),
+                ...termos,
+                `Ideia central: ${perfil.definicao}`,
+                `Aplicação no material: ${perfil.exemplo}`
+            ])].slice(0, 4);
+            const serieNota = serie === '6'
+                ? 'Apresente no máximo três elementos novos antes da primeira tentativa.'
+                : serie === '7'
+                    ? 'Modele o primeiro caso e varie somente um elemento no segundo.'
+                    : serie === '8'
+                        ? 'Mantenha visíveis as relações causais e o vocabulário anatômico essencial.'
+                        : 'Após o modelo, peça justificativa com argumento, evidência e limite da explicação.';
+
+            return {
+                ideia_central: perfil.definicao,
+                topicos_livro: topicos,
+                preparar: [
+                    `Abra e marque previamente: ${fonteLivro}`,
+                    `Separe antes da entrada da turma: ${textoPlanoLimpo(aula.materiais).split('Função pedagógica:')[0] || 'os materiais indicados no plano'}.`,
+                    digital
+                        ? 'Teste o acesso, deixe o link aberto e escreva a instrução inicial em uma única tela antes de distribuir os equipamentos.'
+                        : usaSlides
+                            ? `Prepare no máximo quatro telas: pergunta inicial; ${perfil.imagem}; exemplo modelado; tarefa semelhante com caixa “Lembre”.`
+                            : 'Não prepare slides: use o livro e o quadro como fontes estáveis, evitando duplicar a mesma explicação.'
+                ],
+                quadro: {
+                    necessario: usaQuadro,
+                    motivo: usaQuadro
+                        ? 'Mantém a ideia central e as relações essenciais visíveis enquanto os alunos usam o livro ou resolvem a atividade.'
+                        : 'A atividade já oferece uma fonte visual estável; um quadro adicional dividiria a atenção.',
+                    titulo: aula.titulo,
+                    definicao: perfil.definicao,
+                    entrada: termos.length >= 2
+                        ? `Sem consultar: explique a relação entre ${termos[0]} e ${termos[1]}. Dê um exemplo do material.`
+                        : `Sem consultar: o que você já sabe sobre ${termos[0] || aula.titulo}? Dê um exemplo do material.`,
+                    construcao: construcaoQuadro,
+                    aplicacao: perfil.exemplo,
+                    saida: textoPlanoLimpo(aula.avaliacao_formativa).split('Evidências a observar:')[0] || 'Explicar a ideia central sem consulta.'
+                },
+                slides: {
+                    usar: usaSlides,
+                    orientacao: usaSlides
+                        ? `Use imagem + explicação oral curta. Na tela visual, mostre ${perfil.imagem}; integre rótulos ao desenho e não leia parágrafos projetados.`
+                        : digital
+                            ? 'Não use slides paralelos à atividade digital. A instrução deve permanecer na própria tela ou em cartão impresso.'
+                            : 'Slides não são necessários. Livro e quadro oferecem informação estável suficiente para esta aula.'
+                },
+                livro: {
+                    fonte: fonteLivro,
+                    orientacao: 'Abra o livro somente no bloco indicado. Modele o primeiro item ou trecho, peça uma tentativa semelhante e faça a correção antes de avançar. Evite alunos alternando continuamente entre livro, slide e quadro.'
+                },
+                sequencia: [
+                    {
+                        etapa: aula.abertura?.titulo || 'Abertura',
+                        professor: revisao
+                            ? 'Entregue a pergunta antes de qualquer explicação. Recolha respostas, agrupe os erros no quadro e escolha o primeiro ponto de intervenção.'
+                            : `Apresente a pergunta ou fenômeno e mantenha a definição central visível. Dê 1–2 minutos de resposta individual antes de ouvir a turma. ${textoPlanoLimpo(aula.abertura?.detalhes).slice(0, 360)}`,
+                        alunos: 'Responder ou prever individualmente; depois comparar uma resposta com a dupla.',
+                        checagem: 'Ouça três respostas contrastantes e decida se é preciso pré-ensinar um termo antes do desenvolvimento.'
+                    },
+                    {
+                        etapa: aula.desenvolvimento?.titulo || 'Desenvolvimento',
+                        professor: digital
+                            ? 'Demonstre uma ação na própria interface, pare a demonstração e peça que todos executem o mesmo passo. Libere o bloco seguinte somente após conferir as telas.'
+                            : pratica
+                                ? `Mostre a montagem ou o procedimento por etapas, mantendo a instrução junto ao material. Exija previsão antes da execução e registro logo após cada observação. ${perfil.exemplo}`
+                                : `Explique um bloco curto, modele um exemplo do material e pare. ${perfil.exemplo} Em seguida, proponha um caso semelhante e corrija antes de introduzir o próximo tópico.`,
+                        alunos: digital
+                            ? 'Executar um bloco por vez, registrar a resposta e aguardar a conferência antes de avançar.'
+                            : pratica
+                                ? 'Prever, executar apenas a variável indicada, observar e registrar na tabela ou no caderno.'
+                                : 'Acompanhar o exemplo sem copiar um parágrafo; resolver o caso semelhante e justificar a escolha.',
+                        checagem: 'Verifique uma produção concreta após cada bloco: classificação, seta, desenho, resposta ou relação. Se menos de 70% acertar, modele outro exemplo com uma única variação.'
+                    },
+                    {
+                        etapa: aula.fechamento?.titulo || 'Fechamento',
+                        professor: 'Retire ou cubra a resposta modelada, aplique a tarefa de saída e só depois revele a correção. Registre o erro predominante para a próxima recuperação.',
+                        alunos: 'Responder sem consulta, conferir em outra cor e escrever a correção completa quando houver erro.',
+                        checagem: textoPlanoLimpo(aula.avaliacao_formativa) || 'Confirmar se o aluno explica a ideia central e aplica ao menos uma relação.'
+                    }
+                ],
+                carga_cognitiva: [
+                    serieNota,
+                    'Mantenha a definição e o esquema essenciais disponíveis durante a primeira prática para evitar informação transitória.',
+                    'Não leia o texto que estiver projetado. Use texto para leitura autônoma ou imagem com explicação oral.',
+                    'Alterne exemplo resolvido e problema semelhante; retire parte do apoio apenas quando a turma demonstrar domínio.',
+                    revisao ? 'Intercale conteúdos somente depois de confirmar que cada processo foi praticado isoladamente.' : 'Introduza variação pequena entre o exemplo modelado e a primeira tentativa.'
+                ]
+            };
+        }
+
         function complementarPlano(aula, serie) {
-            ['abertura', 'desenvolvimento', 'fechamento'].forEach(etapa => complementarEtapa(aula, serie, etapa));
-            const perfil = perfilMetodologico(aula, serie);
-
-            if (typeof aula.materiais === 'string' && !aula.materiais.includes('Função pedagógica:')) {
-                aula.materiais += `\n\n<strong>Função pedagógica:</strong> organize os recursos antes da aula e revele apenas o que será usado em cada etapa. Quadro ou projeção estruturam relações; material do estudante sustenta a tentativa e a conferência; itens manipuláveis, imagens ou recursos digitais servem para observar, comparar ou testar — não apenas para ilustrar.`;
-            }
-
-            if (typeof aula.avaliacao_formativa === 'string' && !aula.avaliacao_formativa.includes('Evidências a observar:')) {
-                aula.avaliacao_formativa += `\n\n<strong>Evidências a observar:</strong> precisão do conceito central, qualidade da justificativa, uso de evidências e correção realizada após o feedback. Compare a resposta inicial com a produção final. Se o erro predominante permanecer, retome-o no início da próxima aula com uma pergunta curta, sem nota.`;
-            }
-
-            if (typeof aula.estrategias_cognitivas === 'string' && !aula.estrategias_cognitivas.includes('Aplicação na aula:')) {
-                aula.estrategias_cognitivas += `\n\n<strong>Aplicação na aula:</strong> a estratégia aparece como tentativa antes da consulta, explicação ou decisão justificada e nova recuperação após o feedback. ${perfil.cuidado}`;
-            }
-
+            aula.operacionalizacao = construirOperacionalizacao(aula, serie);
             return aula;
         }
 
@@ -6516,7 +6825,7 @@ const aulas8AG3 = [
         };
 
 
-        const PLANEJAEDU_VERSION = '2026.08.02-sala-google-calendario-7e9ano-2';
+        const PLANEJAEDU_VERSION = '2026.08.02-clt-operacional-quadros-3';
         const EXPECTED_SERIES_SIGNATURES = {
             '6': { ap3Min: 20, ag3Min: 14, terms: ['Química', 'célula', 'sistema nervoso'] },
             '7': { ap3Min: 20, ag3Min: 20, terms: ['Newton', 'atmosfera', 'combustíveis'] },
@@ -7194,7 +7503,7 @@ const aulas8AG3 = [
         }
 
         function closeModal() { document.getElementById('lessonModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
-        window.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); peCloseBoard(); } });
         document.getElementById('lessonModal').addEventListener('click', e => { if (e.target.id === 'lessonModal') closeModal(); });
 
         /* Aplicação editorial definitiva */
@@ -7285,6 +7594,98 @@ const aulas8AG3 = [
                 </div>
                 <label style="display:block;margin-top:12px"><strong>Registro docente desta sessão</strong><textarea class="pe-notes" style="margin-top:7px" placeholder="Registre desempenho, dificuldades recorrentes e alunos que precisam de retomada..." oninput="salaGoogleState['${registroKey}']=this.value;gravarStorage(STORAGE_KEYS.salaGoogle,salaGoogleState)">${salaGoogleState[registroKey]||''}</textarea></label>
             </section>`;
+        }
+
+        function peOperationalPanel(aula, serie, ciclo, turma) {
+            const op = aula?.operacionalizacao;
+            if (!op) return '';
+            const item = (rotulo, valor) => `<li><strong>${rotulo}</strong><br>${valor}</li>`;
+            return `<section class="pe-panel pe-block" style="margin-top:12px;border-left:5px solid #bd6542">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
+                    <div><h3 style="margin-bottom:5px">▤ &nbsp; Roteiro operacional da aula</h3><p class="pe-muted" style="margin:0">O que preparar, mostrar, dizer, pedir e conferir.</p></div>
+                    ${op.quadro.necessario ? `<button class="pe-btn primary" onclick="peOpenBoard('${serie}','${ciclo}','${aula.id}','${turma}')">▣ &nbsp; Ver sugestão de quadro</button>` : ''}
+                </div>
+                <div style="margin-top:14px;padding:13px 15px;border-radius:10px;background:#f6f1e5;border:1px solid #ded4c1"><strong>Ideia central em uma frase</strong><br>${op.ideia_central}</div>
+                <div class="pe-duo" style="margin-top:14px">
+                    <div><h4 style="margin:0 0 8px">Antes da aula</h4><ol>${op.preparar.map(x=>`<li>${x}</li>`).join('')}</ol></div>
+                    <div><h4 style="margin:0 0 8px">Decisão sobre os suportes</h4><ul>
+                        ${item('Quadro', op.quadro.necessario ? `Usar. ${op.quadro.motivo}` : `Não usar como fonte paralela. ${op.quadro.motivo}`)}
+                        ${item('Slides', `${op.slides.usar ? 'Usar.' : 'Não usar.'} ${op.slides.orientacao}`)}
+                        ${item('Livro', op.livro.orientacao)}
+                    </ul></div>
+                </div>
+                <h4 style="margin:16px 0 8px">Execução passo a passo</h4>
+                <div style="display:grid;gap:9px">${op.sequencia.map((etapa,i)=>`<article style="display:grid;grid-template-columns:38px 1fr;gap:10px;padding:12px;border:1px solid #ded4c1;border-radius:10px;background:#fffdf8"><strong style="font-size:20px;color:#bd6542">${i+1}</strong><div><strong>${etapa.etapa}</strong><p><b>Professor:</b> ${etapa.professor}</p><p><b>Alunos:</b> ${etapa.alunos}</p><p style="margin-bottom:0"><b>Antes de avançar:</b> ${etapa.checagem}</p></div></article>`).join('')}</div>
+                <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:800;color:#315b95">Como controlar a carga cognitiva nesta aula</summary><ul style="margin-top:10px">${op.carga_cognitiva.map(x=>`<li>${x}</li>`).join('')}</ul></details>
+            </section>`;
+        }
+
+        function peEscapeSvg(texto) {
+            return String(texto || '').replace(/[&<>"']/g, caractere => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[caractere]));
+        }
+
+        function peWrapBoard(texto, maximo=44) {
+            const palavras = String(texto || '').replace(/\s+/g,' ').trim().split(' ').filter(Boolean);
+            const linhas=[]; let atual='';
+            palavras.forEach(palavra => {
+                const candidata = atual ? `${atual} ${palavra}` : palavra;
+                if (candidata.length > maximo && atual) { linhas.push(atual); atual=palavra; }
+                else atual=candidata;
+            });
+            if (atual) linhas.push(atual);
+            return linhas;
+        }
+
+        function peSvgText(texto, x, y, tamanho=25, largura=44, cor='#f6f0d7', peso=500, altura=34, limite=8) {
+            return peWrapBoard(texto, largura).slice(0,limite).map((linha,i)=>
+                `<text x="${x}" y="${y+i*altura}" fill="${cor}" font-family="Segoe Print, Comic Sans MS, cursive" font-size="${tamanho}" font-weight="${peso}">${peEscapeSvg(linha)}</text>`
+            ).join('');
+        }
+
+        function peBoardSvg(aula) {
+            const q=aula.operacionalizacao.quadro;
+            const construcao=(q.construcao||[]).slice(0,4);
+            const titleLines=peWrapBoard(q.titulo,64).slice(0,2);
+            const title=titleLines.map((linha,i)=>`<text x="700" y="${58+i*42}" text-anchor="middle" fill="#fff4d0" font-family="Segoe Print, Comic Sans MS, cursive" font-size="34" font-weight="700">${peEscapeSvg(linha)}</text>`).join('');
+            return `<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="790" viewBox="0 0 1400 790">
+                <defs><filter id="chalk"><feTurbulence baseFrequency="0.8" numOctaves="2" seed="8" result="noise"/><feBlend in="SourceGraphic" in2="noise" mode="screen"/></filter></defs>
+                <rect width="1400" height="790" rx="18" fill="#173f32"/>
+                <rect x="18" y="18" width="1364" height="754" rx="12" fill="none" stroke="#d7b77a" stroke-width="12"/>
+                <rect x="36" y="36" width="1328" height="718" rx="6" fill="none" stroke="#f3dfab" stroke-opacity=".35" stroke-width="2"/>
+                ${title}
+                <line x1="62" y1="132" x2="1338" y2="132" stroke="#f6f0d7" stroke-opacity=".55" stroke-width="3"/>
+                ${peSvgText(`IDEIA CENTRAL: ${q.definicao}`,72,171,24,92,'#ffe6a7',650,31,3)}
+                <line x1="458" y1="255" x2="458" y2="700" stroke="#f6f0d7" stroke-opacity=".32" stroke-width="3"/>
+                <line x1="930" y1="255" x2="930" y2="700" stroke="#f6f0d7" stroke-opacity=".32" stroke-width="3"/>
+                <text x="72" y="282" fill="#9ed6ff" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">1. RECUPERAR</text>
+                ${peSvgText(q.entrada,72,326,25,27,'#f6f0d7',500,35,8)}
+                <text x="490" y="282" fill="#9ee4b8" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">2. CONSTRUIR</text>
+                ${construcao.map((linha,i)=>peSvgText(`• ${linha}`,490,326+i*91,23,34,'#f6f0d7',500,31,3)).join('')}
+                <text x="962" y="282" fill="#ffc19d" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">3. APLICAR E SAIR</text>
+                ${peSvgText(q.aplicacao,962,326,23,31,'#f6f0d7',500,31,7)}
+                <line x1="962" y1="563" x2="1324" y2="563" stroke="#f6f0d7" stroke-opacity=".3" stroke-width="2"/>
+                <text x="962" y="600" fill="#ffc19d" font-family="Segoe Print, Comic Sans MS, cursive" font-size="22" font-weight="700">SAÍDA SEM CONSULTA</text>
+                ${peSvgText(q.saida,962,638,20,34,'#f6f0d7',500,28,4)}
+                <text x="72" y="725" fill="#d7e7dc" font-family="Segoe UI, sans-serif" font-size="18">PlanejaEDU • escreva primeiro apenas o título, a ideia central e a pergunta; complete o centro com a turma.</text>
+            </svg>`;
+        }
+
+        let peBoardObjectUrl = null;
+        function peOpenBoard(serie,ciclo,id,turma) {
+            const aula=(SERIES[serie]?.[ciclo]||[]).find(item=>item.id===id);
+            if(!aula?.operacionalizacao?.quadro?.necessario)return;
+            if(peBoardObjectUrl)URL.revokeObjectURL(peBoardObjectUrl);
+            peBoardObjectUrl=URL.createObjectURL(new Blob([peBoardSvg(aula)],{type:'image/svg+xml'}));
+            let modal=document.getElementById('peBoardModal');
+            if(!modal){modal=document.createElement('div');modal.id='peBoardModal';document.body.appendChild(modal);}
+            modal.innerHTML=`<div style="position:fixed;inset:0;z-index:200;background:rgba(16,24,20,.9);display:flex;align-items:center;justify-content:center;padding:18px" onclick="if(event.target===this)peCloseBoard()"><div style="width:min(1200px,96vw);max-height:94vh;background:#f7f2e7;border-radius:16px;padding:14px;box-shadow:0 24px 80px #000;overflow:auto"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px"><div><strong style="font-size:20px">Sugestão de quadro</strong><div style="color:#66706a;font-size:13px">${aula.aula_num} · ${aula.titulo}</div></div><button class="pe-btn" onclick="peCloseBoard()">Fechar</button></div><img src="${peBoardObjectUrl}" alt="Sugestão visual de organização do quadro para ${aula.titulo}" style="display:block;width:100%;height:auto;border-radius:10px;background:#173f32"></div></div>`;
+            document.body.style.overflow='hidden';
+        }
+
+        function peCloseBoard() {
+            const modal=document.getElementById('peBoardModal'); if(modal)modal.remove();
+            if(peBoardObjectUrl){URL.revokeObjectURL(peBoardObjectUrl);peBoardObjectUrl=null;}
+            document.body.style.overflow='';
         }
 
         function peExplainStrategy(index) {
@@ -7444,7 +7845,7 @@ const aulas8AG3 = [
             const perguntas=perguntasMediacao(aula);
             peShell(`<div class="pe-detail-grid">
                 <section><div class="pe-panel pe-panel-pad"><div style="display:flex;align-items:start;gap:14px"><button class="pe-btn" onclick="peNavigate('aulas')">‹</button><div style="flex:1"><h1 class="pe-detail-title">${aula.aula_num} — ${aula.titulo}${peSalaGoogleBadge(aula)}</h1><div class="pe-meta"><span>▣ ${serie==='9'?'Biologia':'Ciências'}</span><span>♙ ${serie}º ano</span><span>♙ ${cfg.turmas.find(t=>t.id===turma)?.label}</span><span>▦ ${occ?formatDia(occ.data):aula.modulo}</span><span>◷ 50 min</span>${aula.sala_google?'<span>▣ Sala Google</span>':''}</div></div></div></div>
-                <div class="pe-duo" style="margin-top:12px"><section class="pe-panel pe-block"><h3>❧ &nbsp; Objetivos de aprendizagem</h3><ul>${aula.objetivos.map(o=>`<li>${o}</li>`).join('')}</ul></section><section class="pe-panel pe-block"><h3>▣ &nbsp; Materiais</h3><p>${aula.materiais}</p>${aula.material_ph?`<p><strong>Material obrigatório:</strong> ${aula.material_ph}</p>`:''}</section></div>${peSalaGooglePanel(aula,noteKey)}
+                <div class="pe-duo" style="margin-top:12px"><section class="pe-panel pe-block"><h3>❧ &nbsp; Objetivos de aprendizagem</h3><ul>${aula.objetivos.map(o=>`<li>${o}</li>`).join('')}</ul></section><section class="pe-panel pe-block"><h3>▣ &nbsp; Materiais</h3><p>${aula.materiais}</p>${aula.material_ph?`<p><strong>Material obrigatório:</strong> ${aula.material_ph}</p>`:''}</section></div>${peOperationalPanel(aula,serie,ciclo,turma)}${peSalaGooglePanel(aula,noteKey)}
                 <section class="pe-stage" style="--st:#3f7257"><div class="pe-stage-icon">❧</div><div><h3>${aula.abertura.titulo}</h3>${formatMethodText(aula.abertura.detalhes)}</div><div class="pe-method">Método<br><strong>Ativação e perguntas</strong></div></section>
                 <section class="pe-stage" style="--st:#477493"><div class="pe-stage-icon">❧</div><div><h3>${aula.desenvolvimento.titulo}</h3>${formatMethodText(aula.desenvolvimento.detalhes)}</div><div class="pe-method">Método<br><strong>${aula.foco_pedagogico}</strong></div></section>
                 <section class="pe-stage" style="--st:#bd8b29"><div class="pe-stage-icon">❧</div><div><h3>${aula.fechamento.titulo}</h3>${formatMethodText(aula.fechamento.detalhes)}</div><div class="pe-method">Método<br><strong>Síntese e metacognição</strong></div></section>
