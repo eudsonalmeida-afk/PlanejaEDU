@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#315f52">
-    <meta name="planejaedu-version" content="2026.08.02-quadros-slides-concretos-5">
+    <meta name="planejaedu-version" content="2026.08.02-quadro-literal-montagem-6">
     <title>PlanejaEDU — Planejamento Pedagógico | Prof. Eudson Marques</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -6472,6 +6472,7 @@ const aulas8AG3 = [
             const base = resumo || (aula.objetivos || []).join('; ');
             return base.split(/[;,]/)
                 .map(item => item.replace(/^(compreender|identificar|reconhecer|relacionar|explicar|diferenciar|comparar|analisar|aplicar)\s+/i, '').trim())
+                .map(item => item.replace(/\s+no material\b/gi, '').trim())
                 .filter(Boolean)
                 .slice(0, 7);
         }
@@ -6853,17 +6854,43 @@ const aulas8AG3 = [
         }
 
         function transformarEmComando(texto) {
-            let comando = textoPlanoLimpo(texto).replace(/[.]$/, '');
-            const complemento = comando.match(/^construção\s+(do|da|dos|das)\s+(.+)/i);
+            let comando = textoPlanoLimpo(texto)
+                .split(/Alerta conceitual:/i)[0]
+                .replace(/(?:com\s+)?Explanatory Feedback/gi, '')
+                .replace(/\s+no caderno\b/gi, '')
+                .replace(/\s+/g, ' ')
+                .replace(/[.,:;\s]+$/, '')
+                .trim();
+
+            const aplicacaoPerguntas = comando.match(/^aplicação de (\d+) perguntas? objetivas?(?: no quadro)?.*/i);
+            if (aplicacaoPerguntas) return `Responda às ${aplicacaoPerguntas[1]} perguntas objetivas e justifique cada resposta.`;
+            const aplicacaoAfirmacoes = comando.match(/^aplicação de (\d+) afirmações?(?: no quadro)?.*/i);
+            if (aplicacaoAfirmacoes) return `Classifique as ${aplicacaoAfirmacoes[1]} afirmações como verdadeiras ou falsas e corrija as falsas.`;
+            if (/^rotação rápida de bancadas para leitura das hqs/i.test(comando)) return 'Passe pelas bancadas, leia as HQs e registre uma diferença entre dois ciclos de vida.';
+            if (/^conferência em plenária das classificações obtidas/i.test(comando)) return 'Confira as classificações e corrija as que estiverem sem justificativa.';
+            if (/^destaque coletivo das associações mais desafiadoras/i.test(comando)) return 'Registre as associações mais desafiadoras e explique uma delas.';
+            if (/^exercício prático de localização da ovulação/i.test(comando)) return 'Localize a ovulação no gráfico e justifique usando a variação hormonal.';
+            if (/^resumo dos três pilares da sexualidade humana/i.test(comando)) return 'Resuma os três pilares da sexualidade humana em uma frase para cada.';
+            if (/^resolução coletiva de situação-problema/i.test(comando)) return 'Resolva a situação-problema e justifique a decisão com os critérios estudados.';
+            if (/^análise de casos clínicos/i.test(comando)) return 'Analise os casos clínicos e justifique cada conclusão com os dados apresentados.';
+            if (/^desmistificação de formas de transmissão/i.test(comando)) return 'Classifique as formas de transmissão em possíveis ou impossíveis e corrija as falsas.';
+            if (/^apresentação dos cartazes criados/i.test(comando)) return 'Apresente o cartaz da equipe e destaque a medida de prevenção proposta.';
+            if (/^apresentação dos laudos médicos pelas equipes/i.test(comando)) return 'Apresente o laudo da equipe e justifique o diagnóstico com os dados do caso.';
+
+            const complemento = comando.match(/^construção\s+(?:guiada\s+|coletiva\s+|individual\s+)?(do|da|dos|das)\s+(.+)/i);
             if (complemento) {
                 const artigo = ({do:'o',da:'a',dos:'os',das:'as'})[complemento[1].toLowerCase()];
                 return `Construa ${artigo} ${complemento[2]}.`;
             }
-            const preenchimento = comando.match(/^preenchimento\s+(?:individual|coletivo)?\s*(do|da|dos|das)\s+(.+)/i);
+            const construcaoDe = comando.match(/^construção\s+(?:guiada\s+|coletiva\s+|individual\s+)?de\s+(.+)/i);
+            if (construcaoDe) return `Construa ${construcaoDe[1]}.`;
+            const preenchimento = comando.match(/^preenchimento\s+(?:individual\s+|coletivo\s+)?(do|da|dos|das)\s+(.+)/i);
             if (preenchimento) {
                 const artigo = ({do:'o',da:'a',dos:'os',das:'as'})[preenchimento[1].toLowerCase()];
                 return `Complete ${artigo} ${preenchimento[2]}.`;
             }
+            const preenchimentoDe = comando.match(/^preenchimento\s+(?:individual\s+|coletivo\s+)?de\s+(.+)/i);
+            if (preenchimentoDe) return `Complete ${preenchimentoDe[1]}.`;
             if (/^justificativas no semáforo/i.test(comando)) {
                 return 'Justifique cada escolha no Semáforo e escreva uma frase de síntese.';
             }
@@ -6880,13 +6907,17 @@ const aulas8AG3 = [
                 [/^desenho\s+/i, 'Faça um desenho '],
                 [/^mapa\s+/i, 'Construa um mapa '],
                 [/^experimento\s+/i, 'Realize o experimento '],
-                [/^análise\s+/i, 'Analise '],
+                [/^análise de\s+/i, 'Analise '],
                 [/^correção\s+/i, 'Corrija '],
                 [/^flashcards?\s+/i, 'Produza flashcards '],
                 [/^construção\s+/i, 'Construa '],
                 [/^preenchimento\s+(?:individual|coletivo)?\s*/i, 'Complete '],
                 [/^aplicação\s+/i, 'Resolva '],
-                [/^resolução\s*/i, 'Resolva '],
+                [/^resolução\s+(?:coletiva|individual|comentada)?\s*(?:de\s+)?/i, 'Resolva '],
+                [/^montagem\s+(?:final\s+)?(?:do|da|dos|das|de)\s+/i, 'Monte '],
+                [/^esquematização\s+(?:do|da|dos|das|de)\s+/i, 'Esquematize '],
+                [/^esquema gráfico\s+/i, 'Faça um esquema gráfico '],
+                [/^apresentação\s+(?:do|da|dos|das|de)\s+/i, 'Apresente '],
                 [/^usem\s+/i, 'Use '], [/^registrem\s+/i, 'Registre '],
                 [/^respondam\s+/i, 'Responda '], [/^expliquem\s+/i, 'Explique '],
                 [/^classifiquem\s+/i, 'Classifique '], [/^comparem\s+/i, 'Compare '],
@@ -6905,13 +6936,76 @@ const aulas8AG3 = [
             return `${comando.charAt(0).toUpperCase()}${comando.slice(1)}.`;
         }
 
+        function revisarComandoLiteral(texto) {
+            let comando = textoPlanoLimpo(texto).replace(/[.]$/, '').trim();
+            const ajustes = [
+                [/^Corrija das tarefas, dossiê e Exit Ticket$/i, 'Corrija as tarefas, complete o dossiê e responda ao Exit Ticket'],
+                [/^Sondagem, classificação de evidências e registro de dúvida$/i, 'Responda à sondagem, classifique as evidências e registre uma dúvida'],
+                [/^Exit Ticket com (.+)$/i, 'Responda ao Exit Ticket com $1'],
+                [/^Exit Ticket e (.+)$/i, 'Responda ao Exit Ticket e registre $1'],
+                [/^Ficha de previsão, observação e CER$/i, 'Complete a ficha de previsão e observação; depois escreva a conclusão em CER'],
+                [/^Faça um desenho causal e justificativas$/i, 'Faça o desenho causal e escreva duas justificativas'],
+                [/^Complete a tabela comparativa\s*, justificativas e resposta de consolidação$/i, 'Complete a tabela comparativa, escreva as justificativas e responda à questão de consolidação'],
+                [/^Resolução, justificativas e mapa final$/i, 'Resolva as questões, justifique as respostas e complete o mapa final'],
+                [/^Esquema e justificativas$/i, 'Faça o esquema e escreva as justificativas'],
+                [/^Respostas e rede construída$/i, 'Responda às questões e construa a rede de relações'],
+                [/^Respostas e frase de integração$/i, 'Responda às questões e escreva a frase de integração'],
+                [/^Storyboard e frase final$/i, 'Produza o storyboard e escreva a frase final'],
+                [/^Fluxo integrado e previsão$/i, 'Complete o fluxo integrado e registre uma previsão'],
+                [/^Explicações (?:do percurso|de trajeto)$/i, 'Explique o trajeto e identifique as estruturas envolvidas'],
+                [/^Respostas sustentadas e consolidação$/i, 'Responda com justificativas e escreva a síntese de consolidação'],
+                [/^Analise ferramentas e identificação de fulcro, potência e resistência$/i, 'Analise as ferramentas e identifique fulcro, potência e resistência'],
+                [/^Interpretação de esquemas de polias e associação com usos reais$/i, 'Interprete os esquemas de polias e associe cada um a um uso real'],
+                [/^Previsão do sentido da transferência de calor em situações cotidianas$/i, 'Preveja o sentido da transferência de calor em cada situação cotidiana'],
+                [/^Classificação de fenômenos cotidianos segundo o mecanismo de transferência de calor$/i, 'Classifique os fenômenos pelo mecanismo de transferência de calor'],
+                [/^Cada resposta identifique qual troca térmica está sendo reduzida$/i, 'Em cada resposta, identifique qual forma de transferência térmica está sendo reduzida'],
+                [/^Análise do fluxo de energia em máquinas térmicas reais$/i, 'Analise o fluxo de energia nas máquinas térmicas apresentadas'],
+                [/^Leitura e interpretação de gráfico de composição atmosférica$/i, 'Leia o gráfico da composição atmosférica e interprete as proporções'],
+                [/^Explicação gráfica de brisas e circulação atmosférica$/i, 'Faça um esquema e explique as brisas e a circulação atmosférica'],
+                [/^Fichamento estruturado com ideias centrais e relações causais$/i, 'Faça um fichamento com ideias centrais e relações de causa e consequência'],
+                [/^Que identifiquem qual fenômeno cada enunciado descreve$/i, 'Identifique o fenômeno descrito em cada enunciado'],
+                [/^Cartaz conceitual com propostas de mitigação em diferentes escalas$/i, 'Produza um cartaz com propostas de mitigação em escala individual, local e global'],
+                [/^Construa linha do tempo e comparação por critérios$/i, 'Construa uma linha do tempo e compare os exemplos pelos critérios estudados'],
+                [/^Resolva analítica e mapa conceitual de combustíveis$/i, 'Resolva as questões e complete o mapa conceitual de combustíveis'],
+                [/^Compare funcional entre veículos térmicos, híbridos e elétricos$/i, 'Compare veículos térmicos, híbridos e elétricos por funcionamento, vantagem e limite'],
+                [/^Resolva autônoma monitorada de problemas socioambientais$/i, 'Resolva os problemas socioambientais e justifique cada decisão'],
+                [/^Análise do ciclo de vida de um aparelho eletrônico$/i, 'Analise o ciclo de vida de um aparelho eletrônico'],
+                [/^Plano de redução e descarte responsável de resíduos eletrônicos$/i, 'Elabore um plano de redução e descarte responsável de resíduos eletrônicos'],
+                [/^Análise ética de um uso de IA no cotidiano escolar$/i, 'Analise eticamente um uso de IA no cotidiano escolar'],
+                [/^Faça um desenho coletivo no quadro do ciclo haplodiplobionte$/i, 'Desenhe o ciclo haplodiplobionte e identifique gametófito, esporófito, gametas e esporos'],
+                [/^Esquematize balança da glicemia no quadro$/i, 'Esquematize a regulação da glicemia por insulina e glucagon']
+            ];
+            const ajuste = ajustes.find(([expressao]) => expressao.test(comando));
+            if (ajuste) comando = comando.replace(ajuste[0], ajuste[1]);
+
+            const inicioNominal = [
+                [/^Análise (?:do|da|dos|das|de)\s+/i, 'Analise '],
+                [/^Interpretação (?:do|da|dos|das|de)\s+/i, 'Interprete '],
+                [/^Previsão (?:do|da|dos|das|de)\s+/i, 'Preveja '],
+                [/^Classificação (?:do|da|dos|das|de)\s+/i, 'Classifique '],
+                [/^Leitura (?:do|da|dos|das|de)\s+/i, 'Leia '],
+                [/^Explicação (?:do|da|dos|das|de)\s+/i, 'Explique ']
+            ].find(([expressao]) => expressao.test(comando));
+            if (inicioNominal) comando = comando.replace(inicioNominal[0], inicioNominal[1]);
+
+            const verbos = {
+                fechar:'feche', desenhar:'desenhe', completar:'complete', marcar:'marque', corrigir:'corrija',
+                analisar:'analise', resolver:'resolva', discutir:'discuta', registrar:'registre', distinguir:'distinga',
+                citar:'cite', montar:'monte', apresentar:'apresente', explicar:'explique', diferenciar:'diferencie',
+                classificar:'classifique', relacionar:'relacione', identificar:'identifique'
+            };
+            comando = comando.replace(/(^|[,;]\s+|\se\s+)(fechar|desenhar|completar|marcar|corrigir|analisar|resolver|discutir|registrar|distinguir|citar|montar|apresentar|explicar|diferenciar|classificar|relacionar|identificar)\b/gi,
+                (trecho, prefixo, verbo) => `${prefixo}${verbos[verbo.toLowerCase()]}`);
+            return `${comando.charAt(0).toUpperCase()}${comando.slice(1).replace(/\s+,/g, ',')}.`;
+        }
+
         function atividadeDoQuadro(aula, perfil) {
-            if (perfil.atividade) return perfil.atividade;
+            if (perfil.atividade) return revisarComandoLiteral(perfil.atividade);
             const fechamento = textoPlanoLimpo(aula.fechamento?.detalhes);
             const pedido = fechamento.match(/peça (?:que )?(?:(?:cada|os) (?:aluno|estudante)s? |aos (?:alunos|estudantes) |a turma )?([^.!?]{20,210})/i)?.[1];
-            if (pedido) return encurtarParaQuadro(`No caderno: ${transformarEmComando(pedido)}`);
+            if (pedido) return encurtarParaQuadro(revisarComandoLiteral(transformarEmComando(pedido)));
             const base = aula.aplicacao || fechamento || aula.avaliacao_formativa || aula.tarefa_casa;
-            return encurtarParaQuadro(`No caderno: ${transformarEmComando(base)}`);
+            return encurtarParaQuadro(revisarComandoLiteral(transformarEmComando(base)));
         }
 
         function saidaDoQuadro(aula) {
@@ -6923,11 +7017,46 @@ const aulas8AG3 = [
                 [/^comparar\s+/i, 'compare '], [/^analisar\s+/i, 'analise '],
                 [/^aplicar\s+/i, 'aplique '], [/^explicar\s+/i, 'explique '],
                 [/^representar\s+/i, 'represente '], [/^construir\s+/i, 'construa '],
-                [/^interpretar\s+/i, 'interprete '], [/^avaliar\s+/i, 'avalie ']
+                [/^interpretar\s+/i, 'interprete '], [/^avaliar\s+/i, 'avalie '],
+                [/^recuperar\s+/i, 'escreva de memória '], [/^resgatar\s+/i, 'escreva de memória '],
+                [/^consolidar\s+/i, 'relacione '], [/^corrigir\s+/i, 'corrija '],
+                [/^introduzir\s+/i, 'explique '], [/^apresentar\s+/i, 'resuma '],
+                [/^simular\s+/i, 'analise '], [/^resolver\s+/i, 'resolva ']
             ];
             const regra = comandos.find(([expressao]) => expressao.test(objetivo));
-            const comando = regra ? objetivo.replace(regra[0], regra[1]) : `explique ${objetivo.charAt(0).toLowerCase()}${objetivo.slice(1)}`;
+            const comando = (regra ? objetivo.replace(regra[0], regra[1]) : `explique ${objetivo.charAt(0).toLowerCase()}${objetivo.slice(1)}`)
+                .replace(/\s+sem consulta\b/gi, '');
             return encurtarParaQuadro(`Sem consultar, ${comando}. Dê um exemplo da aula.`, 120);
+        }
+
+        function topicosDaRetomada(serie, aula, topicos) {
+            const texto = `${aula.titulo} ${aula.modulo} ${aula.material_ph || ''}`.toLowerCase();
+            const validos = topicos
+                .map(item => textoPlanoLimpo(item).replace(/\s+no material\b/gi, '').replace(/[.]$/, ''))
+                .filter(item => item && !/^(corrigir|realizar|organizar|planejar|esclarecer|retomar|revisar|consolidar|aplicar conceitos|resolver atividades)/i.test(item));
+            const focos = [
+                ['7', /mód(?:ulo|\.)?\s*19|composição do ar|circulação do ar/, ['Composição do ar', 'Pressão e circulação atmosférica', 'Tempo e clima', 'Poluição e mudanças climáticas']],
+                ['7', /mód(?:ulo|\.)?\s*20|efeito estufa/, ['Efeito estufa natural', 'Intensificação antrópica', 'Poluição atmosférica', 'Mitigação climática']],
+                ['7', /mód(?:ulo|\.)?\s*22|combustíve/, ['Combustíveis e fontes de energia', 'Conversão e eficiência', 'Impactos ambientais', 'Transição energética']],
+                ['7', /mód(?:ulo|\.)?\s*24|inteligência artificial|automação/, ['Ferramentas e automação', 'Inteligência artificial', 'Impactos sociais', 'Impactos ambientais']],
+                ['8', /mód(?:ulo|\.)?\s*16/, ['Reprodução assexuada e sexuada', 'Ciclos reprodutivos', 'Fecundação', 'Desenvolvimento embrionário']],
+                ['8', /mód(?:ulo|\.)?\s*17|horta urbana/, ['Propagação sexuada e assexuada', 'Grupos vegetais', 'Alternância de gerações', 'Pólen, sementes, flores e frutos']],
+                ['8', /mód(?:ulo|\.)?\s*18/, ['Sistema genital humano', 'Gametogênese', 'Sistema endócrino', 'Regulação hormonal']]
+            ];
+            const foco = focos.find(([ano, expressao]) => ano === String(serie) && expressao.test(texto));
+            if (foco) return foco[2];
+            if (validos.length >= 3) return validos.slice(0, 4);
+            const ag3 = /ag3/i.test(`${aula.id} ${aula.modulo} ${aula.titulo}`);
+            const escopos = {
+                '6-ap3': ['Química Verde', 'Terra no Universo', 'Movimentos e camadas da Terra', 'Biosfera e células'],
+                '6-ag3': ['Célula', 'Níveis de organização', 'Sistemas do corpo', 'Sistema nervoso e sentidos'],
+                '7-ap3': ['Forças e leis de Newton', 'Máquinas simples', 'Calor e propagação', 'Máquinas térmicas e atmosfera'],
+                '7-ag3': ['Atmosfera e clima', 'Combustíveis e transição energética', 'Desenvolvimento tecnológico', 'Inteligência artificial e sociedade'],
+                '8-ap3': ['Reprodução animal', 'Grupos vegetais', 'Sistema genital humano', 'Sistema endócrino'],
+                '8-ag3': ['Ciclo reprodutivo', 'Gestação e parto', 'Contracepção', 'ISTs e prevenção'],
+                '9-ap3': ['Vírus', 'Bactérias', 'Protozoários', 'Fungos']
+            };
+            return escopos[`${serie}-${ag3 ? 'ag3' : 'ap3'}`] || validos;
         }
 
         function construirOperacionalizacao(aula, serie) {
@@ -6940,17 +7069,20 @@ const aulas8AG3 = [
             const usaQuadro = !digital && !/avaliação oficial|prova oficial|kahoot/.test(corpus);
             const topicos = topicosDoMaterial(aula);
             const fonteLivro = textoPlanoLimpo(aula.material_ph) || 'Use apenas as páginas e atividades indicadas no campo Materiais deste plano.';
-            const termos = topicos.slice(0, 4);
-            const perguntaQuadro = perguntaDoQuadro(aula, perfil, serie, topicos);
+            const termos = (perfil.revisao ? topicosDaRetomada(serie, aula, topicos) : topicos).slice(0, 4);
+            const tituloQuadro = perfil.revisao
+                ? `Revisão: ${termos.slice(0, 3).join(' • ')}`
+                : aula.titulo;
+            const perguntaQuadro = perguntaDoQuadro(aula, perfil, serie, termos);
             const atividadeQuadro = atividadeDoQuadro(aula, perfil);
             const saidaQuadro = saidaDoQuadro(aula);
             const objetivosQuadro = (aula.objetivos || []).map(objetivo =>
-                textoPlanoLimpo(objetivo).replace(/^(compreender|identificar|reconhecer|relacionar|explicar|diferenciar|comparar|analisar|aplicar|descrever|representar|avaliar|construir|interpretar|recuperar)\s+/i, '')
+                textoPlanoLimpo(objetivo).replace(/^(compreender|identificar|reconhecer|relacionar|explicar|diferenciar|comparar|analisar|aplicar|descrever|representar|avaliar|construir|interpretar|recuperar|corrigir|transformar|esclarecer|realizar|retomar|organizar|planejar|revisar|consolidar)\s+/i, '')
             );
             const construcaoQuadro = [...new Set([
                 ...(perfil.esquema || []),
                 ...termos,
-                ...objetivosQuadro,
+                ...(perfil.revisao ? [] : objetivosQuadro),
                 perfil.definicao
             ])].slice(0, 4);
             const serieNota = serie === '6'
@@ -6978,17 +7110,37 @@ const aulas8AG3 = [
                     motivo: usaQuadro
                         ? 'Mantém a ideia central e as relações essenciais visíveis enquanto os alunos usam o livro ou resolvem a atividade.'
                         : 'A atividade já oferece uma fonte visual estável; um quadro adicional dividiria a atenção.',
-                    titulo: aula.titulo,
+                    titulo: tituloQuadro,
                     definicao: perfil.definicao,
                     pergunta: perguntaQuadro,
                     construcao: construcaoQuadro,
                     atividade: atividadeQuadro,
                     saida: saidaQuadro,
                     montagem: [
-                        `Início da aula — escreva somente o título e a pergunta: “${perguntaQuadro}” Não escreva a resposta ainda.`,
-                        `Após ouvir as hipóteses — registre a síntese: “${perfil.definicao}”`,
-                        `Durante a explicação — acrescente um item do bloco central por vez e peça que um aluno explique cada seta, comparação ou relação antes do próximo item.`,
-                        `Na prática e no fechamento — escreva o comando “${atividadeQuadro}” e, nos minutos finais, revele a saída sem consulta.`
+                        {
+                            numero: 1,
+                            momento: 'Abertura — antes de ouvir as respostas',
+                            conteudo: [tituloQuadro, '1. PERGUNTA INICIAL', perguntaQuadro],
+                            orientacao: 'Deixe apenas esses dois textos visíveis. A síntese ainda não aparece.'
+                        },
+                        {
+                            numero: 2,
+                            momento: 'Depois das hipóteses da turma',
+                            conteudo: ['2. SÍNTESE DA AULA', perfil.definicao],
+                            orientacao: 'Escreva a frase completa depois de comparar as respostas iniciais.'
+                        },
+                        {
+                            numero: 3,
+                            momento: 'Durante a sistematização',
+                            conteudo: ['3. CONCEITOS-CHAVE', ...construcaoQuadro.map(item => `• ${item}`)],
+                            orientacao: 'Acrescente um item por vez, no bloco central, acompanhando a explicação.'
+                        },
+                        {
+                            numero: 4,
+                            momento: 'Prática e minutos finais',
+                            conteudo: ['4. ATIVIDADE NO CADERNO', atividadeQuadro, 'SAÍDA SEM CONSULTA', saidaQuadro],
+                            orientacao: 'Escreva primeiro a atividade. Acrescente a saída apenas no fechamento.'
+                        }
                     ]
                 },
                 slides: {
@@ -7109,7 +7261,7 @@ const aulas8AG3 = [
         };
 
 
-        const PLANEJAEDU_VERSION = '2026.08.02-quadros-slides-concretos-5';
+        const PLANEJAEDU_VERSION = '2026.08.02-quadro-literal-montagem-6';
         const EXPECTED_SERIES_SIGNATURES = {
             '6': { ap3Min: 20, ag3Min: 14, terms: ['Química', 'célula', 'sistema nervoso'] },
             '7': { ap3Min: 20, ag3Min: 20, terms: ['Newton', 'atmosfera', 'combustíveis'] },
@@ -7887,7 +8039,7 @@ const aulas8AG3 = [
             return `<section class="pe-panel pe-block" style="margin-top:12px;border-left:5px solid #bd6542">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
                     <div><h3 style="margin-bottom:5px">▤ &nbsp; Roteiro operacional da aula</h3><p class="pe-muted" style="margin:0">O que preparar, mostrar, dizer, pedir e conferir.</p></div>
-                    ${op.quadro.necessario ? `<button class="pe-btn primary" onclick="peOpenBoard('${serie}','${ciclo}','${aula.id}','${turma}')">▣ &nbsp; Ver sugestão de quadro (imagem final)</button>` : ''}
+                    ${op.quadro.necessario ? `<button class="pe-btn primary" onclick="peOpenBoard('${serie}','${ciclo}','${aula.id}','${turma}')">▣ &nbsp; Ver quadro e ordem de montagem</button>` : ''}
                 </div>
                 <div style="margin-top:14px;padding:13px 15px;border-radius:10px;background:#f6f1e5;border:1px solid #ded4c1"><strong>Ideia central em uma frase</strong><br>${op.ideia_central}</div>
                 <div class="pe-duo" style="margin-top:14px">
@@ -7901,7 +8053,6 @@ const aulas8AG3 = [
                 ${op.slides.usar ? `<div style="margin-top:14px;padding:13px 15px;border-radius:10px;background:#eef3f8;border:1px solid #c6d5e3"><h4 style="margin:0 0 5px">O que deve estar nos slides</h4><p class="pe-muted" style="margin:0 0 10px">Quatro telas, sem parágrafos para leitura em voz alta.</p><div style="display:grid;gap:8px">${op.slides.telas.map(tela=>`<article style="background:#fff;border:1px solid #d4dee8;border-radius:8px;padding:10px 12px"><strong>${tela.titulo}</strong><p style="margin:5px 0"><b>Na tela:</b> ${tela.conteudo}</p><p style="margin:0"><b>Como usar:</b> ${tela.uso}</p></article>`).join('')}</div></div>` : ''}
                 <h4 style="margin:16px 0 8px">Execução passo a passo</h4>
                 <div style="display:grid;gap:9px">${op.sequencia.map((etapa,i)=>`<article style="display:grid;grid-template-columns:38px 1fr;gap:10px;padding:12px;border:1px solid #ded4c1;border-radius:10px;background:#fffdf8"><strong style="font-size:20px;color:#bd6542">${i+1}</strong><div><strong>${etapa.etapa}</strong><p><b>Professor:</b> ${etapa.professor}</p><p><b>Alunos:</b> ${etapa.alunos}</p><p style="margin-bottom:0"><b>Antes de avançar:</b> ${etapa.checagem}</p></div></article>`).join('')}</div>
-                ${op.quadro.necessario ? `<div style="margin-top:14px;padding:13px 15px;border-radius:10px;background:#eef5ee;border:1px solid #c9d8ca"><h4 style="margin:0 0 8px">Como construir o quadro durante a aula</h4><ol style="margin-bottom:0">${op.quadro.montagem.map(x=>`<li>${x}</li>`).join('')}</ol></div>` : ''}
                 <details style="margin-top:14px"><summary style="cursor:pointer;font-weight:800;color:#315b95">Como controlar a carga cognitiva nesta aula</summary><ul style="margin-top:10px">${op.carga_cognitiva.map(x=>`<li>${x}</li>`).join('')}</ul></details>
             </section>`;
         }
@@ -7940,19 +8091,18 @@ const aulas8AG3 = [
                 <rect x="36" y="36" width="1328" height="718" rx="6" fill="none" stroke="#f3dfab" stroke-opacity=".35" stroke-width="2"/>
                 ${title}
                 <line x1="62" y1="132" x2="1338" y2="132" stroke="#f6f0d7" stroke-opacity=".55" stroke-width="3"/>
-                ${peSvgText(`SÍNTESE DA AULA: ${q.definicao}`,72,171,24,92,'#ffe6a7',650,31,3)}
+                ${peSvgText(`2. SÍNTESE DA AULA: ${q.definicao}`,72,171,24,92,'#ffe6a7',650,31,3)}
                 <line x1="458" y1="255" x2="458" y2="700" stroke="#f6f0d7" stroke-opacity=".32" stroke-width="3"/>
                 <line x1="930" y1="255" x2="930" y2="700" stroke="#f6f0d7" stroke-opacity=".32" stroke-width="3"/>
                 <text x="72" y="282" fill="#9ed6ff" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">1. PERGUNTA INICIAL</text>
                 ${peSvgText(q.pergunta,72,326,25,27,'#f6f0d7',500,35,8)}
-                <text x="490" y="282" fill="#9ee4b8" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">2. SÍNTESE CONSTRUÍDA</text>
+                <text x="490" y="282" fill="#9ee4b8" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">3. CONCEITOS-CHAVE</text>
                 ${construcao.map((linha,i)=>peSvgText(`• ${linha}`,490,326+i*91,23,34,'#f6f0d7',500,31,3)).join('')}
-                <text x="962" y="282" fill="#ffc19d" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">3. ATIVIDADE NO CADERNO</text>
+                <text x="962" y="282" fill="#ffc19d" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">4. ATIVIDADE NO CADERNO</text>
                 ${peSvgText(q.atividade,962,326,23,31,'#f6f0d7',500,31,7)}
                 <line x1="962" y1="563" x2="1324" y2="563" stroke="#f6f0d7" stroke-opacity=".3" stroke-width="2"/>
                 <text x="962" y="600" fill="#ffc19d" font-family="Segoe Print, Comic Sans MS, cursive" font-size="22" font-weight="700">SAÍDA SEM CONSULTA</text>
                 ${peSvgText(q.saida,962,626,19,36,'#f6f0d7',500,26,4)}
-                <text x="72" y="744" fill="#d7e7dc" font-family="Segoe UI, sans-serif" font-size="18">PlanejaEDU • versão final do quadro; no início, escreva somente o título e a pergunta. Complete os demais blocos ao longo da aula.</text>
             </svg>`;
         }
 
@@ -7960,11 +8110,14 @@ const aulas8AG3 = [
         function peOpenBoard(serie,ciclo,id,turma) {
             const aula=(SERIES[serie]?.[ciclo]||[]).find(item=>item.id===id);
             if(!aula?.operacionalizacao?.quadro?.necessario)return;
+            const q=aula.operacionalizacao.quadro;
+            const cores=['#4d8fc4','#bd8b29','#55966b','#bd6542'];
+            const guia=q.montagem.map((passo,i)=>`<article style="border:1px solid #d8d1c3;border-left:6px solid ${cores[i]};border-radius:10px;padding:11px 12px;background:#fffdf8"><div style="display:flex;align-items:center;gap:9px"><strong style="display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:${cores[i]};color:#fff">${passo.numero}</strong><strong>${peEscapeSvg(passo.momento)}</strong></div><div style="margin-top:9px;color:#315b95;font-weight:800">Escreva exatamente:</div>${passo.conteudo.map(linha=>`<div style="margin-top:5px;padding:7px 9px;border-radius:7px;background:#f3eee2;font-family:Georgia,serif">${peEscapeSvg(linha)}</div>`).join('')}<p style="margin:8px 0 0;color:#66706a;font-size:13px"><b>Quando:</b> ${peEscapeSvg(passo.orientacao)}</p></article>`).join('');
             if(peBoardObjectUrl)URL.revokeObjectURL(peBoardObjectUrl);
             peBoardObjectUrl=URL.createObjectURL(new Blob([peBoardSvg(aula)],{type:'image/svg+xml'}));
             let modal=document.getElementById('peBoardModal');
             if(!modal){modal=document.createElement('div');modal.id='peBoardModal';document.body.appendChild(modal);}
-            modal.innerHTML=`<div style="position:fixed;inset:0;z-index:200;background:rgba(16,24,20,.9);display:flex;align-items:center;justify-content:center;padding:18px" onclick="if(event.target===this)peCloseBoard()"><div style="width:min(1200px,96vw);max-height:94vh;background:#f7f2e7;border-radius:16px;padding:14px;box-shadow:0 24px 80px #000;overflow:auto"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px"><div><strong style="font-size:20px">Sugestão de quadro — versão final</strong><div style="color:#66706a;font-size:13px">${aula.aula_num} · ${aula.titulo} · construa os blocos na ordem indicada no plano</div></div><button class="pe-btn" onclick="peCloseBoard()">Fechar</button></div><img src="${peBoardObjectUrl}" alt="Sugestão visual de organização do quadro para ${aula.titulo}" style="display:block;width:100%;height:auto;border-radius:10px;background:#173f32"></div></div>`;
+            modal.innerHTML=`<div style="position:fixed;inset:0;z-index:200;background:rgba(16,24,20,.9);display:flex;align-items:center;justify-content:center;padding:18px" onclick="if(event.target===this)peCloseBoard()"><div style="width:min(1380px,97vw);max-height:95vh;background:#f7f2e7;border-radius:16px;padding:14px;box-shadow:0 24px 80px #000;overflow:auto"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px"><div><strong style="font-size:20px">Quadro da aula e ordem de montagem</strong><div style="color:#66706a;font-size:13px">${aula.aula_num} · ${aula.titulo}</div></div><button class="pe-btn" onclick="peCloseBoard()">Fechar</button></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;align-items:start"><section><div style="font-weight:800;margin:0 0 8px">Imagem final — somente o texto que ficará visível aos alunos</div><img src="${peBoardObjectUrl}" alt="Texto exato do quadro para ${aula.titulo}" style="display:block;width:100%;height:auto;border-radius:10px;background:#173f32"></section><aside><div style="font-weight:800;margin:0 0 8px">Como montar — os números correspondem aos blocos da imagem</div><div style="display:grid;gap:9px">${guia}</div></aside></div></div></div>`;
             document.body.style.overflow='hidden';
         }
 
