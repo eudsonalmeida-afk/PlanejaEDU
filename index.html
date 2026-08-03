@@ -7161,7 +7161,7 @@ const aulas8AG3 = [
             }
             if (/identificar|reconhecer|localizar|situar/.test(verbo)) return `Quais evidências ou características permitem identificar ${conteudo}?`;
             if (/analisar|avaliar|justificar|argumentar/.test(verbo)) return `Que critérios e evidências permitem analisar ${conteudo}?`;
-            if (/recuperar|retomar|revisar|consolidar/.test(verbo)) return `Sem consultar: o que você consegue explicar sobre ${pontos.slice(0,3).map(p => p.replace(/[.]$/, '')).join('; ')}?`;
+            if (/recuperar|retomar|revisar|consolidar|reforçar/.test(verbo)) return `Sem consultar: como se conectam ${pontos.slice(0,2).map(p => p.replace(/[.]$/, '')).join('; ')}?`;
             return `Como explicar ${conteudo}?`;
         }
 
@@ -7278,6 +7278,205 @@ const aulas8AG3 = [
             return encurtarParaQuadro(atividade, 340);
         }
 
+        function capitalizarConteudo(texto) {
+            const limpo = textoPlanoLimpo(texto).replace(/^[,;:\s]+|[.]$/g, '').trim();
+            return limpo ? `${limpo.charAt(0).toUpperCase()}${limpo.slice(1)}.` : '';
+        }
+
+        function listaComoPainel(texto) {
+            return texto
+                .replace(/\s+e (?:reconhecer|identificar|explicar|relacionar|comparar|justificar|analisar)\s+/i, ' | ')
+                .replace(/,\s*/g, ' | ')
+                .replace(/\s+e\s+/g, ' | ');
+        }
+
+        function conteudoDeclarativoDoObjetivo(objetivo) {
+            const limpo = textoPlanoLimpo(objetivo).replace(/[.]$/, '').trim();
+            const partes = limpo.match(/^([A-Za-zÀ-ÿ]+)(?:,?\s+)(.+)$/);
+            if (!partes) return capitalizarConteudo(limpo);
+            const verbo = partes[1].toLowerCase();
+            let corpo = partes[2].trim();
+            if (/diferenciar|distinguir|comparar/.test(verbo)) {
+                const pares = corpo.match(/^pares? de (.+?) de (.+)$/i);
+                if (pares) return capitalizarConteudo(`${pares[1]} ≠ ${pares[2]}`);
+                corpo = corpo.replace(/\s+e (?:reconhecer|identificar|explicar|relacionar|comparar)\s+/i, ' | ');
+                if (corpo.includes(',')) corpo = corpo.replace(/,\s*/g, ' ≠ ').replace(/\s+e\s+/g, ' ≠ ');
+                else if (/\s+e\s+/i.test(corpo)) corpo = corpo.replace(/\s+e\s+/g, ' ≠ ');
+                else corpo = corpo.replace(/\s+de\s+/i, ' ≠ ');
+                return capitalizarConteudo(corpo);
+            }
+            if (verbo === 'relacionar') {
+                corpo = corpo.replace(/\s+(?:a|ao|à|aos|às|com)\s+/i, ' ↔ ');
+                return capitalizarConteudo(corpo);
+            }
+            if (/compreender|explicar/.test(verbo)) {
+                corpo = corpo
+                    .replace(/^o conceito de\s+/i, '')
+                    .replace(/^que\s+/i, '')
+                    .replace(/^como\s+/i, '')
+                    .replace(/^por que\s+/i, 'Relação: ');
+                const como = corpo.match(/^(.{3,90})\s+como\s+(.+)$/i);
+                if (como) return capitalizarConteudo(`${como[1]}: ${como[2]}`);
+                const por = corpo.match(/^(.{3,70})\s+por\s+(.+)$/i);
+                if (por) return capitalizarConteudo(`${por[1]}: ${por[2]}`);
+                return capitalizarConteudo(corpo);
+            }
+            if (/reconhecer|identificar|conhecer|descrever|localizar|situar|interpretar/.test(verbo)) {
+                return capitalizarConteudo(listaComoPainel(corpo));
+            }
+            if (/analisar|avaliar|justificar|argumentar/.test(verbo)) {
+                return capitalizarConteudo(`Critérios de análise: ${corpo}`);
+            }
+            if (/aplicar|resolver|utilizar|usar/.test(verbo)) {
+                return capitalizarConteudo(`Aplicação: ${corpo}`);
+            }
+            if (/organizar|construir|montar|desenhar|representar|sequenciar/.test(verbo)) {
+                return capitalizarConteudo(`Relações do esquema: ${corpo}`);
+            }
+            if (/recuperar|retomar|revisar|consolidar|reforçar/.test(verbo)) {
+                return capitalizarConteudo(listaComoPainel(corpo.replace(/\s+sem consulta\b/i, '')));
+            }
+            return '';
+        }
+
+        function conteudoDeclarativoDoDesenvolvimento(frase) {
+            let texto = textoPlanoLimpo(frase).replace(/[.]$/, '').trim();
+            if (!texto || /\bprofessor\b|\balunos\b|\bestudantes\b|feedback|tentativa|duplas?|grupos?|p\.?\s*\d|página/i.test(texto)) return '';
+            texto = texto.replace(/^trabalhe\s+[^;]{1,120};\s*/i, '');
+            if (/^(explique|destaque|reforce) que\s+/i.test(texto)) {
+                return capitalizarConteudo(texto.replace(/^(explique|destaque|reforce) que\s+/i, ''));
+            }
+            if (/^corrija a ideia de que\s+/i.test(texto)) {
+                return capitalizarConteudo(`NÃO: ${texto.replace(/^corrija a ideia de que\s+/i, '').replace(/\s+e de que\s+/i, '. NÃO: ')}`);
+            }
+            if (/^evite\s+/i.test(texto) && texto.includes(';')) {
+                const [nao, correto] = texto.split(';').map(item => item.trim());
+                return capitalizarConteudo(`NÃO: ${nao.replace(/^evite\s+/i, '')}. ${correto.replace(/^(destaque|reforce)\s+/i, '')}`);
+            }
+            const comando = texto.match(/^(analise|avalie|aplique|compare|diferencie|relacione|identifique|reconheça|descreva|explique|justifique|organize|construa|desenhe|reforce|reforçar)\s+(.+)$/i);
+            if (comando) {
+                const infinitivos = {
+                    analise: 'Analisar', avalie: 'Avaliar', aplique: 'Aplicar', compare: 'Comparar', diferencie: 'Diferenciar',
+                    relacione: 'Relacionar', identifique: 'Identificar', reconheça: 'Reconhecer', descreva: 'Descrever',
+                    explique: 'Explicar', justifique: 'Justificar', organize: 'Organizar', construa: 'Construir', desenhe: 'Desenhar',
+                    reforce: 'Reforçar', reforçar: 'Reforçar'
+                };
+                if (comando[1].toLowerCase() === 'analise' && /\s+por\s+/i.test(comando[2])) {
+                    const [objeto, criterio] = comando[2].split(/\s+por\s+/i);
+                    return capitalizarConteudo(`${objeto}: análise por ${criterio}`);
+                }
+                return conteudoDeclarativoDoObjetivo(`${infinitivos[comando[1].toLowerCase()]} ${comando[2]}`);
+            }
+            const relacao = texto.match(/^(relacione|diferencie|compare)\s+(.+)$/i);
+            if (relacao) {
+                const infinitivos = { relacione: 'Relacionar', diferencie: 'Diferenciar', compare: 'Comparar' };
+                return conteudoDeclarativoDoObjetivo(`${infinitivos[relacao[1].toLowerCase()]} ${relacao[2]}`);
+            }
+            if (/^(organize|monte|construa|desenhe)\s+/i.test(texto)) {
+                return capitalizarConteudo(`ESQUEMA: ${texto.replace(/^(organize|monte|construa|desenhe)\s+/i, '')}`);
+            }
+            if (/\b(é|são|depende|dependem|ocorre|ocorrem|atua|atuam|permite|permitem|transforma|transformam|não)\b/i.test(texto)) {
+                return capitalizarConteudo(texto);
+            }
+            return '';
+        }
+
+        function conteudoLiteralDaAula(aula, resultados, topicos) {
+            const especificos = {
+                '7-ap3-54': {
+                    central: 'Força é uma interação entre corpos capaz de alterar o movimento ou provocar deformação.',
+                    pontos: ['Força de contato: os corpos se tocam.', 'Força de campo: interação sem contato direto.', 'Força: módulo | direção | sentido.', 'Força resultante = combinação das forças que atuam no corpo.']
+                },
+                '7-ap3-55': {
+                    central: 'F = m · a: para a mesma massa, maior força resultante produz maior aceleração.',
+                    pontos: ['1ª Lei: inércia = tendência de manter o estado de movimento.', '2ª Lei: força resultante ↔ massa × aceleração.', '3ª Lei: ação e reação atuam em corpos diferentes.', 'Massa ≠ peso | ação–reação ≠ forças equilibradas no mesmo corpo.']
+                },
+                '7-ap3-74a': {
+                    central: 'A AP3 conecta força, máquinas simples, calor, máquinas térmicas e atmosfera.',
+                    pontos: ['Forças e máquinas simples: interação | resultante | vantagem mecânica.', 'Calor: temperatura | sensação térmica | dilatação | propagação.', 'Máquinas térmicas: fonte quente → trabalho + calor rejeitado.', 'Atmosfera: composição | pressão | ventos | oceanos | impactos climáticos.']
+                },
+                '7-ap3-63': {
+                    central: 'A sensação térmica depende da rapidez da troca de energia; ela não mede diretamente a temperatura.',
+                    pontos: ['Temperatura ≠ sensação térmica.', 'Temperatura ↔ grau de agitação das partículas.', 'Escalas termométricas: Celsius | Fahrenheit | Kelvin.', 'Calor ≠ temperatura ≠ sensação térmica.']
+                },
+                '7-ap3-66': {
+                    central: 'A irradiação transfere energia por ondas eletromagnéticas.',
+                    pontos: ['Irradiação: emissão, absorção e reflexão.', 'Superfícies e materiais podem reduzir ou favorecer trocas térmicas.', 'Garrafa térmica: vácuo | paredes refletoras | tampa isolante.', 'Condução ≠ convecção ≠ irradiação.']
+                },
+                '7-ap3-72': {
+                    central: 'Aquecimento desigual → diferenças de densidade e pressão → movimento do ar.',
+                    pontos: ['Ar aquecido: menor densidade e movimento ascendente.', 'Ar mais frio: maior densidade e movimento descendente.', 'Diferenças de pressão colocam o ar em movimento.', 'Brisas e ventos são movimentos do ar ligados à convecção.']
+                },
+                '7-ap3-73b': {
+                    central: 'Os oceanos aquecem e resfriam mais lentamente que o continente e atuam como reguladores térmicos.',
+                    pontos: ['Aquecimento global → aumento da temperatura dos oceanos.', 'Oceanos mais quentes → branqueamento de corais.', 'Aquecimento → degelo e elevação do nível do mar.', 'Oceanos mais quentes ↔ eventos extremos.']
+                },
+                '7-ag3-95': {
+                    central: 'Efeito estufa natural ≠ intensificação do efeito estufa por ações humanas.',
+                    pontos: ['Efeito estufa natural | intensificação antrópica.', 'Efeito estufa ≠ camada de ozônio.', 'Poluição atmosférica | mudanças climáticas.', 'Ações humanas podem intensificar impactos climáticos.']
+                },
+                '7-ag3-91': {
+                    central: 'A AG3 conecta atmosfera, combustíveis, máquinas e desenvolvimento tecnológico.',
+                    pontos: ['Atmosfera: efeito estufa natural | intensificação | camada de ozônio.', 'Combustíveis: origem | transformação de energia | impactos ambientais.', 'Máquinas: combustíveis, eletricidade e mudanças ao longo do tempo.', 'Tecnologia: automação | impactos sociais | consumo consciente.']
+                },
+                '7-ag3-92': {
+                    central: 'Atmosfera, energia e tecnologia formam uma cadeia de causas, escolhas e impactos.',
+                    pontos: ['Efeito estufa natural ≠ intensificação antrópica.', 'Combustíveis fósseis | biocombustíveis | eletricidade.', 'Máquinas e fontes de energia mudaram ao longo do tempo.', 'Automação e inteligência artificial: benefícios | riscos | responsabilidade.']
+                },
+                'ap3-21': {
+                    central: 'O Caderno 3 conecta reprodução vegetal, sistema genital e regulação hormonal.',
+                    pontos: ['Briófitas | pteridófitas | gimnospermas | angiospermas.', 'Água | pólen | semente | flor | fruto: novidades reprodutivas.', 'Sistema genital: estruturas | gametas | fecundação.', 'Glândulas → hormônios → órgãos-alvo → respostas.']
+                },
+                'ag3-91': {
+                    central: 'A AG3 conecta controle hormonal, gestação, contracepção e prevenção de ISTs.',
+                    pontos: ['FSH | LH | estrogênio | progesterona: ciclo reprodutivo.', 'Fecundação → segmentação → nidação → gestação.', 'Métodos contraceptivos: barreira | hormonais | DIU | cirúrgicos.', 'ISTs: agente | transmissão | prevenção | tratamento.']
+                },
+                'ag3-92': {
+                    central: 'Hormônios, reprodução e saúde sexual se conectam por relações de causa e prevenção.',
+                    pontos: ['Ciclo menstrual: fase folicular → ovulação → fase lútea.', 'Gestação: hCG | placenta | anexos embrionários | parto.', 'Contracepção: mecanismo de ação ≠ proteção contra ISTs.', 'Prevenção combinada: preservativos | testagem | vacinação | PEP | PrEP.']
+                },
+                '9-ap3-04': {
+                    central: 'Agente etiológico causa a doença; vetor participa da transmissão; hospedeiro abriga o agente.',
+                    pontos: ['Agente etiológico ≠ vetor ≠ hospedeiro.', 'Arboviroses | ISTs | doenças respiratórias: vias de transmissão diferentes.', 'Prevenção ↔ interrupção de uma etapa da transmissão.', 'Vacinação + cobertura vacinal → proteção coletiva.']
+                },
+                'ag3-87': {
+                    central: 'Sífilis, gonorreia e clamídia são ISTs bacterianas tratadas com antibióticos.',
+                    pontos: ['Sífilis | gonorreia | clamídia: agentes bacterianos.', 'Transmissão pode ocorrer mesmo sem sintomas.', 'Diagnóstico + tratamento dos parceiros ajudam a interromper a transmissão.', 'HIV é o vírus; aids é uma condição clínica.']
+                },
+                '6-ag3-80': {
+                    central: 'O oxigênio passa dos pulmões para o sangue; coração e vasos o transportam até as células.',
+                    pontos: ['Ar → pulmões → sangue.', 'Sangue → coração → vasos → células.', 'Nas células: nutrientes + oxigênio participam da respiração celular.', 'Gás carbônico: células → sangue → pulmões.']
+                },
+                '9-ap3-retomada-cap4': {
+                    central: 'Humanos e outros primatas possuem ancestrais comuns; a evolução humana não ocorreu em linha reta.',
+                    pontos: ['Fixismo ≠ evolucionismo.', 'Lamarckismo ≠ Darwinismo.', 'Seleção natural → adaptação das populações ao longo das gerações.', 'Evidências: fósseis | homologias | órgãos vestigiais | embriologia | DNA.']
+                },
+                '9-ap3-retomada-cap5': {
+                    central: 'Cada técnica de biotecnologia responde a uma função diferente: cortar, unir, amplificar, separar ou modificar DNA.',
+                    pontos: ['DNA recombinante: localizar → cortar → unir → inserir → produzir.', 'PCR: amplifica trechos de DNA.', 'Eletroforese: separa fragmentos de DNA.', 'Transgenia | clonagem | terapia gênica | testes de DNA: aplicações distintas.']
+                }
+            };
+            if (especificos[aula.id]) return especificos[aula.id];
+            const dosObjetivos = (aula.objetivos || []).map(conteudoDeclarativoDoObjetivo).filter(Boolean);
+            const doDesenvolvimento = frasesDoPlano(textoEtapaOriginal(aula, 'desenvolvimento'))
+                .map(conteudoDeclarativoDoDesenvolvimento).filter(Boolean);
+            const pontos = [...new Set([...dosObjetivos, ...doDesenvolvimento])]
+                .filter(item => item.length >= 8 && !/^(Atividades?|Correção|Tarefa|Planejamento|Registros?)\b/i.test(item))
+                .slice(0, 4);
+            for (const topico of topicos) {
+                if (pontos.length >= 4) break;
+                const literal = /^(compreender|identificar|reconhecer|relacionar|explicar|diferenciar|comparar|analisar|aplicar|descrever|representar|avaliar|construir|interpretar|recuperar|retomar|revisar|consolidar|reforçar|organizar|sequenciar|usar|utilizar|resolver)\b/i.test(topico)
+                    ? conteudoDeclarativoDoObjetivo(topico)
+                    : capitalizarConteudo(topico);
+                if (literal && !pontos.includes(literal)) pontos.push(literal);
+            }
+            while (pontos.length < 3) pontos.push(capitalizarConteudo(aula.titulo));
+            const central = doDesenvolvimento.find(item => item.length >= 28 && item.length <= 220)
+                || pontos.find(item => item.length >= 24)
+                || pontos[0];
+            return { central, pontos };
+        }
+
         function rotuloDoPonto(ponto) {
             let texto = textoPlanoLimpo(ponto).replace(/[.]$/, '');
             const inicio = texto.match(/^(Diferencie|Compare|Distinga)\s+(.+)$/i);
@@ -7304,39 +7503,119 @@ const aulas8AG3 = [
             return `${forma}. Deve mostrar: ${rotulos.slice(0,3).join(' | ')}`;
         }
 
+        function assuntoCriativoDaAula(aula, topicos) {
+            const corpus = `${aula.titulo} ${aula.modulo} ${(topicos || []).join(' ')}`.toLowerCase();
+            const porAula = {
+                '6-ag3-80': 'A ROTA DO OXIGÊNIO',
+                'ap3-21': 'PLANTAS, GAMETAS E HORMÔNIOS',
+                'ag3-91': 'HORMÔNIOS, GESTAÇÃO E PREVENÇÃO',
+                'ag3-92': 'HORMÔNIOS, GESTAÇÃO E PREVENÇÃO',
+                '7-ag3-91': 'ATMOSFERA, ENERGIA E TECNOLOGIA',
+                '7-ag3-92': 'ATMOSFERA, ENERGIA E TECNOLOGIA',
+                '7-ap3-74a': 'FORÇA, CALOR E ATMOSFERA',
+                '9-ap3-retomada-cap5': 'FERRAMENTAS DO DNA'
+            };
+            if (porAula[aula.id]) return porAula[aula.id];
+            const temas = [
+                [/memória|aprender a aprender|como aprendemos|carga cognitiva/, 'CÉREBRO EM MODO APRENDER'],
+                [/química verde|resíduo|sustentab/, 'ANTES QUE O RESÍDUO EXISTA'],
+                [/universo|sistema solar|forma da terra/, 'NOSSO ENDEREÇO NO UNIVERSO'],
+                [/rotação|translação|estações do ano/, 'A TERRA EM MOVIMENTO'],
+                [/camadas da terra|estrutura da terra/, 'VIAGEM AO CENTRO DA TERRA'],
+                [/biosfera|ecossistema|seres vivos e ambiente/, 'A TEIA DA VIDA'],
+                [/sistema respiratório|sistema cardiovascular|circulação|rota do oxigênio/, 'A ROTA DO OXIGÊNIO'],
+                [/célula|organelas?/, 'A VIDA POR DENTRO'],
+                [/tecido|níveis de organização/, 'DO MICRO AO ORGANISMO'],
+                [/sistema nervoso|neurônio/, 'A REDE DE COMUNICAÇÃO DO CORPO'],
+                [/sentidos|receptores? sensoriais?/, 'COMO O MUNDO CHEGA AO CÉREBRO'],
+                [/sistemas? do corpo|integração dos sistemas/, 'O CORPO EM REDE'],
+                [/leis de newton|força resultante|inércia|ação e reação/, 'FORÇAS EM AÇÃO'],
+                [/máquinas simples|alavanca|roldana|plano inclinado/, 'MENOS ESFORÇO, MESMA TAREFA'],
+                [/temperatura|sensação térmica|escala termométrica/, 'CALOR NÃO É TEMPERATURA'],
+                [/irradiação|garrafa térmica|propagação de calor|condução|convecção/, 'OS CAMINHOS DO CALOR'],
+                [/máquina térmica|motor|rendimento/, 'CALOR QUE VIRA MOVIMENTO'],
+                [/efeito estufa|atmosfera|camada de ozônio|poluição atmosférica/, 'ATMOSFERA: CALOR EM EQUILÍBRIO'],
+                [/brisa|vento|pressão atmosférica|densidade do ar/, 'A DANÇA DO AR'],
+                [/oceano|branqueamento de corais|degelo/, 'O OCEANO GUARDA CALOR'],
+                [/combustível|petróleo|biocombustível/, 'ENERGIA EM TRANSFORMAÇÃO'],
+                [/tecnologia|inteligência artificial|impactos tecnológicos/, 'TECNOLOGIA: SOLUÇÃO E IMPACTO'],
+                [/reprodução|fecundação|desenvolvimento embrionário/, 'A VIDA CONTINUA'],
+                [/plantas?|flor|semente|fruto/, 'O CICLO DAS PLANTAS'],
+                [/sistema genital|gameta|ovário|testículo/, 'ESTRUTURAS QUE PARTICIPAM DA REPRODUÇÃO'],
+                [/hormônio|glândula|puberdade/, 'MENSAGENS QUÍMICAS DO CORPO'],
+                [/ciclo menstrual|ovulação|menstruação/, 'O RELÓGIO HORMONAL'],
+                [/contracep|ist|sexualidade/, 'PROTEÇÃO COM CIÊNCIA'],
+                [/vírus|arbovirose|vacinação/, 'VÍRUS: DEPENDÊNCIA E TRANSMISSÃO'],
+                [/bactér|archaea/, 'O MUNDO DAS BACTÉRIAS'],
+                [/protozo/, 'PROTOZOÁRIOS EM FOCO'],
+                [/fung/, 'A REDE DOS FUNGOS'],
+                [/evolução|darwin|lamarck|fixismo/, 'PISTAS DA EVOLUÇÃO'],
+                [/biotecnologia|dna recombinante|clonagem|pcr/, 'FERRAMENTAS DO DNA']
+            ];
+            const encontrado = temas.find(([padrao]) => padrao.test(corpus));
+            if (encontrado) return encontrado[1];
+            let assunto = textoPlanoLimpo(aula.titulo)
+                .replace(/\b(retomada|revisão|recomposição|consolidação|fechamento|introdução)\b\s*[:—-]?/gi, '')
+                .replace(/\baula\s*\d+[a-z]?\b\s*[:—-]?/gi, '')
+                .replace(/\s{2,}/g, ' ').trim();
+            if (!assunto || assunto.length < 5) assunto = (topicos || []).slice(0, 2).join(' + ') || aula.modulo;
+            return encurtarParaQuadro(assunto.toUpperCase(), 46).replace(/[.…]+$/, '');
+        }
+
+        function tituloCurtoDoConteudo(texto, maximo=56) {
+            let titulo = textoPlanoLimpo(texto).replace(/[.?]$/, '').trim();
+            if (titulo.includes(':')) titulo = titulo.split(':')[0];
+            if (titulo.includes(';')) titulo = titulo.split(';')[0];
+            titulo = titulo.replace(/^(a|as|o|os)\s+/i, '');
+            return encurtarParaQuadro(titulo.toUpperCase(), maximo).replace(/[.…]+$/, '');
+        }
+
+        function titulosDoQuadro(aula, topicos, foco, pontos, atividade) {
+            const assunto = assuntoCriativoDaAula(aula, [...(topicos || []), ...(pontos || []), foco]);
+            const acao = /classif|separe|grupo/i.test(atividade) ? 'SEPARE AS PISTAS'
+                : /compare|diferenc|lado a lado/i.test(atividade) ? 'COLOQUE LADO A LADO'
+                    : /esquema|mapa|desenh|fluxo|sequên/i.test(atividade) ? 'DESENHE A ROTA'
+                        : /justifi|explique|argument/i.test(atividade) ? 'DECIFRE E EXPLIQUE'
+                            : 'RESOLVA O DESAFIO';
+            const centro = tituloCurtoDoConteudo(foco, 62) || assunto;
+            const mapa = encurtarParaQuadro(pontos.slice(0, 2).map(item => tituloCurtoDoConteudo(item, 28)).join(' • '), 62).replace(/[.…↔•\s]+$/, '') || assunto;
+            const pista = tituloCurtoDoConteudo(pontos[0], 50) || assunto;
+            return {
+                tema: assunto,
+                pergunta: `1. DESAFIO — ${assunto}`,
+                central: `2. ${centro}`,
+                mapa: `3. ${mapa}`,
+                atividade: `4. ${acao}: ${assunto}`,
+                saida: `ÚLTIMA PISTA: ${pista}`
+            };
+        }
+
         function construirMatrizDaAula(aula, serie, revisao) {
             const topicos = topicosDoMaterial(aula);
             const objetivos = (aula.objetivos || []).map(objetivoComoComando);
             const termosRetomada = revisao ? topicosDaRetomada(serie, aula, topicos) : [];
-            const pontos = [...new Set([
+            const resultados = [...new Set([
                 ...(revisao ? termosRetomada.map(item => /^(compreender|identificar|reconhecer|relacionar|explicar|diferenciar|comparar|analisar|aplicar|descrever|representar|avaliar|construir|interpretar|recuperar|corrigir|realizar|retomar|organizar|planejar|revisar|consolidar|esclarecer|sequenciar|integrar|confrontar|eliminar|priorizar|reforçar|associar|ordenar|inferir)\b/i.test(item) ? objetivoComoComando(item) : `Explique ${item}.`) : []),
                 ...objetivos
             ])].slice(0, 4);
-            while (pontos.length < 3) {
-                const item = topicos[pontos.length] || aula.titulo;
-                pontos.push(`Explique ${textoPlanoLimpo(item).replace(/[.]$/, '')}.`);
+            while (resultados.length < 3) {
+                const item = topicos[resultados.length] || aula.titulo;
+                resultados.push(`Explique ${textoPlanoLimpo(item).replace(/[.]$/, '')}.`);
             }
-            if (aula.id === '6-ag3-80') {
-                pontos.splice(0, pontos.length,
-                    'Reconheça as funções dos sistemas respiratório e cardiovascular.',
-                    'Organize: ar → pulmões → sangue → coração/vasos → células → gás carbônico.',
-                    'Relacione oxigênio, circulação e células.',
-                    'Explique como digestório, respiratório, cardiovascular e urinário atuam de forma integrada.'
-                );
-            }
+            const literal = conteudoLiteralDaAula(aula, resultados, topicos);
+            const pontos = literal.pontos;
             const rotulos = pontos.map(rotuloDoPonto);
-            const pergunta = revisao
-                ? `Sem consultar: o que você consegue explicar sobre ${rotulos.slice(0,3).join('; ')}?`
-                : perguntaDaPropriaAula(aula, pontos);
+            const pergunta = perguntaDaPropriaAula(aula, pontos);
             const atividade = atividadeDaMatriz(aula);
-            const foco = encurtarParaQuadro(pontos.slice(0, 2).join(' '), 250);
+            const foco = encurtarParaQuadro(literal.central, 250);
             let exemplo = escolherExemploDaAula(aula);
             if (!exemplo || /\bprofessor\b|\balunos\b|\bestudantes\b|\btrabalhe\b|\bpeça\b|\bsistematize\b|\boriente\b|\bconduza\b/i.test(exemplo)) {
                 exemplo = `Primeiro item modelado: ${atividade}`;
             }
             const representacao = tipoDeRepresentacao(aula, pontos, rotulos);
             const saida = encurtarParaQuadro(`Sem consultar, responda à pergunta inicial e use corretamente: ${rotulos[0]}.`, 190);
-            return { pergunta, foco, pontos, rotulos, exemplo, representacao, atividade, saida, topicos };
+            const secoes = titulosDoQuadro(aula, topicos, foco, pontos, atividade);
+            return { resultados, pergunta, foco, pontos, rotulos, exemplo, representacao, atividade, saida, topicos, secoes };
         }
 
         function construirOperacionalizacao(aula, serie) {
@@ -7348,9 +7627,10 @@ const aulas8AG3 = [
             const usaQuadro = !digital && !/avaliação oficial|prova oficial|kahoot/.test(corpus);
             const fonteLivro = textoPlanoLimpo(aula.material_ph) || 'Use apenas as páginas e atividades indicadas no campo Materiais deste plano.';
             const matriz = construirMatrizDaAula(aula, serie, revisao);
-            const tituloQuadro = revisao
-                ? `Revisão: ${matriz.topicos.slice(0, 3).join(' • ') || aula.titulo}`
-                : aula.titulo;
+            const tituloQuadro = matriz.secoes.tema;
+            const ligacaoAbertura = `${aula.abertura?.titulo || 'Abertura'} — ${encurtarParaQuadro(textoEtapaOriginal(aula, 'abertura'), 300)}`;
+            const ligacaoDesenvolvimento = `${aula.desenvolvimento?.titulo || 'Desenvolvimento'} — ${encurtarParaQuadro(textoEtapaOriginal(aula, 'desenvolvimento'), 360)}`;
+            const ligacaoFechamento = `${aula.fechamento?.titulo || 'Fechamento'} — ${encurtarParaQuadro(textoEtapaOriginal(aula, 'fechamento'), 300)}`;
             const serieNota = serie === '6'
                 ? 'Apresente no máximo três elementos novos antes da primeira tentativa.'
                 : serie === '7'
@@ -7378,6 +7658,7 @@ const aulas8AG3 = [
                         ? 'Mantém a ideia central e as relações essenciais visíveis enquanto os alunos usam o livro ou resolvem a atividade.'
                         : 'A atividade já oferece uma fonte visual estável; um quadro adicional dividiria a atenção.',
                     titulo: tituloQuadro,
+                    secoes: matriz.secoes,
                     definicao: matriz.foco,
                     pergunta: matriz.pergunta,
                     construcao: matriz.pontos,
@@ -7387,54 +7668,58 @@ const aulas8AG3 = [
                         {
                             numero: 1,
                             momento: 'Abertura — antes de ouvir as respostas',
-                            conteudo: [tituloQuadro, '1. PERGUNTA INICIAL', matriz.pergunta],
-                            orientacao: 'Deixe apenas esses dois textos visíveis. A síntese ainda não aparece.'
+                            conteudo: [tituloQuadro, matriz.secoes.pergunta, matriz.pergunta],
+                            ligacao: ligacaoAbertura,
+                            orientacao: 'Copie o título e a pergunta. Pare de escrever, dê tempo para a resposta individual e só então ouça as hipóteses.'
                         },
                         {
                             numero: 2,
                             momento: 'Depois das hipóteses da turma',
-                            conteudo: ['2. FOCO DA AULA', matriz.foco],
-                            orientacao: 'Escreva o foco depois de comparar as respostas iniciais e diga que esses são os dois resultados esperados.'
+                            conteudo: [matriz.secoes.central, matriz.foco],
+                            ligacao: ligacaoDesenvolvimento,
+                            orientacao: 'Copie esta afirmação depois de confrontar as hipóteses. A frase registra a explicação que será construída com o primeiro exemplo.'
                         },
                         {
                             numero: 3,
                             momento: 'Durante a sistematização',
-                            conteudo: ['3. O QUE VOCÊ DEVE CONSEGUIR', ...matriz.pontos.map(item => `• ${item}`)],
-                            orientacao: 'Acrescente cada resultado somente quando o exemplo correspondente aparecer no desenvolvimento.'
+                            conteudo: [matriz.secoes.mapa, ...matriz.pontos.map(item => `• ${item}`)],
+                            ligacao: ligacaoDesenvolvimento,
+                            orientacao: 'Acrescente um item após o exemplo correspondente. Os itens são conteúdo pronto para copiar, não comandos ao professor ou aos alunos.'
                         },
                         {
                             numero: 4,
                             momento: 'Prática e minutos finais',
-                            conteudo: ['4. ATIVIDADE NO CADERNO', matriz.atividade, 'SAÍDA SEM CONSULTA', matriz.saida],
-                            orientacao: 'Escreva primeiro a atividade. Acrescente a saída apenas no fechamento.'
+                            conteudo: [matriz.secoes.atividade, matriz.atividade, matriz.secoes.saida, matriz.saida],
+                            ligacao: ligacaoFechamento,
+                            orientacao: 'Copie a tarefa quando começar a prática. Copie a última pista somente no fechamento e peça a resposta sem consulta.'
                         }
                     ]
                 },
                 slides: {
                     usar: usaSlides,
                     orientacao: usaSlides
-                        ? `Os slides repetem a mesma pergunta, os mesmos resultados esperados e a mesma tarefa do plano. A tela visual deve conter ${matriz.representacao}`
+                        ? `Os slides repetem a mesma pergunta, o mesmo conteúdo declarativo e a mesma tarefa do plano. A tela visual deve conter ${matriz.representacao}`
                         : digital
                             ? 'Não use slides paralelos à atividade digital. A instrução deve permanecer na própria tela ou em cartão impresso.'
                             : 'Slides não são necessários. Livro e quadro oferecem informação estável suficiente para esta aula.',
                     telas: usaSlides ? [
                         {
-                            titulo: 'Tela 1 — Pergunta de abertura',
+                            titulo: `Tela 1 — ${matriz.secoes.pergunta.replace(/^1\.\s*/, '')}`,
                             conteudo: matriz.pergunta,
                             uso: 'Projete sem resposta. Dê 1–2 minutos para registro individual e recolha duas hipóteses antes de mudar de tela.'
                         },
                         {
-                            titulo: 'Tela 2 — Imagem ou esquema essencial',
+                            titulo: `Tela 2 — ${matriz.secoes.mapa.replace(/^3\.\s*/, '')}`,
                             conteudo: `REPRESENTAÇÃO: ${matriz.representacao}. RÓTULOS OBRIGATÓRIOS: ${matriz.rotulos.slice(0, 3).join(' | ')}`,
                             uso: 'Use apenas a imagem, o esquema, a tabela ou o gráfico previsto no desenvolvimento. Aponte um rótulo por vez e ligue-o ao resultado correspondente.'
                         },
                         {
-                            titulo: 'Tela 3 — Exemplo trabalhado',
+                            titulo: `Tela 3 — ${matriz.secoes.central.replace(/^2\.\s*/, '')}`,
                             conteudo: `EXEMPLO DA PRÓPRIA AULA: ${matriz.exemplo} A RESPOSTA PRECISA MOSTRAR: ${matriz.rotulos.slice(0, 2).join(' | ')}`,
                             uso: 'Trabalhe este mesmo exemplo indicado no desenvolvimento. Revele a resposta por partes e pare antes da relação final para a turma completar.'
                         },
                         {
-                            titulo: 'Tela 4 — Tarefa semelhante',
+                            titulo: `Tela 4 — ${matriz.secoes.atividade.replace(/^4\.\s*/, '')}`,
                             conteudo: `FAÇA: ${matriz.atividade} LEMBRE: ${matriz.rotulos.slice(0, 2).join(' | ')}`,
                             uso: 'Deixe esta tela parada durante a atividade prevista no plano. Só volte ao exemplo durante o feedback, depois de recolher as respostas.'
                         }
@@ -7522,7 +7807,7 @@ const aulas8AG3 = [
         };
 
 
-        const PLANEJAEDU_VERSION = '2026.08.02-alinhamento-unico-7';
+        const PLANEJAEDU_VERSION = '2026.08.02-alinhamento-unico-8';
         const EXPECTED_SERIES_SIGNATURES = {
             '6': { ap3Min: 20, ag3Min: 14, terms: ['Química', 'célula', 'sistema nervoso'] },
             '7': { ap3Min: 20, ag3Min: 20, terms: ['Newton', 'atmosfera', 'combustíveis'] },
@@ -8300,7 +8585,7 @@ const aulas8AG3 = [
             return `<section class="pe-panel pe-block" style="margin-top:12px;border-left:5px solid #bd6542">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
                     <div><h3 style="margin-bottom:5px">▤ &nbsp; Roteiro operacional da aula</h3><p class="pe-muted" style="margin:0">O que preparar, mostrar, dizer, pedir e conferir.</p></div>
-                    ${op.quadro.necessario ? `<button class="pe-btn primary" onclick="peOpenBoard('${serie}','${ciclo}','${aula.id}','${turma}')">▣ &nbsp; Ver quadro e ordem de montagem</button>` : ''}
+                    ${op.quadro.necessario ? `<button class="pe-btn primary" onclick="peOpenBoard('${serie}','${ciclo}','${aula.id}','${turma}')">▣ &nbsp; Ver quadro pronto e passo a passo</button>` : ''}
                 </div>
                 <div style="margin-top:14px;padding:13px 15px;border-radius:10px;background:#f6f1e5;border:1px solid #ded4c1">
                     <strong>Matriz única desta aula</strong><p class="pe-muted" style="margin:4px 0 10px">O quadro, os slides e o passo a passo abaixo repetem estes mesmos cinco elementos do planejamento principal.</p>
@@ -8352,6 +8637,7 @@ const aulas8AG3 = [
         function peBoardSvg(aula) {
             const q=aula.operacionalizacao.quadro;
             const construcao=(q.construcao||[]).slice(0,4);
+            const s=q.secoes;
             const titleLines=peWrapBoard(q.titulo,64).slice(0,2);
             const title=titleLines.map((linha,i)=>`<text x="700" y="${58+i*42}" text-anchor="middle" fill="#fff4d0" font-family="Segoe Print, Comic Sans MS, cursive" font-size="34" font-weight="700">${peEscapeSvg(linha)}</text>`).join('');
             return `<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="790" viewBox="0 0 1400 790">
@@ -8361,18 +8647,19 @@ const aulas8AG3 = [
                 <rect x="36" y="36" width="1328" height="718" rx="6" fill="none" stroke="#f3dfab" stroke-opacity=".35" stroke-width="2"/>
                 ${title}
                 <line x1="62" y1="132" x2="1338" y2="132" stroke="#f6f0d7" stroke-opacity=".55" stroke-width="3"/>
-                ${peSvgText(`2. FOCO DA AULA: ${q.definicao}`,72,171,24,92,'#ffe6a7',650,31,3)}
+                ${peSvgText(s.central,72,165,21,100,'#ffe6a7',700,27,2)}
+                ${peSvgText(q.definicao,72,212,22,103,'#f6f0d7',500,29,2)}
                 <line x1="458" y1="255" x2="458" y2="700" stroke="#f6f0d7" stroke-opacity=".32" stroke-width="3"/>
                 <line x1="930" y1="255" x2="930" y2="700" stroke="#f6f0d7" stroke-opacity=".32" stroke-width="3"/>
-                <text x="72" y="282" fill="#9ed6ff" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">1. PERGUNTA INICIAL</text>
-                ${peSvgText(q.pergunta,72,326,25,27,'#f6f0d7',500,35,8)}
-                <text x="490" y="282" fill="#9ee4b8" font-family="Segoe Print, Comic Sans MS, cursive" font-size="23" font-weight="700">3. O QUE VOCÊ DEVE CONSEGUIR</text>
-                ${construcao.map((linha,i)=>peSvgText(`• ${linha}`,490,326+i*91,23,34,'#f6f0d7',500,31,3)).join('')}
-                <text x="962" y="282" fill="#ffc19d" font-family="Segoe Print, Comic Sans MS, cursive" font-size="25" font-weight="700">4. ATIVIDADE NO CADERNO</text>
-                ${peSvgText(q.atividade,962,326,19,39,'#f6f0d7',500,25,9)}
+                ${peSvgText(s.pergunta,72,282,21,31,'#9ed6ff',700,27,2)}
+                ${peSvgText(q.pergunta,72,347,24,28,'#f6f0d7',500,34,8)}
+                ${peSvgText(s.mapa,490,282,19,32,'#9ee4b8',700,25,2)}
+                ${construcao.map((linha,i)=>peSvgText(`• ${linha}`,490,347+i*82,21,37,'#f6f0d7',500,28,3)).join('')}
+                ${peSvgText(s.atividade,962,282,18,29,'#ffc19d',700,24,3)}
+                ${peSvgText(q.atividade,962,365,18,40,'#f6f0d7',500,24,8)}
                 <line x1="962" y1="563" x2="1324" y2="563" stroke="#f6f0d7" stroke-opacity=".3" stroke-width="2"/>
-                <text x="962" y="600" fill="#ffc19d" font-family="Segoe Print, Comic Sans MS, cursive" font-size="22" font-weight="700">SAÍDA SEM CONSULTA</text>
-                ${peSvgText(q.saida,962,626,19,36,'#f6f0d7',500,26,4)}
+                ${peSvgText(s.saida,962,597,17,29,'#ffc19d',700,23,2)}
+                ${peSvgText(q.saida,962,647,18,40,'#f6f0d7',500,24,4)}
             </svg>`;
         }
 
@@ -8382,12 +8669,12 @@ const aulas8AG3 = [
             if(!aula?.operacionalizacao?.quadro?.necessario)return;
             const q=aula.operacionalizacao.quadro;
             const cores=['#4d8fc4','#bd8b29','#55966b','#bd6542'];
-            const guia=q.montagem.map((passo,i)=>`<article style="border:1px solid #d8d1c3;border-left:6px solid ${cores[i]};border-radius:10px;padding:11px 12px;background:#fffdf8"><div style="display:flex;align-items:center;gap:9px"><strong style="display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:${cores[i]};color:#fff">${passo.numero}</strong><strong>${peEscapeSvg(passo.momento)}</strong></div><div style="margin-top:9px;color:#315b95;font-weight:800">Escreva exatamente:</div>${passo.conteudo.map(linha=>`<div style="margin-top:5px;padding:7px 9px;border-radius:7px;background:#f3eee2;font-family:Georgia,serif">${peEscapeSvg(linha)}</div>`).join('')}<p style="margin:8px 0 0;color:#66706a;font-size:13px"><b>Quando:</b> ${peEscapeSvg(passo.orientacao)}</p></article>`).join('');
+            const guia=q.montagem.map((passo,i)=>`<article style="border:1px solid #d8d1c3;border-left:6px solid ${cores[i]};border-radius:10px;padding:11px 12px;background:#fffdf8"><div style="display:flex;align-items:center;gap:9px"><strong style="display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:${cores[i]};color:#fff">${passo.numero}</strong><strong>${peEscapeSvg(passo.momento)}</strong></div><div style="margin-top:9px;color:#315b95;font-weight:800">Copie exatamente:</div>${passo.conteudo.map(linha=>`<div style="margin-top:5px;padding:7px 9px;border-radius:7px;background:#f3eee2;font-family:Georgia,serif">${peEscapeSvg(linha)}</div>`).join('')}<p style="margin:8px 0 0;color:#3f5149;font-size:13px"><b>Ligação com o planejamento:</b> ${peEscapeSvg(passo.ligacao)}</p><p style="margin:6px 0 0;color:#66706a;font-size:13px"><b>Como conduzir:</b> ${peEscapeSvg(passo.orientacao)}</p></article>`).join('');
             if(peBoardObjectUrl)URL.revokeObjectURL(peBoardObjectUrl);
             peBoardObjectUrl=URL.createObjectURL(new Blob([peBoardSvg(aula)],{type:'image/svg+xml'}));
             let modal=document.getElementById('peBoardModal');
             if(!modal){modal=document.createElement('div');modal.id='peBoardModal';document.body.appendChild(modal);}
-            modal.innerHTML=`<div style="position:fixed;inset:0;z-index:200;background:rgba(16,24,20,.9);display:flex;align-items:center;justify-content:center;padding:18px" onclick="if(event.target===this)peCloseBoard()"><div style="width:min(1380px,97vw);max-height:95vh;background:#f7f2e7;border-radius:16px;padding:14px;box-shadow:0 24px 80px #000;overflow:auto"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px"><div><strong style="font-size:20px">Quadro da aula e ordem de montagem</strong><div style="color:#66706a;font-size:13px">${aula.aula_num} · ${aula.titulo}</div></div><button class="pe-btn" onclick="peCloseBoard()">Fechar</button></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;align-items:start"><section><div style="font-weight:800;margin:0 0 8px">Imagem final — somente o texto que ficará visível aos alunos</div><img src="${peBoardObjectUrl}" alt="Texto exato do quadro para ${aula.titulo}" style="display:block;width:100%;height:auto;border-radius:10px;background:#173f32"></section><aside><div style="font-weight:800;margin:0 0 8px">Como montar — os números correspondem aos blocos da imagem</div><div style="display:grid;gap:9px">${guia}</div></aside></div></div></div>`;
+            modal.innerHTML=`<div style="position:fixed;inset:0;z-index:200;background:rgba(16,24,20,.9);display:flex;align-items:center;justify-content:center;padding:18px" onclick="if(event.target===this)peCloseBoard()"><div style="width:min(1380px,97vw);max-height:95vh;background:#f7f2e7;border-radius:16px;padding:14px;box-shadow:0 24px 80px #000;overflow:auto"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px"><div><strong style="font-size:20px">Quadro pronto para copiar + passo a passo</strong><div style="color:#66706a;font-size:13px">${aula.aula_num} · ${aula.titulo}</div></div><button class="pe-btn" onclick="peCloseBoard()">Fechar</button></div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;align-items:start"><section><div style="font-weight:800;margin:0 0 8px">Imagem final — copie exatamente o conteúdo visível</div><img src="${peBoardObjectUrl}" alt="Texto exato do quadro para ${aula.titulo}" style="display:block;width:100%;height:auto;border-radius:10px;background:#173f32"></section><aside><div style="font-weight:800;margin:0 0 8px">Passo a passo — cada número corresponde ao mesmo bloco da imagem</div><div style="display:grid;gap:9px">${guia}</div></aside></div></div></div>`;
             document.body.style.overflow='hidden';
         }
 
@@ -8472,7 +8759,7 @@ const aulas8AG3 = [
                 </aside>
             </div>
             <section class="pe-panel pe-panel-pad pe-series-section"><h2 class="pe-section-title">❧ &nbsp; Minhas séries</h2><div class="pe-series-row">${seriesCards}</div></section>
-            ${nearest?`<section class="pe-panel pe-feature"><div class="pe-ribbon">AULA<strong>${String(nearest.aula.aula_num).replace(/\D/g,'')||'•'}</strong></div><div><h2 class="pe-section-title">${nearest.aula.aula_num} — ${nearest.aula.titulo}</h2><div class="pe-meta" style="margin-top:8px"><span>▣ ${nearest.serie==='9'?'Biologia':'Ciências'}</span><span>♙ ${nearest.turma.label}</span><span>◷ 50 min</span><span>▦ ${formatDia(nearest.data)} · ${formatHora(nearest.data)}</span></div></div><button class="pe-btn" onclick="peOpenLesson('${nearest.serie}','${nearest.ciclo}','${nearest.aula.id}','${nearest.turma.id}')">▣ &nbsp;Visualizar aula</button></section>`:''}`,'inicio');
+            ${nearest?`<section class="pe-panel pe-feature"><div class="pe-ribbon">AULA<strong>${String(nearest.aula.aula_num).match(/\d+/)?.[0]||'•'}</strong></div><div><h2 class="pe-section-title">${nearest.aula.aula_num} — ${nearest.aula.titulo}</h2><div class="pe-meta" style="margin-top:8px"><span>▣ ${nearest.serie==='9'?'Biologia':'Ciências'}</span><span>♙ ${nearest.turma.label}</span><span>◷ 50 min</span><span>▦ ${formatDia(nearest.data)} · ${formatHora(nearest.data)}</span></div></div><button class="pe-btn" onclick="peOpenLesson('${nearest.serie}','${nearest.ciclo}','${nearest.aula.id}','${nearest.turma.id}')">▣ &nbsp;Visualizar aula</button></section>`:''}`,'inicio');
         }
 
         function peFilterData() {
